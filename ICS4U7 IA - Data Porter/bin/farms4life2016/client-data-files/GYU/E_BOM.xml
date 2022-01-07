@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DataPorterConfig xmlns="" WorkingFolder="C:\Temp\OCDataPorter\GYU" ConnennectionString="" >
+  <ExportSection Name="Export">
+    <Export Name="ExportBom" SourceStoredProcedure="Upload_MultipleLevelBom_Extract" CommandTimeOut="6000" Delimiter="	" RemotePath="\Export" DestinationFile="E_Bom.xlsx">
+      <Columns>
+        <Column Name="PlantCode" Length="50" />
+        <Column Name="PlantRegion" Length="3" />
+        <Column Name="ProductCurrency" Length="3" />
+        <Column Name="ProductHSCountry" Length="2" />
+        <Column Name="ProductCode" Length="30" />
+        <Column Name="ProductDescription" Length="150" />
+        <Column Name="BomAlternative" Length="10" />
+        <Column Name="ProductHSCode" Length="30" />
+        <Column Name="ProductCost" Length="30" />
+        <Column Name="ProductPrice" Length="30" />
+        <Column Name="AutomotiveIndicator" Length="10" />
+        <Column Name="BOMLevel" Length="10" />
+        <Column Name="BOMType" Length="1" />
+        <Column Name="MaterialCode" Length="30" />
+        <Column Name="MaterialDescription" Length="150" />
+        <Column Name="MaterialHSCode" Length="30" />
+        <Column Name="MaterialUnitCost" Length="30" />
+        <Column Name="MaterialQuantity" Length="30" />
+        <Column Name="IndirectPackingIndicator" Length="1" />
+        <Column Name="MaterialSupplierCode" Length="30" />
+		<Column Name="ProductTotalCost" Length="30" />
+      </Columns>
+    </Export>
+  </ExportSection>
+</DataPorterConfig>

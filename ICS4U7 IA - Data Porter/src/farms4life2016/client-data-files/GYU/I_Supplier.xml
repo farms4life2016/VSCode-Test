@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataPorterConfig xmlns="" WorkingFolder="C:\Temp\OCDataPorter\GYU" ConnennectionString="" >
+	<ImportSection Name="ClientImport">
+		<Import Name="ImportSupplier" Delimiter="	" SourceFile="Supplier_data.xlsx" DestinationTable="Upload_ClientSupplier" RemotePath="\Import">
+			<Columns>
+                <Column Name="SupplierCode" Length="0" />
+                <Column Name="Region" Length="40" />
+                <Column Name="SupplierName" Length="0" />
+                <Column Name="SupplierAddress1" Length="0" />
+                <Column Name="SupplierAddress2" Length="0" />
+                <Column Name="SupplierAddress3" Length="0" />
+                <Column Name="City" Length="0" />
+                <Column Name="Province" Length="0" />
+                <Column Name="Country" Length="0" />
+                <Column Name="PostalCode" Length="0" />
+                <Column Name="SupplierContactPhone" Length="0" />
+                <Column Name="SupplierContactEMail" Length="0" />
+                <Column Name="SupplierContactName" Length="0" />
+                <Column Name="IsAllied" Length="0" />
+            </Columns>
+        </Import>
+    </ImportSection>
+</DataPorterConfig>

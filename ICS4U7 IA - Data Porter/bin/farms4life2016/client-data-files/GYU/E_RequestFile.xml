@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DataPorterConfig xmlns="" WorkingFolder="C:\Temp\OCDataPorter\GYU" ConnennectionString="" >
+  <ExportSection Name="Export">
+    <Export Name="RequestFile" SourceStoredProcedure="Upload_RequestFile_Extract" CommandTimeOut="6000" Delimiter="	" RemotePath="\Export" DestinationFile="E_Allrequests.xlsx">
+      <Columns>
+        <Column Name="SignatureDate" Length="0" />
+        <Column Name="CertificateID" Length="0" />
+        <Column Name="CertificateState" Length="0" />
+        <Column Name="SupplierCode" Length="0" />
+        <Column Name="ProductCode" Length="0" />
+        <Column Name="ProductDescription" Length="0" />
+        <Column Name="BlanketPeriodStart" Length="0" />
+        <Column Name="BlanketPeriodEnd" Length="0" />
+        <Column Name="CertificateHsCode" Length="0" />
+		<Column Name="CertificateType" Length="0" />
+      </Columns>
+    </Export>
+  </ExportSection>
+</DataPorterConfig>

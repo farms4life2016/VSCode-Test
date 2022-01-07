@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataPorterConfig xmlns="" WorkingFolder="C:\Temp\OCDataPorter\GYU" ConnennectionString="" >
+	<ImportSection Name="ClientImport">
+		<Import Name="ImportPlant" Delimiter="	" SourceFile="plants.xlsx" DestinationTable="Upload_RawPlant" RemotePath="\Import">
+			<Columns>
+                <Column Name="SupplierCode" Length="0" />
+                <Column Name="SupplierRegion" Length="40" />
+                <Column Name="SupplierName" Length="0" />
+                <Column Name="Country" Length="0" />
+                <Column Name="IsClientPlant" Length="0" />
+            </Columns>
+        </Import>
+    </ImportSection>
+</DataPorterConfig>

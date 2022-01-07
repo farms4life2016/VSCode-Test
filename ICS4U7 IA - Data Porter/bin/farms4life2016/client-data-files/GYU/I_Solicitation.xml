@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataPorterConfig xmlns="" WorkingFolder="C:\Temp\OCDataPorter\GYU" ConnennectionString="" >
+	<ImportSection Name="ClientImport">
+		<Import Name="ImportSolicitation" Delimiter="	" SourceFile="solicitation.xlsx" DestinationTable="Upload_ClientSolicitation" RemotePath="\Import">
+			<Columns>
+                <Column Name="PartCode" Length="0" />
+                <Column Name="PartDescription" Length="40" />
+                <Column Name="PartType" Length="0" />
+                <Column Name="EndUse" Length="0" />
+                <Column Name="CertificateType" Length="0" />
+                <Column Name="HSCode" Length="0" />
+                <Column Name="HSCode2" Length="0" />
+                <Column Name="SupplierCode" Length="0" />
+                <Column Name="Region" Length="0" />
+                <Column Name="EffectiveStartDate" Length="0" />
+                <Column Name="EffectiveEndDate" Length="0" />
+            </Columns>
+        </Import>
+    </ImportSection>
+</DataPorterConfig>
