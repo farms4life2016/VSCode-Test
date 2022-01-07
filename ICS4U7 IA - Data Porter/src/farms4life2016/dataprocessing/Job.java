@@ -10,7 +10,7 @@ public class Job {
     private String file; //should I change this to java.util.File?
 
     /**
-     * Make a new Job instance 
+     * Make a new Job instance with specified parameters
      * @param i
      * @param c
      * @param t
@@ -24,6 +24,14 @@ public class Job {
         setType(t);
         setName(n);
         setFile(f);
+
+    }
+
+    /**
+     * Make an empty job and then use setters manually
+     */
+    public Job() {
+       this(0, null, (char) 0, null, null);
 
     }
 
@@ -72,7 +80,11 @@ public class Job {
     }
 
     
-
+    @Override
+    public String toString() {
+        String out = id + "\t" + client + "\t" + type + "\t" + name + "\t" + file;
+        return out;
+    }
     
 
 

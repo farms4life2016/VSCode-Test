@@ -20,9 +20,6 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
     private Point mouse;
 	private Timer fps; 
 	
-	//note: amy cannot give gift but can receive gift. 
-	//anny can give gift but cannot receive gift
-	
 	
 	
 	public Display() {
