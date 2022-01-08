@@ -12,7 +12,7 @@ import farms4life2016.gui.Display;
 public class Driver {
     
 //declare variables
-public static final int WINDOW_W = 1030+100, WINDOW_H = 639+50;
+public static final int WINDOW_W = 1200, WINDOW_H = 720; //50 px for the top bar thingy
 	
     /**
      * @param args This will run first
@@ -30,7 +30,7 @@ public static final int WINDOW_W = 1030+100, WINDOW_H = 639+50;
         window.setSize(WINDOW_W, WINDOW_H);
         
         //allow window to exit
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //TODO change this so that the all IO operations close properly 
+        window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //TODO change this so that the all IO operations close properly 
         
         //add panel to frame
         c.setLayout(new BorderLayout());
@@ -38,6 +38,9 @@ public static final int WINDOW_W = 1030+100, WINDOW_H = 639+50;
         
         //make window visible
         window.setVisible(true);
+
+        //why do we have to add this listener here I'm so confused
+        window.addWindowListener(bigPanel);
         
         //the window must be resized to work
         window.setBounds(0, 0, WINDOW_W, WINDOW_H);
