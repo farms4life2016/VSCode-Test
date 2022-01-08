@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<DataPorterConfig xmlns="" WorkingFolder="C:\Temp\OCDataPorter\GYU" ConnennectionString="" >
+<DataPorterConfig xmlns="" WorkingFolder="\client-data-files\GYU" ConnennectionString="" >
   <ExportSection Name="Export">
     <Export Name="RequestFile" SourceStoredProcedure="Upload_RequestFile_Extract" CommandTimeOut="6000" Delimiter="	" RemotePath="\Export" DestinationFile="E_Allrequests.xlsx">
       <Columns>

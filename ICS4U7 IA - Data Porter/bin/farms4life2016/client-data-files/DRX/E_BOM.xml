@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<DataPorterConfig xmlns="" WorkingFolder="C:\Temp\OCDataPorter\Drx" ConnennectionString="" >
+<DataPorterConfig xmlns="" WorkingFolder="\client-data-files\Drx" ConnennectionString="" >
   <ExportSection Name="Export">
     <Export Name="ExportBom" SourceStoredProcedure="Upload_MultipleLevelBom_Extract" CommandTimeOut="6000" Delimiter="	" RemotePath="\Export" DestinationFile="E_Bom.txt">
       <Columns>

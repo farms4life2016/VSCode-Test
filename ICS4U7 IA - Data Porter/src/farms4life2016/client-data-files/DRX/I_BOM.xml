@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DataPorterConfig xmlns="" WorkingFolder="C:\Temp\OCDataPorter\Drx" ConnennectionString="" >
+<DataPorterConfig xmlns="" WorkingFolder="\client-data-files\Drx" ConnennectionString="" >
 	<ImportSection Name="ClientImport">
 		<Import Name="ImportBOM" Delimiter="	" SourceFile="T_usmca_bom.txt" DestinationTable="Upload_RawBom" RemotePath="\Import">
 			<Columns>

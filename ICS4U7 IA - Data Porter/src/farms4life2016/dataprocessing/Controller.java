@@ -9,10 +9,15 @@ public class Controller {
 
     public void run() {
 
+        initFromFile();
+        initGUI();
+        
+
+
     }
 
     public void initFromFile() {
-
+        
     }
 
     public void saveToFile() {
@@ -20,7 +25,7 @@ public class Controller {
     }
 
     public void initGUI() {
-        
+
     }
 
 }

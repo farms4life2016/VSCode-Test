@@ -62,7 +62,7 @@ public class FileIO {
             
         }
 
-        System.out.println(list.isEmpty());
+       
 
         for (Job job : list) {
             System.out.println(job);

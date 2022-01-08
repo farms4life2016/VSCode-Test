@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DataPorterConfig xmlns="" WorkingFolder="client-data-files\DRX" ConnennectionString="" >
+<DataPorterConfig xmlns="" WorkingFolder="\client-data-files\Drx" ConnennectionString="" >
 	<ImportSection Name="ClientImport">
 		<Import Name="ImportSupplier" Delimiter="	" SourceFile="Supplier_data.txt" DestinationTable="Upload_ClientSupplier" RemotePath="\Import">
 			<Columns>
