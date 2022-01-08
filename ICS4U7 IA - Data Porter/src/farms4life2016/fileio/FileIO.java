@@ -1,12 +1,8 @@
 package farms4life2016.fileio;
 
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -19,17 +15,13 @@ import farms4life2016.dataprocessing.Job;
 public class FileIO {
     
     //  https://www.javatpoint.com/how-to-read-excel-file-in-java
-    static List<Job> list = new LinkedList<Job>();
-
-    public static void main(String[] args) {
-        init();
-        exit();
-    }
+    //  https://www.geeksforgeeks.org/how-to-write-data-into-excel-sheet-using-java/
 
     /**
-     * Test to see if I can read excel files
+     * Read init file. This method is also proof of concept of an excel file reader.
+     * @param list 
      */
-    public static void init() {
+    public static void init(List<Job> list) {
 
         try { 
 
@@ -40,30 +32,33 @@ public class FileIO {
             XSSFWorkbook wb = new XSSFWorkbook(reader);
             XSSFSheet sheet = wb.getSheetAt(0); //I'm guessing this means get the first sheet of the excel workbook
 
+            //loop through each row
             for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { //I detest reading documentation pages to find a single method
 
-                //make a new job
+                //make a new job, each row represents one job
                 Job job = new Job(); 
 
+                //reading and assigning variables to the job instance
                 job.setId( (int) sheet.getRow(i).getCell(0).getNumericCellValue()); //make sure when I make init file on exit, this style also follows
                 job.setClient(sheet.getRow(i).getCell(1).getStringCellValue());
                 job.setType(sheet.getRow(i).getCell(2).getStringCellValue().charAt(0));
                 job.setName(sheet.getRow(i).getCell(3).getStringCellValue());
                 job.setFile(sheet.getRow(i).getCell(4).getStringCellValue());
 
+                //add to job list
                 list.add(job);
 
             }
 
+            //close io
             wb.close();
 
-        } catch (Exception e) {
+        } catch (IOException e) { //there should be no exceptions
             e.printStackTrace();
             
         }
 
-       
-
+        //this is so I can see what is going on
         for (Job job : list) {
             System.out.println(job);
         }
@@ -71,13 +66,16 @@ public class FileIO {
 
     }
 
-
-    public static void exit() {
+    /**
+     * Write an init file. This method is also proof of concept of an excel file writer.
+     * @param list
+     */
+    public static void exit(List<Job> list) {
 
         try {
 
             //file writer 
-            FileOutputStream writer = new FileOutputStream("output.xlsx");
+            FileOutputStream writer = new FileOutputStream(".\\src\\farms4life2016\\init\\initialization.xlsx");
 
             //create a new workbook 
             XSSFWorkbook wb = new XSSFWorkbook();
@@ -97,16 +95,16 @@ public class FileIO {
             c.setCellValue("File");
 
             
-
-            //fill in the table
+            //loop for every job in the list
             for (int i = 0; i < list.size(); i++) {
 
+                //fill in the file with the job list
                 row = sheet.createRow(i+1);
                 Job j = list.get(i);
                 int counter = 0;
                 
                 c = row.createCell(counter); //set id
-                c.setCellValue(j.getId());
+                c.setCellValue(j.getId()); //this adds a double to the cell, others add strings
                 counter++;
 
                 c = row.createCell(counter); //set client

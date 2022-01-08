@@ -15,10 +15,12 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.Rectangle;
+//import java.awt.Rectangle; 
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import farms4life2016.dataprocessing.Controller;
 
 
 
@@ -26,19 +28,20 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
     
     private Point mouse;
 	private Timer fps; 
-	private static final Rectangle TABLE = new Rectangle(30, 100, 1130-60, 639-100);
+	//private static final Rectangle TABLE = new Rectangle(30, 100, 1130-60, 639-100); <- will be used later 
 	
-	
+	/**
+	 * Currently, I'm not displaying a lot. 
+	 */
 	public Display() {
 		
 		mouse = new Point(0,0);
 		
-		
+		//add listeners. WindowListener is added in Controller
 		addMouseMotionListener(this);
 		addMouseListener(this);
 		addKeyListener(this);
 		addMouseWheelListener(this);
-		//addWindowListener(this);
 		
 		//update the screen once every 60 milliseconds
 		fps = new Timer(60, this); 
@@ -49,7 +52,7 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 	}
 	
 	
-	public void addNotify() {
+	public void addNotify() { //to get KeyListener to work
 		super.addNotify();
 		requestFocus();
 	}
@@ -76,6 +79,7 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
+		//refresh the screen
 		if (e.getSource().equals(fps)) {
 			repaint();
 		}
@@ -86,12 +90,13 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 	
 	public void paintComponent(Graphics g) {
 		
+		//currently just a white screen
 		super.paintComponent(g);
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
-		g.setColor(Color.black);
-		g.fillRect(TABLE.x, TABLE.y, TABLE.width, TABLE.height);
+		//g.setColor(Color.black);
+		//g.fillRect(TABLE.x, TABLE.y, TABLE.width, TABLE.height);
 		
 	}
 
@@ -126,6 +131,10 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 	}
 
 
+	/*
+	 * For the search bar later on 
+	 */
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -146,6 +155,10 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		
 	}
 
+	/*
+	 * Scrollwheel might be easier to implement than buttons to change pages,
+	 * plus the former is more user-friendly
+	 */
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
@@ -153,6 +166,9 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		
 	}
 
+	/*
+ 	 * We have to specify more about how to close the program
+ 	 */
 
 	@Override
 	public void windowOpened(WindowEvent e) {
@@ -164,7 +180,8 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println("you tried to close the program!");
+		System.out.println("you tried to close the program!"); //more debugging stuff
+		Controller.terminate();
 		System.exit(0);
 		
 	}

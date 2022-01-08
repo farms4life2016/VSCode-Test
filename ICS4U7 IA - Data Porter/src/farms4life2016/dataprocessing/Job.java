@@ -11,11 +11,11 @@ public class Job {
 
     /**
      * Make a new Job instance with specified parameters
-     * @param i
-     * @param c
-     * @param t
-     * @param n
-     * @param f
+     * @param i ID
+     * @param c Client name
+     * @param t Type of job
+     * @param n Name of job
+     * @param f File associated with job
      */
     public Job(int i, String c, char t, String n, String f) {
 
@@ -28,7 +28,7 @@ public class Job {
     }
 
     /**
-     * Make an empty job and then use setters manually
+     * Make an empty job and then use setters manually and externally
      */
     public Job() {
        this(0, null, (char) 0, null, null);
