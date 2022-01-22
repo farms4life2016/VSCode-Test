@@ -1,5 +1,7 @@
 package farms4life2016.dataprocessing;
 
+import java.util.Arrays;
+
 public class Job {
     
     //variables
@@ -8,6 +10,9 @@ public class Job {
     private char type;
     private String name;
     private String file; //should I change this to java.util.File?
+
+    //sorting constants
+    public static final int SORT_BY_ID = 0, SORT_BY_CLIENT = 1, SORT_BY_TYPE = 2, SORT_BY_NAME = 3, SORT_BY_FILE = 4;
 
     /**
      * Make a new Job instance with specified parameters
@@ -33,6 +38,75 @@ public class Job {
     public Job() {
        this(0, null, (char) 0, null, null);
 
+    }
+
+    public static void mergesort(DLinkedList jobList, int field) {
+        split(jobList, 0, jobList.length()-1, field);
+    }
+
+    private static void split(DLinkedList jobList, int left, int right, int field) {
+
+        if (left < right) { //mergesort algorithm 
+            int mid = (left + right)/2; //find mid
+            split(jobList, left, mid, field); //split list into two halves
+            split(jobList, mid+1, right, field);
+            merge(jobList, left, mid, right, field); //then merge the two sorted halves
+        }
+
+    }
+
+    private static void merge(DLinkedList jobList, int left, int mid, int right, int field) {
+
+        int leftPointer = left, rightPointer = mid + 1;
+
+		Job[] temp = new Job[right-left+1];
+		
+		for (int i = 0; i < temp.length; i++) {
+		
+            //if either half has finished traversing, copy the remaining elements in the other half
+			if (leftPointer > mid) {
+				temp[i] = (Job) jobList.get(rightPointer);
+				rightPointer++;
+			} else if (rightPointer > right) {
+				temp[i] = (Job) jobList.get(leftPointer);
+				leftPointer++;
+			} else {
+
+                //for the ease of typing
+                Job lJob = (Job) jobList.get(leftPointer), rJob = (Job) jobList.get(rightPointer);
+
+                //consider what we are sorting by
+                int comparison = 0;
+                switch (field) {
+                    case SORT_BY_CLIENT: {comparison = (lJob).getClient().compareTo((rJob).getClient()); break;}
+                    case SORT_BY_FILE: {comparison = (lJob).getFile().compareTo((rJob).getFile()); break;}
+                    case SORT_BY_ID: {comparison = Integer.valueOf((lJob).getId()).compareTo( Integer.valueOf((rJob).getId()) ); break;} 
+                    case SORT_BY_NAME: {comparison = (lJob).getName().compareTo((rJob).getName()); break;}
+                    case SORT_BY_TYPE: {comparison = Character.valueOf((lJob).getType()).compareTo( Character.valueOf((rJob).getType()) ); break;} 
+                }
+
+                //now sort 
+                if (comparison <= 0) {
+                    temp[i] = lJob;
+                    leftPointer++;
+                } else {
+                    temp[i] = rJob;
+                    rightPointer++;
+                }
+
+                
+
+            }
+
+		}
+
+        //copy from sorted array to unsorted list
+        DNode n = jobList.getNode(left);
+		for (int i = 0; i < temp.length; i++) {
+            n.setItem(temp[i]);
+			n = n.getNext();
+		}
+		
     }
 
     /*

@@ -1,5 +1,7 @@
 package farms4life2016;
 
+import farms4life2016.dataprocessing.DLinkedList;
+import farms4life2016.dataprocessing.Job;
 //import farms4life2016.dataprocessing.Controller;
 import farms4life2016.fileio.FileIO;
 
@@ -14,14 +16,19 @@ public class Driver {
         
         //Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
 
-        String inputData = ".\\src\\farms4life2016\\testing\\sample data.xlsx";
-        String outputData = ".\\src\\farms4life2016\\testing\\snowdin.xlsx";
+        DLinkedList dd = new DLinkedList();
 
-        String[][] readIn = FileIO.readGrid(inputData, (int)('T' - 'A'),  12 );
+        dd.add(new Job(39, "Sam", 'E', "Fish", "no you.txt"));
+        dd.add(new Job(23, "Jerry", 'E', "Dice", "play game.txt"));
+        dd.add(new Job(1, "Bambi", 'I', "Balloon", "party girl.txt"));
+        dd.add(new Job(900, "Kate", 'I', "Homework", "lolol.txt"));
+        dd.add(new Job(39, "Sam", 'E', "Fish", "no you.txt"));
 
-        //printA(readIn);
-        System.out.println(FileIO.writeGrid(outputData, readIn));
-        
+        System.out.println(dd);
+
+        Job.mergesort(dd, Job.SORT_BY_CLIENT);
+
+        System.out.println(dd);
        
     } //end main method  
     

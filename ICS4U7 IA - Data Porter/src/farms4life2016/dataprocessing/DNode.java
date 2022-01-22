@@ -1,4 +1,4 @@
-package linkedlist;
+package farms4life2016.dataprocessing;
 
 public class DNode { //for single linked list
 
@@ -37,6 +37,12 @@ public class DNode { //for single linked list
 	
 	public void setPrev(DNode newPrev) {
 		prev = newPrev;
+	}
+
+	@Override
+	public String toString() {
+		if (data != null) return data.toString();
+		else return null;
 	}
 	
 }

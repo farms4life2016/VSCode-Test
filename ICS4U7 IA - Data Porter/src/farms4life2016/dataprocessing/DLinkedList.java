@@ -1,4 +1,4 @@
-package linkedlist;
+package farms4life2016.dataprocessing;
 
 public class DLinkedList {
 
@@ -32,11 +32,12 @@ public class DLinkedList {
 	}
 	
 	/**
-	 * Returns the DNode object at the specified index. Used for internal processing.
+	 * Returns the DNode object at the specified index. Used mostly for internal processing, and sometimes 
+	 * used in external processing for efficiency purposes.
 	 * @param index The specified index.
 	 * @return The DNode at that index.
 	 */
-	private DNode getNode(int index) {
+	public DNode getNode(int index) {
 		
 		//check for valid input
 		checkIndex(index);
@@ -48,14 +49,14 @@ public class DLinkedList {
 		//to be efficient, we search from tail if index is in the back half of the list
 		if (index > half) {
 			n = dummyTail.getPrev();
-			for (int i = size; i > index; i--) {
+			for (int i = size-1; i > index; i--) {
 				n = n.getPrev(); //loop through all nodes unti we get the one we want
 			}
 					
 		//and from head if index is in the front half of the list
 		} else {
 			n = dummyHead.getNext();
-			for (int i = 1; i < index; i++) {
+			for (int i = 0; i < index; i++) {
 				n = n.getNext();
 			}
 		}
@@ -80,7 +81,7 @@ public class DLinkedList {
 		
 		//update old nodes to point to new node
 		secondLastElement.setNext(n);
-		dummyTail.setNext(n);
+		dummyTail.setPrev(n);
 		
 		//update size
 		size++;
@@ -91,12 +92,17 @@ public class DLinkedList {
 	/**
 	 * Adds a new object to the list such that the new object occupies
 	 * the position at the specified index. Any elements that were at or to the right of 
-	 * this index will have their index shifted rightwards by 1. Note that it is more efficient to
-	 * use <code>add(Object data)</code> to add elements to the end of the array.
+	 * this index will have their index shifted rightwards by 1. 
 	 * @param data The object to be inserted into the list.
 	 * @param index The index where the object should be inserted.
 	 */
 	public void insert(Object data, int index) {
+
+		//for inserting at the end of the list
+		if (index == size) {
+			add(data);
+			return;
+		}
 		
 		DNode currentlyAtIndex = getNode(index);
 		DNode n = new DNode(data);
@@ -138,6 +144,19 @@ public class DLinkedList {
 		return goodbye.getData();
 		
 	}
+
+	/**
+	 * Replaces the element at the specified index with a new object. 
+	 * @param data The new element that is replacing the old one
+	 * @param index The index where this replacement should take place
+	 * @return The data in the node that is being replaced.
+	 */
+	public Object replace(Object data, int index) {
+		DNode n = getNode(index);
+		Object o = n.getData();
+		n.setItem(data);
+		return o;
+	}
 	
 	/**
 	 * Checks whether an element exists at the specified index. Used internally
@@ -152,6 +171,21 @@ public class DLinkedList {
 			throw new ArrayIndexOutOfBoundsException("Index cannot be greater than or equal to the list's length. Remember that lists are zero-indexed!"
 					+ "\nList length: " + size + ". You entered: " + index);
 		}
+	}
+
+	@Override
+	public String toString() {
+		String output = "[";
+		DNode n = dummyHead.getNext();
+		
+		for (int i = 0; i < this.size; i++) {
+			System.out.println(n.getData());
+			output = output + n.getData().toString();
+			n = n.getNext();
+			if (i != this.size - 1) output += "\n";
+		}
+		return "";
+		//return output + "]";
 	}
 	
 }
