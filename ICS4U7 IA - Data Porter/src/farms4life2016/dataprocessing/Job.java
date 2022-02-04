@@ -1,7 +1,5 @@
 package farms4life2016.dataprocessing;
 
-import java.util.Arrays;
-
 public class Job {
     
     //variables
@@ -86,15 +84,27 @@ public class Job {
                 }
 
                 //now sort 
-                if (comparison <= 0) {
+                if (comparison < 0) {
                     temp[i] = lJob;
                     leftPointer++;
-                } else {
+                } else if (comparison > 0){
                     temp[i] = rJob;
                     rightPointer++;
-                }
+                } else {
+                    //if same field, then put the one with smaller id first
+                    //all ids are unique according to my mom
+                    comparison = Integer.valueOf((lJob).getId()).compareTo( Integer.valueOf((rJob).getId()) );
+                    if (comparison < 0) {
+                        temp[i] = lJob;
+                        leftPointer++;
+                    } else if (comparison > 0){
+                        temp[i] = rJob;
+                        rightPointer++;
+                    } else { //handle error lol
+                        System.out.println("You have two jobs with the same ID!");
+                    }
 
-                
+                }
 
             }
 
