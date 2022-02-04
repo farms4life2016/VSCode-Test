@@ -2,8 +2,6 @@ package farms4life2016.dataprocessing;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -16,7 +14,8 @@ import farms4life2016.gui.Display;
 public class Controller {
 
     //I decided to go against my plans and use a linked list instead of an array list
-    static List<Job> list = new LinkedList<Job>(); //TODO temporarily use built-in, will be replaced by my own implementation later
+    //private static List<Job> list = new LinkedList<Job>(); //TODO temporarily use built-in, will be replaced by my own implementation later
+    static DLinkedList jobList = new DLinkedList();
 
     //window size
     public static final int WINDOW_W = 1200, WINDOW_H = 720; //50 px for the top bar thingy
@@ -51,11 +50,11 @@ public class Controller {
     }
 
     private static void initFromFile() {
-        FileIO.init(list);
+        FileIO.init(jobList);
     }
 
     public static void saveToFile() {
-        FileIO.exit(list);
+        FileIO.exit(jobList);
     }
 
     /**

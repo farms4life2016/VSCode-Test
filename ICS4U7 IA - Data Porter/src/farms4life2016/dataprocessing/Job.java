@@ -109,6 +109,27 @@ public class Job {
 		
     }
 
+    public static String[][] convertListIntoArray(DLinkedList list) {
+
+        String[][] output = new String[list.length()][5]; //there are 5 fields in each job
+        DNode n = list.getNode(0);
+
+        //copy from list to array
+        for (int i = 0; i < list.length(); i++) {
+            Job j = (Job) n.getData(); //assume dlinkedlist holds jobs only
+            output[i][0] = Integer.toString(j.id); 
+            output[i][1] = j.client;
+            output[i][2] = Character.toString(j.type);
+            output[i][3] = j.name;
+            output[i][4] = j.file;
+            n = n.getNext();
+
+        }
+
+        return output;
+    }
+
+
     /*
      * Setters and getters (thank you vscode for auto-genning this)
      */

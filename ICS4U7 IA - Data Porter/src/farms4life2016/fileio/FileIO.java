@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.Arrays;
 
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import farms4life2016.dataprocessing.DLinkedList;
 import farms4life2016.dataprocessing.Job;
 
 public class FileIO {
@@ -25,48 +26,19 @@ public class FileIO {
      * 
      * @param list
      */
-    public static void init(List<Job> list) {
+    public static void init(DLinkedList list) {
 
-        try {
+        String[][] input = readGrid(".\\src\\farms4life2016\\init\\hardcode these jobs.xlsx", 5, -1);
 
-            // file reader
-            FileInputStream reader = new FileInputStream(".\\src\\farms4life2016\\init\\hardcode these jobs.xlsx");
-
-            // create workbook to represent the file
-            XSSFWorkbook wb = new XSSFWorkbook(reader);
-            XSSFSheet sheet = wb.getSheetAt(0); // I'm guessing this means get the first sheet of the excel workbook
-
-            // loop through each row
-            for (int i = 1; i < sheet.getPhysicalNumberOfRows(); i++) { // I detest reading documentation pages to find
-                                                                        // a single method
-
-                // make a new job, each row represents one job
-                Job job = new Job();
-
-                // reading and assigning variables to the job instance
-                job.setId((int) sheet.getRow(i).getCell(0).getNumericCellValue()); // make sure when I make init file on
-                                                                                   // exit, this style also follows
-                job.setClient(sheet.getRow(i).getCell(1).getStringCellValue());
-                job.setType(sheet.getRow(i).getCell(2).getStringCellValue().charAt(0));
-                job.setName(sheet.getRow(i).getCell(3).getStringCellValue());
-                job.setFile(sheet.getRow(i).getCell(4).getStringCellValue());
-
-                // add to job list
-                list.add(job);
-
-            }
-
-            // close io
-            wb.close();
-
-        } catch (IOException e) { // there should be no exceptions
-            e.printStackTrace();
-
-        }
-
-        // this is so I can see what is going on
-        for (Job job : list) {
-            System.out.println(job);
+        for (int i = 1; i < input.length; i++) {
+            Job j = new Job();
+            j.setId( (int)Double.parseDouble(input[i][0]));
+            j.setClient(input[i][1]);
+            j.setType(input[i][2].charAt(0));
+            j.setName(input[i][3]);
+            j.setFile(input[i][4]);
+            list.add(j);
+            
         }
 
     }
@@ -77,81 +49,31 @@ public class FileIO {
      * 
      * @param list
      */
-    public static void exit(List<Job> list) {
+    public static void exit(DLinkedList list) {
 
-        try {
-
-            // file writer
-            FileOutputStream writer = new FileOutputStream(".\\src\\farms4life2016\\init\\initialization.xlsx");
-
-            // create a new workbook
-            XSSFWorkbook wb = new XSSFWorkbook();
-            XSSFSheet sheet = wb.createSheet("progress");
-
-            // create headers (although I guess we don't really need them?)
-            XSSFRow row = sheet.createRow(0);
-            Cell c = row.createCell(0);
-            c.setCellValue("Id");
-            c = row.createCell(1);
-            c.setCellValue("Client");
-            c = row.createCell(2);
-            c.setCellValue("Type");
-            c = row.createCell(3);
-            c.setCellValue("Name");
-            c = row.createCell(4);
-            c.setCellValue("File");
-
-            // loop for every job in the list
-            for (int i = 0; i < list.size(); i++) {
-
-                // fill in the file with the job list
-                row = sheet.createRow(i + 1);
-                Job j = list.get(i);
-                int counter = 0;
-
-                c = row.createCell(counter); // set id
-                c.setCellValue(j.getId()); // this adds a double to the cell, others add strings
-                counter++;
-
-                c = row.createCell(counter); // set client
-                c.setCellValue(j.getClient());
-                counter++;
-
-                c = row.createCell(counter); // set type
-                c.setCellValue(j.getType() + ""); // convert from char to String
-                counter++;
-
-                c = row.createCell(counter); // set name
-                c.setCellValue(j.getName());
-                counter++;
-
-                c = row.createCell(counter); // set file
-                c.setCellValue(j.getFile());
-                counter++;
-
+        //get data from list and create headers in excel file
+        String[][] temp = Job.convertListIntoArray(list), output = new String[temp.length+1][temp[0].length];
+        output[0][0] = "Id";
+        output[0][1] = "Client";
+        output[0][2] = "Type";
+        output[0][3] = "Name";
+        output[0][4] = "File";
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = 0; j < temp[i].length; j++) {
+                output[i+1][j] = temp[i][j];
             }
-
-            // write to file
-            wb.write(writer); // NOTE: THIS WILL OVERWRITE THE PREVIOUS FILE OF THE SAME NAME! THERE IS NO
-                              // UNDO!
-
-            // close resources
-            wb.close();
-            writer.close();
-
-            // let me know if things are going smoothly
-            System.out.println("Successful wrote to excel file.");
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+        
+        //write stuff out
+        writeGrid(".\\src\\farms4life2016\\init\\initialization.xlsx", output);
+
 
     }
 
     /**
      * Reads part of an Excel file. 
      * @param fileName
-     * @param height
+     * @param height -1 means read all the possible rows in the excel file.
      * @param width
      * @param sheetNum
      * @return
@@ -159,8 +81,7 @@ public class FileIO {
     public static String[][] readGrid(String fileName, int width, int height, int sheetNum) {
 
         // variables
-        String[][] output = new String[height][width]; 
-        //yeah we have to swap w and h when creating the array due to how java stores information
+        String[][] output = null;
 
         try {
 
@@ -171,12 +92,10 @@ public class FileIO {
             XSSFWorkbook wb = new XSSFWorkbook(reader);
             XSSFSheet sheet = wb.getSheetAt(sheetNum); 
 
-            // assume input is valid
-            if (sheet.getPhysicalNumberOfRows() > height - 1
-                    && sheet.getRow(0).getPhysicalNumberOfCells() > width - 1) {
-                wb.close();
-                return null; // error bc not possible to read in everything
-            }
+            if (height == -1) height = sheet.getPhysicalNumberOfRows();
+
+            output = new String[height][width]; 
+            //yeah we have to swap w and h when creating the array due to how java stores information
 
             // assume input is valid TODO
 
