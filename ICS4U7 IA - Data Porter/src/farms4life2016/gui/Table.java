@@ -8,7 +8,7 @@ public class Table {
 	
 	private String[][] data;
 	private String[] headers;
-	private int[] rowHeights, columnHeights;
+	private int[] rowHeights, columnWidths;
 	private int headerFontSize, dataFontSize;
 	private Color outlineCol, databackground, headerbackground;
 	private Rectangle dimensions; 
@@ -20,9 +20,9 @@ public class Table {
 	
 	public static final int OUTLINE_WIDTH = 2;
 	
-	private static final String 
-	SAMPLE_HEAD[] = {"Item", "Cost", "Source", "Availability"},
-	SAMPLE_DATA[][] = {
+	public static final String 
+	 SAMPLE_HEAD[] = {"Item", "Cost", "Source", "Availability"},
+	 SAMPLE_DATA[][] = {
 			{"Fog Machine", "1 g", "Party Girl", "At night"},
 			{"Bubble Machine", "1 g", "Party Girl", "During the day"},
 			{"Balloon Machine", "5 g", "Party Girl", "Always available"}
@@ -44,8 +44,16 @@ public class Table {
 	public void drawSelf(Graphics2D g, StringDrawer s) {
 		
 		g.setColor(Color.BLACK);
+
+		//temp draw hitbox
 		g.drawRect(dimensions.x, dimensions.y, dimensions.width, dimensions.height);
 		
+		g.setColor(Color.CYAN);
+		//draw the grid
+		g.fillRect(dimensions.x, dimensions.y, OUTLINE_WIDTH, dimensions.height);
+		g.fillRect(dimensions.x, dimensions.y, dimensions.width, OUTLINE_WIDTH);
+		g.fillRect(dimensions.x + dimensions.width, dimensions.y, OUTLINE_WIDTH, dimensions.height);
+		g.fillRect(dimensions.x, dimensions.y + dimensions.height, dimensions.width, OUTLINE_WIDTH);
 		
 	}
 
@@ -77,12 +85,12 @@ public class Table {
 		this.rowHeights = rowHeights;
 	}
 
-	public int[] getColumnHeights() {
-		return columnHeights;
+	public int[] getColumnWidths() {
+		return columnWidths;
 	}
 
-	public void setColumnHeights(int[] columnHeights) {
-		this.columnHeights = columnHeights;
+	public void setColumnWidths(int[] columnWidths) {
+		this.columnWidths = columnWidths;
 	}
 
 	public int getHeaderFontSize() {

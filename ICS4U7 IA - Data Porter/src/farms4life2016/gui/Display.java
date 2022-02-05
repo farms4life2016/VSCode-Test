@@ -3,19 +3,20 @@ package farms4life2016.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-//import java.awt.Rectangle; 
+import java.awt.event.WindowListener; 
+import java.awt.Rectangle;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -27,15 +28,24 @@ import farms4life2016.dataprocessing.Controller;
 public class Display extends JPanel implements ActionListener, MouseMotionListener, MouseListener, KeyListener, MouseWheelListener, WindowListener {
     
     private Point mouse;
+	private Table jobTable;
 	private Timer fps; 
-	//private static final Rectangle TABLE = new Rectangle(30, 100, 1130-60, 639-100); <- will be used later 
+	private StringDrawer str;
 	
+
 	/**
 	 * Currently, I'm not displaying a lot. 
 	 */
 	public Display() {
 		
+		//variables
 		mouse = new Point(0,0);
+		jobTable = new Table(Table.SAMPLE_HEAD, Table.SAMPLE_DATA);
+		str  = new StringDrawer();
+
+		//format table
+		jobTable.setDimensions(new Rectangle(50, 100, Controller.WINDOW_W-200, Controller.WINDOW_H-200));
+		
 		
 		//add listeners. WindowListener is added in Controller
 		addMouseMotionListener(this);
@@ -88,7 +98,9 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 	}
 	
 	
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics graphics) {
+
+		Graphics2D g = (Graphics2D) graphics;
 		
 		//currently just a white screen
 		super.paintComponent(g);
@@ -97,6 +109,8 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		
 		//g.setColor(Color.black);
 		//g.fillRect(TABLE.x, TABLE.y, TABLE.width, TABLE.height);
+
+		jobTable.drawSelf(g, str);
 		
 	}
 

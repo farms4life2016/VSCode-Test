@@ -82,7 +82,6 @@ public class Controller {
         window.addWindowListener(bigPanel);
         
         //final touches to make window visible and usable
-        window.setBounds(0, 0, WINDOW_W, WINDOW_H);
         window.setVisible(true);
         
 
