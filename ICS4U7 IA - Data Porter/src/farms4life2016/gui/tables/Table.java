@@ -1,11 +1,13 @@
-package farms4life2016.gui;
+package farms4life2016.gui.tables;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.Arrays;
 
 import farms4life2016.dataprocessing.Controller;
+import farms4life2016.gui.StringDrawer;
 
 public class Table {
 	
@@ -45,7 +47,7 @@ public class Table {
 		rowHeights = new int[data.length+1]; //add one for the headers
 		columnWidths = new int[data[0].length];
 
-		Arrays.fill(rowHeights, ( (Controller.WINDOW_H-300) /data.length) );
+		Arrays.fill(rowHeights, ( (Controller.WINDOW_H-300) / (data.length+1)) );
 		Arrays.fill(columnWidths, 100);
 
 		//just another check
@@ -97,7 +99,7 @@ public class Table {
 			g.fill(textbox);
 			
 			g.setColor(Color.BLACK);
-			StringDrawer.drawStringCenteredYLeftAligned(g, headers[i], textbox, headerFontSize);
+			StringDrawer.drawStringCenteredYLeftAligned(g, headers[i], textbox, Font.PLAIN, headerFontSize);
 			pointerX += columnWidths[i];
 		}
 
@@ -111,7 +113,7 @@ public class Table {
 
 				g.setColor(Color.BLACK);
 				//StringDrawer.drawStringCenteredYLeftAligned(g, data[r][c], new Rectangle(pointerX, pointerY, columnWidths[c], rowHeights[r+1]), dataFontSize);
-				StringDrawer.drawStringSuperCentered(g, data[r][c], textbox, dataFontSize);
+				StringDrawer.drawStringSuperCentered(g, data[r][c], textbox, Font.PLAIN, dataFontSize);
 				pointerX += columnWidths[c];
 			}
 			//bring x pointer back to left side and start new row

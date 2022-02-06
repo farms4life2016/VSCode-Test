@@ -29,10 +29,10 @@ public class StringDrawer {
 		return inconsolata;
 	}
 	
-	public static void drawStringSuperCentered(Graphics2D g, String text, Rectangle textbox, float size) {
+	public static void drawStringSuperCentered(Graphics2D g, String text, Rectangle textbox, int style, float size) {
 		
 		// Get the FontMetrics
-	    FontMetrics metrics = g.getFontMetrics(inconsolata.deriveFont(size));
+	    FontMetrics metrics = g.getFontMetrics(inconsolata.deriveFont(style, size));
 	    // Determine the X coordinate for the text
 	    int x = textbox.x + (textbox.width - metrics.stringWidth(text)) / 2;
 	    // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
@@ -45,9 +45,9 @@ public class StringDrawer {
 	} //https://stackoverflow.com/questions/27706197/how-can-i-center-graphics-drawstring-in-java
 	
 	
-	public static void drawStringCenteredYLeftAligned(Graphics2D g, String text, Rectangle textbox, float size) {
+	public static void drawStringCenteredYLeftAligned(Graphics2D g, String text, Rectangle textbox, int style, float size) {
 		
-	    FontMetrics metrics = g.getFontMetrics(inconsolata.deriveFont(size));
+	    FontMetrics metrics = g.getFontMetrics(inconsolata.deriveFont(style, size));
 	    // do not modify X because we want it left aligned 
 	    int y = textbox.y + ((textbox.height - metrics.getHeight()) / 2) + metrics.getAscent();
 	    g.setFont(inconsolata.deriveFont(size));

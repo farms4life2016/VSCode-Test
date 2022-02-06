@@ -101,8 +101,8 @@ class FoodDisplayer extends JPanel implements ActionListener, MouseListener {
 		g.setColor(Color.GREEN);
 		g.fillRect(100, 200, 700, 100);
 		g.setColor(Color.BLACK);
-		strDrawer.drawStringSuperCentered(g2, "I love balloons!", new Rectangle(100, 200, 700, 100), 30);
-		strDrawer.drawStringCenteredYLeftAligned(g2, "Left Alignment test", new Rectangle(100, 200, 700, 100), 30);
+		strDrawer.drawStringSuperCentered(g2, "I love balloons!", new Rectangle(100, 200, 700, 100), Font.PLAIN, 30);
+		strDrawer.drawStringCenteredYLeftAligned(g2, "Left Alignment test", new Rectangle(100, 200, 700, 100), Font.PLAIN, 30);
 		
 	}
 

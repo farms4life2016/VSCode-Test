@@ -23,6 +23,9 @@ import javax.swing.Timer;
 
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.Job;
+import farms4life2016.gui.buttons.Button;
+import farms4life2016.gui.buttons.TableCell;
+import farms4life2016.gui.tables.Table;
 
 
 
@@ -31,6 +34,7 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
     private Point mouse;
 	private Table jobTable;
 	private Timer fps; 
+	private Button testButton;
 	
 
 	/**
@@ -40,13 +44,18 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		
 		//variables
 		mouse = new Point(0,0);
-		String[] headers = {"ID", "Client", "Type", "Name", "File"};
+		
+		String[] headers = {"ID", "Name", "Client", "Type", "File", "Date"};
 		String[][] data;
+
 		jobTable = new Table(headers, Job.convertListIntoArray(Controller.jobList));
 
 		//format table
 		jobTable.setDimensions(new Rectangle(50, 200, Controller.WINDOW_W-130, Controller.WINDOW_H-330));
 		
+		testButton = new TableCell();
+		testButton.setDimensions(new Rectangle(0, 0, 200, 100));
+		testButton.setCurrentColor(new Color(40, 40, 40));
 		
 		//add listeners. WindowListener is added in Controller
 		addMouseMotionListener(this);
@@ -112,12 +121,13 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		//g.fillRect(TABLE.x, TABLE.y, TABLE.width, TABLE.height);
 
 		jobTable.drawSelf(g);
+		testButton.drawSelf(g);
 		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+		testButton.onClick(e);
 		
 	}
 

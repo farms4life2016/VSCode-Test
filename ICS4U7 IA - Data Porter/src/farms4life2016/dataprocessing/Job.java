@@ -1,5 +1,9 @@
 package farms4life2016.dataprocessing;
 
+import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class Job {
     
     //variables
@@ -8,9 +12,12 @@ public class Job {
     private char type;
     private String name;
     private String file; //should I change this to java.util.File?
+    private Calendar date;
+    private static SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM d, yyyy '('hh:mm:ss z')'");
 
+    
     //sorting constants
-    public static final int SORT_BY_ID = 0, SORT_BY_CLIENT = 1, SORT_BY_TYPE = 2, SORT_BY_NAME = 3, SORT_BY_FILE = 4;
+    public static final int SORT_BY_ID = 0, SORT_BY_CLIENT = 1, SORT_BY_TYPE = 2, SORT_BY_NAME = 3, SORT_BY_FILE = 4, SORT_BY_DATE = 5;
 
     /**
      * Make a new Job instance with specified parameters
@@ -20,7 +27,9 @@ public class Job {
      * @param n Name of job
      * @param f File associated with job
      */
-    public Job(int i, String c, char t, String n, String f) {
+    public Job(int i, String c, char t, String n, String f, String d) {
+
+        this.date = Calendar.getInstance();
 
         setId(i);
         setClient(c);
@@ -28,13 +37,15 @@ public class Job {
         setName(n);
         setFile(f);
 
+        if (d != null) setDate(d);
+
     }
 
     /**
      * Make an empty job and then use setters manually and externally
      */
     public Job() {
-       this(0, null, (char) 0, null, null);
+       this(0, null, (char) 0, null, null, null);
 
     }
 
@@ -75,19 +86,18 @@ public class Job {
 
                 //consider what we are sorting by
                 int comparison = 0;
-                switch (field) {
-                    case SORT_BY_CLIENT: {comparison = (lJob).getClient().compareTo((rJob).getClient()); break;}
-                    case SORT_BY_FILE: {comparison = (lJob).getFile().compareTo((rJob).getFile()); break;}
-                    case SORT_BY_ID: {comparison = Integer.valueOf((lJob).getId()).compareTo( Integer.valueOf((rJob).getId()) ); break;} 
-                    case SORT_BY_NAME: {comparison = (lJob).getName().compareTo((rJob).getName()); break;}
-                    case SORT_BY_TYPE: {comparison = Character.valueOf((lJob).getType()).compareTo( Character.valueOf((rJob).getType()) ); break;} 
-                }
-
+                if (field == SORT_BY_CLIENT) comparison = (lJob).getClient().compareTo((rJob).getClient()); 
+                else if (field == SORT_BY_FILE) comparison = (lJob).getFile().compareTo((rJob).getFile());
+                else if (field == SORT_BY_ID) comparison = Integer.valueOf((lJob).getId()).compareTo( Integer.valueOf((rJob).getId()));
+                else if (field == SORT_BY_NAME) comparison = (lJob).getName().compareTo((rJob).getName());
+                else if (field == SORT_BY_TYPE) comparison = Character.valueOf((lJob).getType()).compareTo( Character.valueOf((rJob).getType()) );
+                else if (field == SORT_BY_DATE) comparison = lJob.getDate().compareTo(rJob.getDate());
+                
                 //now sort 
                 if (comparison < 0) {
                     temp[i] = lJob;
                     leftPointer++;
-                } else if (comparison > 0){
+                } else if (comparison > 0) {
                     temp[i] = rJob;
                     rightPointer++;
                 } else {
@@ -121,23 +131,33 @@ public class Job {
 
     public static String[][] convertListIntoArray(DLinkedList list) {
 
-        String[][] output = new String[list.length()][5]; //there are 5 fields in each job
+        String[][] output = new String[list.length()][6]; //there are 6 fields in each job
         DNode n = list.getNode(0);
 
         //copy from list to array
         for (int i = 0; i < list.length(); i++) {
             Job j = (Job) n.getData(); //assume dlinkedlist holds jobs only
             output[i][0] = Integer.toString(j.id); 
-            output[i][1] = j.client;
-            output[i][2] = Character.toString(j.type);
-            output[i][3] = j.name;
+            output[i][1] = j.name;
+            output[i][2] = j.client;
+            output[i][3] = Character.toString(j.type);
             output[i][4] = j.file;
+            output[i][5] = dateFormatter.format(j.date.getTime());
             n = n.getNext();
 
         }
 
         return output;
     }
+
+    
+    @Override
+    public String toString() {
+        String out = id + "\t" + client + "\t" + type + "\t" + name + "\t" + file + "\t" + dateFormatter.format(date.getTime());
+        return out;
+    }
+    
+
 
 
     /*
@@ -184,13 +204,24 @@ public class Job {
         this.id = id;
     }
 
-    
-    @Override
-    public String toString() {
-        String out = id + "\t" + client + "\t" + type + "\t" + name + "\t" + file;
-        return out;
+    public Calendar getDate() {
+        return date;
     }
-    
+
+    public void setDate(Calendar date) {
+        this.date = date;
+    }
+
+    public void setDate(String date) {
+
+        try {
+            this.date.setTime(dateFormatter.parse(date));
+        } catch (ParseException e) {
+            System.out.println("You have failed to parse the date!");
+            e.printStackTrace();
+        }
+        
+    }
 
 
 }

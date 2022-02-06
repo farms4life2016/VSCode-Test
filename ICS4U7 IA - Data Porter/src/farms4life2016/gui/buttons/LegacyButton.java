@@ -1,17 +1,20 @@
-package farms4life2016.gui;
+package farms4life2016.gui.buttons;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+
+import farms4life2016.gui.StringDrawer;
 
 /**
  * Creates a button for a JPanel.
  * @author farms4life2016
  *
  */
-public class Button {
+public abstract class LegacyButton {
 	
 	private boolean isSelected;
 	private Color unselectedColour, selectedColour, textColour;
@@ -24,7 +27,7 @@ public class Button {
 	 * when not selected and black when selected. The text will be white and 
 	 * drawn in size 16 font. The text will say, "Sample Text".
 	 */
-	public Button() {
+	public LegacyButton() {
 		this(1, 1, 1, 1, "Sample Text");
 	}
 	
@@ -38,7 +41,7 @@ public class Button {
 	 * @param h height of the button
 	 * @param text String to be drawn on the button. Will be drawn super centered on the button.
 	 */
-	public Button(int x, int y, int w, int h, String text) {
+	public LegacyButton(int x, int y, int w, int h, String text) {
 		this(x, y, w, h, Color.GRAY, Color.BLACK, Color.WHITE, text, 16);
 	}
 	
@@ -54,7 +57,7 @@ public class Button {
 	 * @param text String to be drawn on the button. Will be drawn super centered on the button.
 	 * @param fontSize The size of the String to be drawn
 	 */
-	public Button(int x, int y, int w, int h, Color uColour, Color sColour, Color tColour, String text, float fontSize) {
+	public LegacyButton(int x, int y, int w, int h, Color uColour, Color sColour, Color tColour, String text, float fontSize) {
 		dimensions = new Rectangle(x, y, w, h);
 		unselectedColour = uColour;
 		selectedColour = sColour;
@@ -101,7 +104,7 @@ public class Button {
 		}
 		g.fillRect(dimensions.x, dimensions.y, dimensions.width, dimensions.height);
 		g.setColor(textColour);
-		sd.drawStringSuperCentered(g, text, dimensions, size);
+		sd.drawStringSuperCentered(g, text, dimensions, Font.PLAIN, size);
 		
 	}
 	

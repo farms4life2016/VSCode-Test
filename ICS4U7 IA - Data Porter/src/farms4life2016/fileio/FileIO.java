@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -27,15 +28,16 @@ public class FileIO {
      */
     public static void init(DLinkedList list) {
 
-        String[][] input = readGrid(".\\src\\farms4life2016\\init\\hardcode these jobs.xlsx", 5, -1);
+        String[][] input = readGrid(".\\src\\farms4life2016\\init\\hardcode these jobs.xlsx", 6, -1);
 
         for (int i = 1; i < input.length; i++) {
             Job j = new Job();
             j.setId( (int)Double.parseDouble(input[i][0]));
-            j.setClient(input[i][1]);
-            j.setType(input[i][2].charAt(0));
-            j.setName(input[i][3]);
+            j.setClient(input[i][2]);
+            j.setType(input[i][3].charAt(0));
+            j.setName(input[i][1]);
             j.setFile(input[i][4]);
+            j.setDate(Calendar.getInstance());
             list.add(j);
             
         }
@@ -53,10 +55,12 @@ public class FileIO {
         //get data from list and create headers in excel file
         String[][] temp = Job.convertListIntoArray(list), output = new String[temp.length+1][temp[0].length];
         output[0][0] = "Id";
-        output[0][1] = "Client";
-        output[0][2] = "Type";
-        output[0][3] = "Name";
+        output[0][1] = "Name";
+        output[0][2] = "Client";
+        output[0][3] = "Type";
         output[0][4] = "File";
+        output[0][5] = "Date";
+
         for (int i = 0; i < temp.length; i++) {
             for (int j = 0; j < temp[i].length; j++) {
                 output[i+1][j] = temp[i][j];
