@@ -3,6 +3,9 @@ package farms4life2016.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.util.Arrays;
+
+import farms4life2016.dataprocessing.Controller;
 
 public class Table {
 	
@@ -18,7 +21,7 @@ public class Table {
 	int selRow, selCol;
 	boolean isSelecting;
 	
-	public static final int OUTLINE_WIDTH = 2;
+	public static final int OUTLINE_WIDTH = 3;
 	
 	public static final String 
 	 SAMPLE_HEAD[] = {"Item", "Cost", "Source", "Availability"},
@@ -38,23 +41,85 @@ public class Table {
 		this.headers = headers;
 		
 		//init rest of variables
+		dimensions = new Rectangle(50, 200, Controller.WINDOW_W-130, Controller.WINDOW_H-300);
+		rowHeights = new int[data.length+1]; //add one for the headers
+		columnWidths = new int[data[0].length];
+
+		Arrays.fill(rowHeights, ( (Controller.WINDOW_H-300) /data.length) );
+		Arrays.fill(columnWidths, 100);
+
+		//just another check
+		setColumnWidths(columnWidths);
+		setRowHeights(rowHeights);
+
+		headerFontSize = 16;
+		dataFontSize = 14;
+
+		headerbackground = Color.YELLOW;
+		databackground = Color.WHITE;
+
+		System.out.printf("%d   %d    %d    %d %n", 50, 200, Controller.WINDOW_W-130, Controller.WINDOW_H-300);
+		System.out.println(dimensions);
+		
 		
 	}
 	
-	public void drawSelf(Graphics2D g, StringDrawer s) {
-		
-		g.setColor(Color.BLACK);
+	public void drawSelf(Graphics2D g) {
 
-		//temp draw hitbox
-		g.drawRect(dimensions.x, dimensions.y, dimensions.width, dimensions.height);
+		//g.setColor(Color.CYAN);
 		
-		g.setColor(Color.CYAN);
+		//g.fillRect(dimensions.x + dimensions.width, dimensions.y, OUTLINE_WIDTH, dimensions.height);
+		//g.fillRect(dimensions.x, dimensions.y + dimensions.height, dimensions.width, OUTLINE_WIDTH);
+
 		//draw the grid
-		g.fillRect(dimensions.x, dimensions.y, OUTLINE_WIDTH, dimensions.height);
+		g.setColor(Color.BLACK);
+		g.fillRect(dimensions.x, dimensions.y, OUTLINE_WIDTH, Controller.WINDOW_H-300);
 		g.fillRect(dimensions.x, dimensions.y, dimensions.width, OUTLINE_WIDTH);
-		g.fillRect(dimensions.x + dimensions.width, dimensions.y, OUTLINE_WIDTH, dimensions.height);
-		g.fillRect(dimensions.x, dimensions.y + dimensions.height, dimensions.width, OUTLINE_WIDTH);
-		
+
+		int pointer = dimensions.y;
+		for (int i = 0; i < rowHeights.length; i++) {
+			pointer += rowHeights[i];
+			g.fillRect(dimensions.x, pointer, dimensions.width, OUTLINE_WIDTH);
+		}
+
+		pointer = dimensions.x;
+		for (int i = 0; i < columnWidths.length; i++) {
+			pointer += columnWidths[i];
+			g.fillRect(pointer, dimensions.y, OUTLINE_WIDTH, Controller.WINDOW_H-300);
+		}
+
+		//draw the text
+		Rectangle textbox = null;
+		int pointerX = dimensions.x; //drawing headers
+		for (int i = 0; i < headers.length; i++) {
+			textbox = new Rectangle(pointerX, dimensions.y, columnWidths[i], rowHeights[0]);
+			g.setColor(headerbackground);
+			g.fill(textbox);
+			
+			g.setColor(Color.BLACK);
+			StringDrawer.drawStringCenteredYLeftAligned(g, headers[i], textbox, headerFontSize);
+			pointerX += columnWidths[i];
+		}
+
+		int pointerY = dimensions.y + rowHeights[0];
+		pointerX = dimensions.x; //drawing data, requires loop for 2D array
+		for (int r = 0; r < data.length; r++) {
+			for (int c = 0; c < data[r].length; c++) { //header counts as the 0-th row
+				textbox = new Rectangle(pointerX, pointerY, columnWidths[c], rowHeights[r+1]);
+				g.setColor(databackground);
+				g.fill(textbox);
+
+				g.setColor(Color.BLACK);
+				//StringDrawer.drawStringCenteredYLeftAligned(g, data[r][c], new Rectangle(pointerX, pointerY, columnWidths[c], rowHeights[r+1]), dataFontSize);
+				StringDrawer.drawStringSuperCentered(g, data[r][c], textbox, dataFontSize);
+				pointerX += columnWidths[c];
+			}
+			//bring x pointer back to left side and start new row
+			pointerX = dimensions.x;
+			pointerY += rowHeights[r+1];
+			
+		}
+
 	}
 
 	/*
@@ -83,6 +148,27 @@ public class Table {
 
 	public void setRowHeights(int[] rowHeights) {
 		this.rowHeights = rowHeights;
+
+		//check that the sum of row heights don't exceed the table's own height
+		int lastHeight = dimensions.height;
+		for (int i = 0; i < rowHeights.length; i++) {
+
+			//if row heights do exceed, then the remaining rows become height 0
+			if (lastHeight <= 0 || lastHeight - rowHeights[i] < 0) {
+				rowHeights[i] = Math.max(lastHeight, 0);
+			} 
+
+			lastHeight -= rowHeights[i];
+			
+		}
+
+		//if there is still some space remaining
+		if (lastHeight > 0) {
+
+			//assign rest of the space to last row
+			rowHeights[rowHeights.length-1] += lastHeight;
+		}
+
 	}
 
 	public int[] getColumnWidths() {
@@ -91,6 +177,31 @@ public class Table {
 
 	public void setColumnWidths(int[] columnWidths) {
 		this.columnWidths = columnWidths;
+
+		//check that the sum of col widths don't exceed the table's own height
+		int lastWidth = dimensions.width;
+		for (int i = 0; i < columnWidths.length; i++) {
+
+			//if widths do exceed, then the remaining cols become w = 0
+			if (lastWidth <= 0 || lastWidth - columnWidths[i] < 0) {
+				columnWidths[i] = Math.max(lastWidth, 0);
+			} 
+
+			lastWidth -= columnWidths[i];
+			
+		}
+
+		
+
+		//if there is still some space remaining
+		if (lastWidth > 0) {
+
+			//assign rest of the space to last row
+			columnWidths[columnWidths.length-1] += lastWidth;
+		}
+
+		System.out.println(lastWidth + "   " + columnWidths[columnWidths.length-1]);
+
 	}
 
 	public int getHeaderFontSize() {

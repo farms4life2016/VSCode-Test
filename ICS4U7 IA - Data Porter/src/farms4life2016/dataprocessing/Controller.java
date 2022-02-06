@@ -1,12 +1,14 @@
 package farms4life2016.dataprocessing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 
 import javax.swing.JFrame;
 
 import farms4life2016.fileio.FileIO;
 import farms4life2016.gui.Display;
+import farms4life2016.gui.StringDrawer;
 
 /**
  * 
@@ -15,7 +17,7 @@ public class Controller {
 
     //I decided to go against my plans and use a linked list instead of an array list
     //private static List<Job> list = new LinkedList<Job>(); //TODO temporarily use built-in, will be replaced by my own implementation later
-    static DLinkedList jobList = new DLinkedList();
+    public static DLinkedList jobList = new DLinkedList();
 
     //window size
     public static final int WINDOW_W = 1200, WINDOW_H = 720; //50 px for the top bar thingy
@@ -63,6 +65,7 @@ public class Controller {
     public static void initGUI() {
         
         //variables
+        new StringDrawer();
         Display bigPanel = new Display(); //make a new window
         JFrame window = new JFrame("Data Porter"); //name it 
         Container c = window.getContentPane(); //make something to add all the things to
@@ -74,7 +77,7 @@ public class Controller {
         //add panel to frame
         c.setLayout(new BorderLayout());
         c.add(bigPanel, BorderLayout.CENTER);
-        
+        bigPanel.setBackground(Color.GRAY);
         
 
         //why do we have to add this listener here I'm so confused

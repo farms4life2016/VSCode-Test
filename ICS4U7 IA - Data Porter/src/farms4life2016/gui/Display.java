@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import farms4life2016.dataprocessing.Controller;
+import farms4life2016.dataprocessing.Job;
 
 
 
@@ -30,7 +31,6 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
     private Point mouse;
 	private Table jobTable;
 	private Timer fps; 
-	private StringDrawer str;
 	
 
 	/**
@@ -40,11 +40,12 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		
 		//variables
 		mouse = new Point(0,0);
-		jobTable = new Table(Table.SAMPLE_HEAD, Table.SAMPLE_DATA);
-		str  = new StringDrawer();
+		String[] headers = {"ID", "Client", "Type", "Name", "File"};
+		String[][] data;
+		jobTable = new Table(headers, Job.convertListIntoArray(Controller.jobList));
 
 		//format table
-		jobTable.setDimensions(new Rectangle(50, 100, Controller.WINDOW_W-200, Controller.WINDOW_H-200));
+		jobTable.setDimensions(new Rectangle(50, 200, Controller.WINDOW_W-130, Controller.WINDOW_H-330));
 		
 		
 		//add listeners. WindowListener is added in Controller
@@ -110,7 +111,7 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		//g.setColor(Color.black);
 		//g.fillRect(TABLE.x, TABLE.y, TABLE.width, TABLE.height);
 
-		jobTable.drawSelf(g, str);
+		jobTable.drawSelf(g);
 		
 	}
 
