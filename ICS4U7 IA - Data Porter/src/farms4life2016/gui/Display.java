@@ -116,7 +116,7 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+		jobTable.onClick(e);
 	}
 
 	@Override

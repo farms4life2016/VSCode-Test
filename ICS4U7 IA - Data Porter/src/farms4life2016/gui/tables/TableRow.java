@@ -5,12 +5,13 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 
 import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.Drawable;
 import farms4life2016.gui.buttons.Button;
 
-public class TableRow extends Drawable {
+public class TableRow extends Button {
     
     private Job rowJob;
     private Button[] cells;
@@ -30,7 +31,7 @@ public class TableRow extends Drawable {
         //create cells in the table
         int counter = 0;
         for (int i = 0; i < cells.length; i++) {
-            cells[i] = new TableCell();
+            cells[i] = new TableCell(this);
             cells[i].setDimensions(new Rectangle(position.x + counter, position.y, parent.getColumnWidths()[i], parent.getRowHeight() ) );
             counter += parent.getColumnWidths()[i];
             cells[i].setTextFormat(Button.LEFT_ALIGN);
@@ -58,7 +59,7 @@ public class TableRow extends Drawable {
 
         //special process for creating table headers
         for (int i = 0; i < cells.length; i++) {
-            cells[i] = new TableHeaderCell();
+            cells[i] = new TableHeaderCell(this);
             cells[i].setText(headerNames[i]);
         }
 
@@ -74,6 +75,13 @@ public class TableRow extends Drawable {
             cells[i].drawSelf(g);
         }
 
+    }
+
+    @Override
+    public void onClick(MouseEvent e) {
+        for (int i = 0; i < cells.length; i++) {
+            cells[i].onClick(e);
+        }
     }
 
     /*
@@ -100,6 +108,8 @@ public class TableRow extends Drawable {
         return this;
     }
 
-    
+    public Table getParent() {
+        return parent;
+    }
 
 }

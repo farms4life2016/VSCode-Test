@@ -11,9 +11,16 @@ import farms4life2016.gui.buttons.Button;
 
 public class TableCell extends Button {
 
+    protected TableRow parent;
+
     public TableCell() {
         super();
-        
+        parent = null;
+    }
+
+    public TableCell(TableRow r) {
+        super();
+        parent = r;
     }
 
     @Override
@@ -45,7 +52,7 @@ public class TableCell extends Button {
     public void onClick(MouseEvent e) {
         
         if (dimensions.contains(e.getPoint())) {
-            System.out.println(text);
+            System.out.println("This cell says " + text);
         }
         
     }

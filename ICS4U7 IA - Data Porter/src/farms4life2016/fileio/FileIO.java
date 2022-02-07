@@ -52,6 +52,9 @@ public class FileIO {
      */
     public static void exit(DLinkedList list) {
 
+        //sort data by id first
+        Job.mergesort(list, Job.SORT_BY_ID);
+
         //get data from list and create headers in excel file
         String[][] temp = Job.convertListIntoArray(list), output = new String[temp.length+1][temp[0].length];
         output[0][0] = "Id";

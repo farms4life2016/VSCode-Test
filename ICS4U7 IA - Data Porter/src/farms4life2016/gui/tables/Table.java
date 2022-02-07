@@ -1,6 +1,7 @@
 package farms4life2016.gui.tables;
 
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
 import farms4life2016.dataprocessing.Controller;
@@ -8,8 +9,9 @@ import farms4life2016.dataprocessing.DLinkedList;
 import farms4life2016.dataprocessing.DNode;
 import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.Drawable;
+import farms4life2016.gui.buttons.Button;
 
-public class Table extends Drawable {
+public class Table extends Button {
 
     //list for storing all the table rows
     private DLinkedList rows;
@@ -48,6 +50,17 @@ public class Table extends Drawable {
 
         rowHeight = 30;
 
+        fillJobs(jobList);
+
+    }
+
+    /**
+     * Part of the constructor. Also useful for refreshing the table in case
+     * the order of jobs changed (when sorting for example).
+     * @param jobList
+     */
+    public void fillJobs(DLinkedList jobList) {
+        
         //fill up with jobs
         displayJob = jobList.getNode(0);
         for (int i = 0; i < jobList.length(); i++) {
@@ -57,7 +70,6 @@ public class Table extends Drawable {
         
         displayJob = rows.getNode(1);
         jobIndex = 1;
-
     }
 
     @Override
@@ -113,6 +125,22 @@ public class Table extends Drawable {
         }
         //idk what to do with scroll 0
     }
+    
+    @Override
+    public void onClick(MouseEvent e) {
+
+        //only visible rows should have click interactions
+        //i.e. header and 10 displayed rows
+        ((TableRow)(rows.get(0))).onClick(e);
+
+        DNode n = displayJob;
+        for (int i = 0; i < 10; i++) {
+           ((TableRow) (n.getData())).onClick(e);
+           n = n.getNext();
+        }
+        
+    }
+
 
     /* Setters and Getters */
     
@@ -131,6 +159,5 @@ public class Table extends Drawable {
 	public void setColumnWidths(int[] columnWidths) {
 		this.columnWidths = columnWidths;
 	}
-
     
 }

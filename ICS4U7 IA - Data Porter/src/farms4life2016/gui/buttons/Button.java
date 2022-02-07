@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import farms4life2016.gui.Drawable;
 
 
-public abstract class Button extends Drawable {
+public abstract class Button implements Drawable {
 
     protected boolean isSelected;
     protected Color unselectedColour, selectedColour, textColour, currentColor;
@@ -21,9 +21,13 @@ public abstract class Button extends Drawable {
     public static final int CENTERED = 0, LEFT_ALIGN = 1;
 
     public Button() {
+        this(0, 0, 0, 0);
+        
+    }
 
+    public Button(int x, int y, int w, int h) {
         //set vars to some non-null values
-        super(0, 0, 100, 100);
+        setDimensions(new Rectangle(x, y, w, h));
         isSelected = false;
         unselectedColour = selectedColour = currentColor = Color.WHITE;
         textColour = Color.BLACK;
@@ -116,5 +120,32 @@ public abstract class Button extends Drawable {
     public void setFontSize(float fontSize) {
         this.fontSize = fontSize;
     }
+
+    public int getX() {
+        return dimensions.x;
+    }
+
+    public int getY() {
+        return dimensions.y;
+    }
+
+    public int getWidth() {
+        return dimensions.width;
+    }
+
+    public int getHeight() {
+        return dimensions.height;
+    }
+
+
+    public Rectangle getDimensions() {
+        return dimensions;
+    }
+
+    public void setDimensions(Rectangle dimensions) {
+        this.dimensions = dimensions;
+    }
+
+    
 
 }
