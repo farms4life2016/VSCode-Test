@@ -6,21 +6,25 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.Rectangle;
 
+import farms4life2016.gui.Display;
 import farms4life2016.gui.StringDrawer;
 import farms4life2016.gui.buttons.Button;
+import farms4life2016.gui.buttons.NPButton;
 
 public class TableCell extends Button {
 
     protected TableRow parent;
 
+    public static final int OUTLINE_WIDTH = 3;
+
     public TableCell() {
-        super();
-        parent = null;
+        this(null);
     }
 
     public TableCell(TableRow r) {
         super();
         parent = r;
+        selectedColour = Color.CYAN;
     }
 
     @Override
@@ -32,10 +36,10 @@ public class TableCell extends Button {
 
         //draw in the borders
         g.setColor(Color.BLACK);
-        g.fillRect(dimensions.x, dimensions.y, LegacyTable.OUTLINE_WIDTH, dimensions.height);
-		g.fillRect(dimensions.x, dimensions.y, dimensions.width, LegacyTable.OUTLINE_WIDTH);
-        g.fillRect(dimensions.x + dimensions.width, dimensions.y, LegacyTable.OUTLINE_WIDTH, dimensions.height);
-		g.fillRect(dimensions.x, dimensions.y + dimensions.height, dimensions.width,  LegacyTable.OUTLINE_WIDTH);
+        g.fillRect(dimensions.x, dimensions.y, OUTLINE_WIDTH, dimensions.height);
+		g.fillRect(dimensions.x, dimensions.y, dimensions.width, OUTLINE_WIDTH);
+        g.fillRect(dimensions.x + dimensions.width, dimensions.y, OUTLINE_WIDTH, dimensions.height);
+		g.fillRect(dimensions.x, dimensions.y + dimensions.height, dimensions.width,  OUTLINE_WIDTH);
 
         //draw the text
         g.setColor(textColour);
@@ -52,7 +56,19 @@ public class TableCell extends Button {
     public void onClick(MouseEvent e) {
         
         if (dimensions.contains(e.getPoint())) {
-            System.out.println("This cell says " + text);
+
+            if (currentColor.equals(selectedColour)) {
+                currentColor = unselectedColour;
+                Display.setInfoText(NPButton.DEFAULT_INFO_STRING);
+                
+            } else if (currentColor.equals(unselectedColour)) {
+
+                //only one cell should be selected at a time
+                parent.getParent().resetColours();
+                currentColor = selectedColour;
+                Display.setInfoText(this.text);
+                
+            }
         }
         
     }

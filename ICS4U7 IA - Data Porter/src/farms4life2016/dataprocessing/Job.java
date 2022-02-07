@@ -50,22 +50,22 @@ public class Job {
 
     }
 
-    public static void mergesort(DLinkedList jobList, int field) {
-        split(jobList, 0, jobList.length()-1, field);
+    public static void mergesort(DLinkedList tableRows, int field) {
+        split(tableRows, 0, tableRows.length()-1, field);
     }
 
-    private static void split(DLinkedList jobList, int left, int right, int field) {
+    private static void split(DLinkedList tableRows, int left, int right, int field) {
 
         if (left < right) { //mergesort algorithm 
             int mid = (left + right)/2; //find mid
-            split(jobList, left, mid, field); //split list into two halves
-            split(jobList, mid+1, right, field);
-            merge(jobList, left, mid, right, field); //then merge the two sorted halves
+            split(tableRows, left, mid, field); //split list into two halves
+            split(tableRows, mid+1, right, field);
+            merge(tableRows, left, mid, right, field); //then merge the two sorted halves
         }
 
     }
 
-    private static void merge(DLinkedList jobList, int left, int mid, int right, int field) {
+    private static void merge(DLinkedList tableRows, int left, int mid, int right, int field) {
 
         int leftPointer = left, rightPointer = mid + 1;
 
@@ -75,15 +75,15 @@ public class Job {
 		
             //if either half has finished traversing, copy the remaining elements in the other half
 			if (leftPointer > mid) {
-				temp[i] = (Job) jobList.get(rightPointer);
+				temp[i] = (Job) tableRows.get(rightPointer);
 				rightPointer++;
 			} else if (rightPointer > right) {
-				temp[i] = (Job) jobList.get(leftPointer);
+				temp[i] = (Job) tableRows.get(leftPointer);
 				leftPointer++;
 			} else {
 
                 //for the ease of typing
-                Job lJob = (Job) jobList.get(leftPointer), rJob = (Job) jobList.get(rightPointer);
+                Job lJob = (Job) tableRows.get(leftPointer), rJob = (Job) tableRows.get(rightPointer);
 
                 //consider what we are sorting by
                 int comparison = 0;
@@ -122,7 +122,7 @@ public class Job {
 		}
 
         //copy from sorted array to unsorted list
-        DNode n = jobList.getNode(left);
+        DNode n = tableRows.getNode(left);
 		for (int i = 0; i < temp.length; i++) {
             n.setItem(temp[i]);
 			n = n.getNext();

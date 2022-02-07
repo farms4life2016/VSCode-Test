@@ -72,6 +72,22 @@ public class Table extends Button {
         jobIndex = 1;
     }
 
+    public void clearData() {
+        
+        while (rows.length() > 1) {
+            rows.remove(1);
+        }
+        
+    }
+
+    public void resetColours() {
+        DNode n = rows.getNode(1);
+        for (int i = 0; i < rows.length()-1; i++) {
+            ((TableRow)n.getData()).resetColours();
+            n = n.getNext();
+        }
+    }
+
     @Override
     public void drawSelf(Graphics2D g) {
         

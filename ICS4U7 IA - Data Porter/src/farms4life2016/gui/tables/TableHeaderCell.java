@@ -7,7 +7,9 @@ import java.awt.event.MouseEvent;
 
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.Job;
+import farms4life2016.gui.Display;
 import farms4life2016.gui.StringDrawer;
+import farms4life2016.gui.buttons.NPButton;
 
 public class TableHeaderCell extends TableCell {
 
@@ -42,6 +44,9 @@ public class TableHeaderCell extends TableCell {
         if (dimensions.contains(e.getPoint())) {
             System.out.println("Sort " + text);
 
+            parent.resetColours();
+            Display.setInfoText(NPButton.DEFAULT_INFO_STRING);
+
             if (text.equals("ID")) {
                 Job.mergesort(Controller.jobList, Job.SORT_BY_ID);
             } else if (text.equals("Name")) {
@@ -58,6 +63,7 @@ public class TableHeaderCell extends TableCell {
                 System.out.println("non-functional button");
             }
             System.out.println(Controller.jobList);
+            parent.getParent().clearData();
             parent.getParent().fillJobs(Controller.jobList);
 
         }

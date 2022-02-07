@@ -65,6 +65,12 @@ public class TableRow extends Button {
 
     }
 
+    public void resetColours() {
+        for (int i = 0; i < cells.length; i++) {
+            cells[i].setCurrentColor(cells[i].getUnselectedColour());
+        }
+    }
+
     @Override
     public void drawSelf(Graphics2D g) {
         

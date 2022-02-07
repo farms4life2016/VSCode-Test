@@ -2,6 +2,7 @@ package farms4life2016.gui;
 
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -24,6 +25,7 @@ import javax.swing.Timer;
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.buttons.Button;
+import farms4life2016.gui.buttons.NPButton;
 import farms4life2016.gui.tables.Table;
 import farms4life2016.gui.tables.TableCell;
 
@@ -34,6 +36,7 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
     private Point mouse;
 	private Table jobTable;
 	private Timer fps; 
+	private static Button extraInfo;
 	
 
 	/**
@@ -44,6 +47,14 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		//variables
 		mouse = new Point(0,0);
 		jobTable = new Table(Controller.jobList);
+		extraInfo = new NPButton(true, TableCell.OUTLINE_WIDTH);
+
+		//format button
+		extraInfo.setDimensions(new Rectangle(50, 200+12*30, 950, 50));
+		extraInfo.setCurrentColor(Color.CYAN);
+		extraInfo.setFontSize(32);
+		extraInfo.setFontStyle(Font.BOLD);
+		extraInfo.setText(NPButton.DEFAULT_INFO_STRING);
 		
 		//String[] headers = {"ID", "Name", "Client", "Type", "File", "Date"};
 
@@ -111,6 +122,7 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		//g.fillRect(TABLE.x, TABLE.y, TABLE.width, TABLE.height);
 
 		jobTable.drawSelf(g);
+		extraInfo.drawSelf(g);
 		
 	}
 
@@ -234,6 +246,8 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		
 	}
 	
-	
+	public static void setInfoText(String newText) {
+		extraInfo.setText(newText);
+	}
 
 }
