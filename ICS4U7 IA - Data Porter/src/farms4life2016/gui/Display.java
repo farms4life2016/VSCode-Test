@@ -24,8 +24,8 @@ import javax.swing.Timer;
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.buttons.Button;
-import farms4life2016.gui.buttons.TableCell;
 import farms4life2016.gui.tables.Table;
+import farms4life2016.gui.tables.TableCell;
 
 
 
@@ -34,29 +34,19 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
     private Point mouse;
 	private Table jobTable;
 	private Timer fps; 
-	private Button testButton;
 	
 
 	/**
-	 * Currently, I'm not displaying a lot. 
+	 * Currently, I'm displaying some stuff.
 	 */
 	public Display() {
 		
 		//variables
 		mouse = new Point(0,0);
+		jobTable = new Table(Controller.jobList);
 		
-		String[] headers = {"ID", "Name", "Client", "Type", "File", "Date"};
-		String[][] data;
+		//String[] headers = {"ID", "Name", "Client", "Type", "File", "Date"};
 
-		jobTable = new Table(headers, Job.convertListIntoArray(Controller.jobList));
-
-		//format table
-		jobTable.setDimensions(new Rectangle(50, 200, Controller.WINDOW_W-130, Controller.WINDOW_H-330));
-		
-		testButton = new TableCell();
-		testButton.setDimensions(new Rectangle(0, 0, 200, 100));
-		testButton.setCurrentColor(new Color(40, 40, 40));
-		
 		//add listeners. WindowListener is added in Controller
 		addMouseMotionListener(this);
 		addMouseListener(this);
@@ -121,13 +111,11 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		//g.fillRect(TABLE.x, TABLE.y, TABLE.width, TABLE.height);
 
 		jobTable.drawSelf(g);
-		testButton.drawSelf(g);
 		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		testButton.onClick(e);
 		
 	}
 
@@ -187,7 +175,7 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		// TODO Auto-generated method stub
+		jobTable.onScroll(e);
 		
 	}
 

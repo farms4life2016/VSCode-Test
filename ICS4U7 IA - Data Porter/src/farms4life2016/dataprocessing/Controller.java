@@ -16,7 +16,6 @@ import farms4life2016.gui.StringDrawer;
 public class Controller {
 
     //I decided to go against my plans and use a linked list instead of an array list
-    //private static List<Job> list = new LinkedList<Job>(); //TODO temporarily use built-in, will be replaced by my own implementation later
     public static DLinkedList jobList = new DLinkedList();
 
     //window size

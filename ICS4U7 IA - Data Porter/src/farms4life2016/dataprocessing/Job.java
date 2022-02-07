@@ -8,12 +8,13 @@ public class Job {
     
     //variables
     private int id;
+    private String name;
     private String client;
     private char type;
-    private String name;
     private String file; //should I change this to java.util.File?
     private Calendar date;
-    private static SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM d, yyyy '('hh:mm:ss z')'");
+    
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy '('hh:mm:ss z')'");
 
     
     //sorting constants
@@ -142,7 +143,7 @@ public class Job {
             output[i][2] = j.client;
             output[i][3] = Character.toString(j.type);
             output[i][4] = j.file;
-            output[i][5] = dateFormatter.format(j.date.getTime());
+            output[i][5] = DATE_FORMAT.format(j.date.getTime());
             n = n.getNext();
 
         }
@@ -153,7 +154,7 @@ public class Job {
     
     @Override
     public String toString() {
-        String out = id + "\t" + client + "\t" + type + "\t" + name + "\t" + file + "\t" + dateFormatter.format(date.getTime());
+        String out = id + "\t" + client + "\t" + type + "\t" + name + "\t" + file + "\t" + DATE_FORMAT.format(date.getTime());
         return out;
     }
     
@@ -215,7 +216,7 @@ public class Job {
     public void setDate(String date) {
 
         try {
-            this.date.setTime(dateFormatter.parse(date));
+            this.date.setTime(DATE_FORMAT.parse(date));
         } catch (ParseException e) {
             System.out.println("You have failed to parse the date!");
             e.printStackTrace();

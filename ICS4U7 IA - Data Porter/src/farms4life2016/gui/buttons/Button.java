@@ -6,9 +6,10 @@ import java.awt.Rectangle;
 
 import java.awt.event.MouseEvent;
 
-import java.awt.Graphics2D;
+import farms4life2016.gui.Drawable;
 
-public abstract class Button {
+
+public abstract class Button extends Drawable {
 
     protected boolean isSelected;
     protected Color unselectedColour, selectedColour, textColour, currentColor;
@@ -22,18 +23,16 @@ public abstract class Button {
     public Button() {
 
         //set vars to some non-null values
+        super(0, 0, 100, 100);
         isSelected = false;
         unselectedColour = selectedColour = currentColor = Color.WHITE;
         textColour = Color.BLACK;
-        dimensions = new Rectangle(0, 0, 100, 100);
         text = "farms4life2016";
         textFormat = LEFT_ALIGN;
         fontStyle = Font.PLAIN;
         fontSize = 16;        
 
     }
-
-    public abstract void drawSelf(Graphics2D g);
 
     public abstract void onClick(MouseEvent e);
 
@@ -86,14 +85,6 @@ public abstract class Button {
         this.currentColor = currentColor;
     }
 
-    public Rectangle getDimensions() {
-        return dimensions;
-    }
-
-    public void setDimensions(Rectangle dimensions) {
-        this.dimensions = dimensions;
-    }
-
     public String getText() {
         return text;
     }
@@ -125,7 +116,5 @@ public abstract class Button {
     public void setFontSize(float fontSize) {
         this.fontSize = fontSize;
     }
-
-
 
 }
