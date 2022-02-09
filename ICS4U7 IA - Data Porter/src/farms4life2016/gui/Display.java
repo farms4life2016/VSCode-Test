@@ -19,6 +19,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener; 
 import java.awt.Rectangle;
 
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -37,8 +38,9 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
     private Point mouse;
 	private Table jobTable;
 	private Timer fps; 
-	private static Button extraInfo;
+	private static Button extraInfo, createNewJob;
 	private TextField textField;
+	
 	
 
 	/**
@@ -51,6 +53,29 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		jobTable = new Table(Controller.jobList);
 		extraInfo = new NPButton(true, TableCell.OUTLINE_WIDTH);
 		textField = new TextField();
+		createNewJob = new Button() {
+			@Override
+			public void onClick(MouseEvent e) {
+				System.out.println(text);
+				
+				
+			}
+
+			@Override
+			public void drawSelf(Graphics2D g) {
+				super.fillBgRect(g);
+				
+			}
+			
+		};
+
+		//new job test
+		createNewJob.setDimensions(new Rectangle(5, 70, 500, 50));
+		createNewJob.setText("Click me to add a job");
+		createNewJob.setUnselectedColour(Colours.WHITE);
+		createNewJob.setSelected(false);
+		
+
 
 		//format button
 		extraInfo.setDimensions(new Rectangle(50, 200+12*30, 950, 50));
@@ -123,7 +148,7 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		
 		//currently just a white screen
 		super.paintComponent(g);
-		g.setColor(Color.WHITE);
+		g.setColor(Colours.GRAY40);
 		g.fillRect(0, 0, getWidth(), getHeight());
 		
 		//g.setColor(Color.black);
@@ -132,13 +157,20 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		jobTable.drawSelf(g);
 		extraInfo.drawSelf(g);
 		textField.drawSelf(g);
+		createNewJob.drawSelf(g);
 		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		jobTable.onClick(e);
-		textField.onClick(e);
+
+		//detect left-click
+		if (e.getButton() == MouseEvent.BUTTON1) {
+			jobTable.onClick(e);
+			textField.onClick(e);
+			createNewJob.onClick(e);
+		}
+		
 	}
 
 	@Override

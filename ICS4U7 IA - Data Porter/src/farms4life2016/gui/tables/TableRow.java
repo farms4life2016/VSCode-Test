@@ -40,7 +40,7 @@ public class TableRow extends Button {
             cells[i].setTextFormat(Button.LEFT_ALIGN);
             cells[i].setFontSize(20);
             cells[i].setFontStyle(Font.PLAIN);
-            cells[i].setTextColour(Color.BLACK);
+            
         }
 
         //set text based on job information

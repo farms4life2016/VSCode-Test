@@ -4,10 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+
+import org.apache.commons.compress.harmony.unpack200.bytecode.forms.ThisFieldRefForm;
 
 import farms4life2016.fileio.FileIO;
 import farms4life2016.gui.Display;
+import farms4life2016.gui.JobUpdateDisplay;
 import farms4life2016.gui.StringDrawer;
 
 /**
@@ -65,15 +69,22 @@ public class Controller { //TODO make a log-in page
         
         //variables
         new StringDrawer();
+        
         Display bigPanel = new Display(); //make a new window
         JFrame window = new JFrame("Data Porter"); //name it 
         Container c = window.getContentPane(); //make something to add all the things to
         
+        JDialog test = new JDialog(window, "big shot", true);//new JDialog(window, "now's your chance", false);
+        test.setSize(500, 500);
+        test.add(new JobUpdateDisplay());
+        
+
         //set window size, cannot resize
         window.setSize(WINDOW_W, WINDOW_H);
         window.setResizable(false);
         
         //add panel to frame
+        
         c.setLayout(new BorderLayout());
         c.add(bigPanel, BorderLayout.CENTER);
         bigPanel.setBackground(Color.GRAY);
@@ -85,6 +96,8 @@ public class Controller { //TODO make a log-in page
         
         //final touches to make window visible and usable
         window.setVisible(true);
+
+        test.setVisible(true);
         
 
 

@@ -27,7 +27,7 @@ public class TextField extends Button {
     public void drawSelf(Graphics2D g) {
 
         super.fillBgRect(g);
-        super.drawBorders(g, 1, Colours.BLACK);
+        super.drawBorders(g, 1, Colours.GRAY100);
         super.drawText(g);
         
     }

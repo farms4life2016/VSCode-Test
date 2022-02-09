@@ -1,17 +1,12 @@
 package farms4life2016.gui.tables;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-
-import org.apache.poi.hslf.record.SoundData;
-
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 
 import farms4life2016.gui.Colours;
 import farms4life2016.gui.Display;
-import farms4life2016.gui.StringDrawer;
 import farms4life2016.gui.buttons.Button;
 import farms4life2016.gui.buttons.NPButton;
 
@@ -29,13 +24,18 @@ public class TableCell extends Button {
         super();
         parent = r;
         selectedColour = Color.CYAN;
+        textColour = Colours.WHITE;
+        unselectedColour = Colours.GRAY20;
+        setSelected(false);
+        text = "";
+                
     }
 
     @Override
     public void drawSelf(Graphics2D g) {
         
         super.fillBgRect(g);
-        super.drawBorders(g, OUTLINE_WIDTH, Colours.BLACK);
+        super.drawBorders(g, OUTLINE_WIDTH, Colours.GRAY160);
         super.drawText(g);
         
     }

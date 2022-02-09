@@ -34,8 +34,8 @@ public abstract class Button {
         //set vars to some non-null values
         setDimensions(new Rectangle(x, y, w, h));
         isSelected = false;
-        unselectedColour = selectedColour = currentColour = Colours.WHITE;
-        textColour = Colours.BLACK;
+        unselectedColour = selectedColour = currentColour = Colours.GRAY80;
+        textColour = Colours.WHITE;
         text = "farms4life2016";
         textFormat = LEFT_ALIGN;
         fontStyle = Font.PLAIN;
