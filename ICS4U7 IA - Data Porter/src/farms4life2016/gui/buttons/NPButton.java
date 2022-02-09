@@ -1,4 +1,4 @@
-package farms4life2016.gui.buttons;
+package farms4life2016.gui.buttons; 
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -29,7 +29,7 @@ public class NPButton extends Button {
     public void drawSelf(Graphics2D g) {
         
         //draw in background colour
-        g.setColor(currentColor);
+        g.setColor(getCurrentColour());
         g.fillRect(dimensions.x, dimensions.y, dimensions.width, dimensions.height);
 
         //draw in the borders if indicated

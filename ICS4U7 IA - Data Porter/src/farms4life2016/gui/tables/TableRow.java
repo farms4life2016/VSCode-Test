@@ -8,7 +8,6 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 import farms4life2016.dataprocessing.Job;
-import farms4life2016.gui.Drawable;
 import farms4life2016.gui.buttons.Button;
 
 public class TableRow extends Button {
@@ -71,8 +70,12 @@ public class TableRow extends Button {
 
     public void resetColours() {
         for (int i = 0; i < cells.length; i++) {
-            cells[i].setCurrentColor(cells[i].getUnselectedColour());
+            cells[i].setSelected(false);
         }
+    }
+
+    public void initHeaderCells() {
+        cells[0].setSelected(true);
     }
 
     @Override

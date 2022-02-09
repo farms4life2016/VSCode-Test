@@ -54,7 +54,8 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 
 		//format button
 		extraInfo.setDimensions(new Rectangle(50, 200+12*30, 950, 50));
-		extraInfo.setCurrentColor(Color.CYAN);
+		extraInfo.setUnselectedColour(Color.CYAN);
+		extraInfo.setSelected(false);
 		extraInfo.setFontSize(32);
 		extraInfo.setFontStyle(Font.BOLD);
 		extraInfo.setText(NPButton.DEFAULT_INFO_STRING);
@@ -109,6 +110,7 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		//refresh the screen
 		if (e.getSource().equals(fps)) {
 			repaint();
+			textField.onRefresh();
 		}
 		
 		

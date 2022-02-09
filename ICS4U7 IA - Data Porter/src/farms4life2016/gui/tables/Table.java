@@ -8,7 +8,6 @@ import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.DLinkedList;
 import farms4life2016.dataprocessing.DNode;
 import farms4life2016.dataprocessing.Job;
-import farms4life2016.gui.Drawable;
 import farms4life2016.gui.buttons.Button;
 
 public class Table extends Button {
@@ -52,6 +51,9 @@ public class Table extends Button {
 
         fillJobs(jobList);
 
+        //should be sorted by id already
+        ((TableRow)(rows.get(0))).initHeaderCells();
+
     }
 
     /**
@@ -78,14 +80,6 @@ public class Table extends Button {
             rows.remove(1);
         }
         
-    }
-
-    public void resetColours() {
-        DNode n = rows.getNode(1);
-        for (int i = 0; i < rows.length()-1; i++) {
-            ((TableRow)n.getData()).resetColours();
-            n = n.getNext();
-        }
     }
 
     @Override

@@ -1,14 +1,12 @@
 package farms4life2016.gui.tables;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.Job;
+import farms4life2016.gui.Colours;
 import farms4life2016.gui.Display;
-import farms4life2016.gui.StringDrawer;
 import farms4life2016.gui.buttons.NPButton;
 
 public class TableHeaderCell extends TableCell {
@@ -17,8 +15,9 @@ public class TableHeaderCell extends TableCell {
         super();
 
         //different colours
-        unselectedColour = Color.YELLOW;
-        currentColor = unselectedColour;
+        unselectedColour = Colours.YELLOW;
+        selectedColour = Colours.DYELLOW;
+        setSelected(false);
 
         //different font
         fontStyle = Font.BOLD;
@@ -31,17 +30,12 @@ public class TableHeaderCell extends TableCell {
     }
 
     @Override
-    public void drawSelf(Graphics2D g) {
-        super.drawSelf(g);
-        
-    }
-    
-    
-
-    @Override
     public void onClick(MouseEvent e) {
         //sort stuff
         if (dimensions.contains(e.getPoint())) {
+
+            parent.resetColours();
+            setSelected(true);
             System.out.println("Sort " + text);
 
             if (text.equals("ID")) {
@@ -60,11 +54,11 @@ public class TableHeaderCell extends TableCell {
                 System.out.println("non-functional button");
             }
             
+            //refill jobs list with sorted items
             parent.getParent().clearData();
             parent.getParent().fillJobs(Controller.jobList);
 
-            
-            parent.getParent().resetColours();
+            //nothing is selected anymore
             Display.setInfoText(NPButton.DEFAULT_INFO_STRING);
 
 

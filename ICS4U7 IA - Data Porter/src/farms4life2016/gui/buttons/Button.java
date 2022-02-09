@@ -3,16 +3,21 @@ package farms4life2016.gui.buttons;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.awt.Graphics2D;
 
 import java.awt.event.MouseEvent;
 
-import farms4life2016.gui.Drawable;
+import farms4life2016.gui.Colours;
+import farms4life2016.gui.StringDrawer;
 
+public abstract class Button {
 
-public abstract class Button implements Drawable {
+    //these variables should only be interacted with using setter/getters
+    private boolean isSelected;
+    private Color currentColour;
 
-    protected boolean isSelected;
-    protected Color unselectedColour, selectedColour, textColour, currentColor;
+    //these variables can be modified by subclasses freely
+    protected Color textColour, unselectedColour, selectedColour;
     protected Rectangle dimensions;
     protected String text;
     protected int textFormat, fontStyle;
@@ -29,8 +34,8 @@ public abstract class Button implements Drawable {
         //set vars to some non-null values
         setDimensions(new Rectangle(x, y, w, h));
         isSelected = false;
-        unselectedColour = selectedColour = currentColor = Color.WHITE;
-        textColour = Color.BLACK;
+        unselectedColour = selectedColour = currentColour = Colours.WHITE;
+        textColour = Colours.BLACK;
         text = "farms4life2016";
         textFormat = LEFT_ALIGN;
         fontStyle = Font.PLAIN;
@@ -39,6 +44,39 @@ public abstract class Button implements Drawable {
     }
 
     public abstract void onClick(MouseEvent e);
+
+    public abstract void drawSelf(Graphics2D g);
+
+    protected void drawBorders(Graphics2D g, int width, Color colour) {
+
+        //draw in the borders
+        g.setColor(colour);
+        g.fillRect(dimensions.x, dimensions.y, width, dimensions.height);
+		g.fillRect(dimensions.x, dimensions.y, dimensions.width, width);
+        g.fillRect(dimensions.x + dimensions.width, dimensions.y, width, dimensions.height + width);
+		g.fillRect(dimensions.x, dimensions.y + dimensions.height, dimensions.width, width);
+
+    }
+
+    protected void fillBgRect(Graphics2D g) {
+
+        //draw in background colour
+        g.setColor(getCurrentColour());
+        g.fillRect(dimensions.x, dimensions.y, dimensions.width, dimensions.height);
+
+    }
+
+    protected void drawText(Graphics2D g) {
+
+        //draw the text
+        g.setColor(textColour);
+        if (textFormat == LEFT_ALIGN) {
+            StringDrawer.drawStringCenteredYLeftAligned(g, text, dimensions, fontStyle, fontSize);
+        } else if (textFormat == CENTERED) {
+            StringDrawer.drawStringSuperCentered(g, text, dimensions, fontStyle, fontSize);
+        }
+        
+    }
 
     @Override
     public String toString() {
@@ -55,6 +93,13 @@ public abstract class Button implements Drawable {
 
     public void setSelected(boolean isSelected) {
         this.isSelected = isSelected;
+
+        //change cell colour if this cell's selection changes
+        if (this.isSelected) {
+            currentColour = selectedColour;
+        } else {
+            currentColour = unselectedColour;
+        }
     }
 
     public Color getUnselectedColour() {
@@ -81,12 +126,8 @@ public abstract class Button implements Drawable {
         this.textColour = textColour;
     }
 
-    public Color getCurrentColor() {
-        return currentColor;
-    }
-
-    public void setCurrentColor(Color currentColor) {
-        this.currentColor = currentColor;
+    public Color getCurrentColour() {
+        return currentColour;
     }
 
     public String getText() {

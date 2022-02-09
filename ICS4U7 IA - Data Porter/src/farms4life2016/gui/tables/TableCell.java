@@ -9,6 +9,7 @@ import org.apache.poi.hslf.record.SoundData;
 
 import java.awt.Rectangle;
 
+import farms4life2016.gui.Colours;
 import farms4life2016.gui.Display;
 import farms4life2016.gui.StringDrawer;
 import farms4life2016.gui.buttons.Button;
@@ -33,25 +34,9 @@ public class TableCell extends Button {
     @Override
     public void drawSelf(Graphics2D g) {
         
-        //draw in background colour
-        g.setColor(currentColor);
-        g.fillRect(dimensions.x, dimensions.y, dimensions.width, dimensions.height);
-
-        //draw in the borders
-        g.setColor(Color.BLACK);
-        g.fillRect(dimensions.x, dimensions.y, OUTLINE_WIDTH, dimensions.height);
-		g.fillRect(dimensions.x, dimensions.y, dimensions.width, OUTLINE_WIDTH);
-        g.fillRect(dimensions.x + dimensions.width, dimensions.y, OUTLINE_WIDTH, dimensions.height);
-		g.fillRect(dimensions.x, dimensions.y + dimensions.height, dimensions.width,  OUTLINE_WIDTH);
-
-        //draw the text
-        g.setColor(textColour);
-        if (textFormat == LEFT_ALIGN) {
-            StringDrawer.drawStringCenteredYLeftAligned(g, text, dimensions, fontStyle, fontSize);
-        } else if (textFormat == CENTERED) {
-            StringDrawer.drawStringSuperCentered(g, text, dimensions, fontStyle, fontSize);
-        }
-        
+        super.fillBgRect(g);
+        super.drawBorders(g, OUTLINE_WIDTH, Colours.BLACK);
+        super.drawText(g);
         
     }
 
@@ -60,18 +45,17 @@ public class TableCell extends Button {
         
         if (dimensions.contains(e.getPoint())) {
 
-            if (currentColor.equals(selectedColour)) {
-                currentColor = unselectedColour;
-                Display.setInfoText(NPButton.DEFAULT_INFO_STRING);
-                
-            } else if (currentColor.equals(unselectedColour)) {
+            setSelected( !isSelected() );
 
-                //only one cell should be selected at a time
-                parent.getParent().resetColours();
-                currentColor = selectedColour;
+            //update info text box
+            if (isSelected()) {
                 Display.setInfoText(this.text);
-                
+            } else {
+                Display.setInfoText(NPButton.DEFAULT_INFO_STRING);
             }
+
+        } else {
+            setSelected(false);
         }
         
     }
