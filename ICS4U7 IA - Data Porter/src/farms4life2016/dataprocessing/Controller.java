@@ -13,7 +13,7 @@ import farms4life2016.gui.StringDrawer;
 /**
  * 
  */
-public class Controller {
+public class Controller { //TODO make a log-in page
 
     //I decided to go against my plans and use a linked list instead of an array list
     public static DLinkedList jobList = new DLinkedList();

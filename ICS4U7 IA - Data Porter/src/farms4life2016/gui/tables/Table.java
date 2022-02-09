@@ -64,7 +64,7 @@ public class Table extends Button {
         //fill up with jobs
         displayJob = jobList.getNode(0);
         for (int i = 0; i < jobList.length(); i++) {
-            rows.add(new TableRow( (Job) displayJob.getData(), this));
+            rows.add(new TableRow( (Job) displayJob.getData(), this).setIndex(-1));
             displayJob = displayJob.getNext();
         }
         

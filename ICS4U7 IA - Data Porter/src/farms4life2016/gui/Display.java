@@ -26,6 +26,7 @@ import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.buttons.Button;
 import farms4life2016.gui.buttons.NPButton;
+import farms4life2016.gui.buttons.TextField;
 import farms4life2016.gui.tables.Table;
 import farms4life2016.gui.tables.TableCell;
 
@@ -37,6 +38,7 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 	private Table jobTable;
 	private Timer fps; 
 	private static Button extraInfo;
+	private TextField textField;
 	
 
 	/**
@@ -48,6 +50,7 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		mouse = new Point(0,0);
 		jobTable = new Table(Controller.jobList);
 		extraInfo = new NPButton(true, TableCell.OUTLINE_WIDTH);
+		textField = new TextField();
 
 		//format button
 		extraInfo.setDimensions(new Rectangle(50, 200+12*30, 950, 50));
@@ -55,6 +58,9 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 		extraInfo.setFontSize(32);
 		extraInfo.setFontStyle(Font.BOLD);
 		extraInfo.setText(NPButton.DEFAULT_INFO_STRING);
+
+		//code for testing type-in button fun
+		textField.setDimensions(new Rectangle(0, 0, 500, 50));
 		
 		//String[] headers = {"ID", "Name", "Client", "Type", "File", "Date"};
 
@@ -123,12 +129,14 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 
 		jobTable.drawSelf(g);
 		extraInfo.drawSelf(g);
+		textField.drawSelf(g);
 		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		jobTable.onClick(e);
+		textField.onClick(e);
 	}
 
 	@Override
@@ -162,7 +170,7 @@ public class Display extends JPanel implements ActionListener, MouseMotionListen
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		textField.onType(e);
 		
 	}
 

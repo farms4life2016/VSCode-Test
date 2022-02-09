@@ -26,13 +26,17 @@ public class TableRow extends Button {
         position = new Point( t.getX(), t.getY()); 
         parent = t;
         cells = new Button[7];
-        index = -1;
+        index = 0;
+        //dimensions.setBounds(new Rectangle(0, 0, 0, 0));
 
         //create cells in the table
         int counter = 0;
         for (int i = 0; i < cells.length; i++) {
             cells[i] = new TableCell(this);
-            cells[i].setDimensions(new Rectangle(position.x + counter, position.y, parent.getColumnWidths()[i], parent.getRowHeight() ) );
+
+            //make sure you set the dimensions NOT the same as the header
+            //or else sorting and selecting a cell will get really funky
+            cells[i].setDimensions(new Rectangle(position.x + counter, position.y + parent.getRowHeight(), parent.getColumnWidths()[i], parent.getRowHeight() ) );
             counter += parent.getColumnWidths()[i];
             cells[i].setTextFormat(Button.LEFT_ALIGN);
             cells[i].setFontSize(20);
