@@ -71,10 +71,10 @@ public class TextField extends Button {
     public void onType(KeyEvent e) {
 
         //only allow text input if textbox is selected
-        if (isSelected()) {
-            System.out.println(e.getKeyChar());        
+        if (isSelected()) {   
+            
+            //only allow certain characters that are allowed in file names
             if (Character.isLetterOrDigit(e.getKeyChar()) || e.getKeyChar() == ' ' || e.getKeyChar() == '_' || e.getKeyChar() == '.') {
-
                 input += e.getKeyChar();
                 
             } else {

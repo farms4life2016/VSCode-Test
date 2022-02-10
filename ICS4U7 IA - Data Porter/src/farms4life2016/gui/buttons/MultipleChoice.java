@@ -23,6 +23,7 @@ public class MultipleChoice extends Button {
             public void drawSelf(Graphics2D g) {
                 super.fillBgRect(g);
                 super.drawText(g);
+                super.drawBorders(g, 3, Colours.BLACK);
                 
             }
             
@@ -42,6 +43,7 @@ public class MultipleChoice extends Button {
             public void drawSelf(Graphics2D g) {
                 super.fillBgRect(g);
                 super.drawText(g);
+                super.drawBorders(g, 3, Colours.BLACK);
                 
             }
             
@@ -87,7 +89,7 @@ public class MultipleChoice extends Button {
         super.setDimensions(dimensions);
         //divide the space evenly width-wise for both buttons
         left.setDimensions(new Rectangle(getX(), getY(), getWidth()/2, getHeight()));
-        right.setDimensions(new Rectangle(getX() + getWidth()/2, getY(), getWidth()/2, getHeight()));
+        right.setDimensions(new Rectangle(getX() + getWidth()/2 + 1, getY(), getWidth()/2, getHeight()));
     }
     
 }

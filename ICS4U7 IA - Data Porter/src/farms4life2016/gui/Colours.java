@@ -2,6 +2,12 @@ package farms4life2016.gui;
 
 import java.awt.Color;
 
+/**
+ * An interface that holds a bunch of <code>java.awt.Color</code> constants.
+ * Please do not implement this interface.
+ * @author farms4life2016
+ * 
+ */
 public interface Colours {
 
     public static final Color 
@@ -9,6 +15,7 @@ public interface Colours {
         WHITE = Color.WHITE,
         GRAY20 = new Color(20, 20, 20),
         GRAY40 = new Color(40, 40, 40),
+        GRAY60 = new Color(60, 60, 60),
         GRAY80 = new Color(80, 80, 80),
         GRAY100 = new Color(100, 100, 100),
         GRAY120 = new Color(120, 120, 120),

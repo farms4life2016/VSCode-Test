@@ -7,12 +7,10 @@ import java.awt.Container;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-import org.apache.commons.compress.harmony.unpack200.bytecode.forms.ThisFieldRefForm;
-
 import farms4life2016.fileio.FileIO;
-import farms4life2016.gui.Display;
-import farms4life2016.gui.JobUpdateDisplay;
 import farms4life2016.gui.StringDrawer;
+import farms4life2016.gui.displays.Display;
+import farms4life2016.gui.displays.JobUpdateDisplay;
 
 /**
  * 

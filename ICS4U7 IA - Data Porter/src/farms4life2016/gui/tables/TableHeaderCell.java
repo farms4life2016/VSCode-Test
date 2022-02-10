@@ -6,8 +6,8 @@ import java.awt.event.MouseEvent;
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.Colours;
-import farms4life2016.gui.Display;
 import farms4life2016.gui.buttons.NPButton;
+import farms4life2016.gui.displays.Display;
 
 public class TableHeaderCell extends TableCell {
 

@@ -1,6 +1,5 @@
 package farms4life2016.gui.tables;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -26,7 +25,6 @@ public class TableRow extends Button {
         parent = t;
         cells = new Button[7];
         index = 0;
-        //dimensions.setBounds(new Rectangle(0, 0, 0, 0));
 
         //create cells in the table
         int counter = 0;
