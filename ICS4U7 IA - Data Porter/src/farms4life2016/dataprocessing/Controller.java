@@ -74,7 +74,7 @@ public class Controller { //TODO make a log-in page
         JFrame window = new JFrame("Data Porter"); //name it 
         Container c = window.getContentPane(); //make something to add all the things to
         
-        JDialog test = new JDialog(window, "big shot", true);//new JDialog(window, "now's your chance", false);
+        JDialog test = new JDialog(window, "big shot", false);//new JDialog(window, "now's your chance", false);
         test.setSize(500, 500);
         test.add(new JobUpdateDisplay());
         

@@ -15,8 +15,8 @@ public class TableHeaderCell extends TableCell {
         super();
 
         //different colours
-        unselectedColour = Colours.YELLOW;
-        selectedColour = Colours.DYELLOW;
+        unselectedColour = Colours.D_JARATE;
+        selectedColour = Colours.JARATE;
         setSelected(false);
 
         //different font

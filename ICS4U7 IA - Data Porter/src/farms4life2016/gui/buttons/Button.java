@@ -32,7 +32,7 @@ public abstract class Button {
 
     public Button(int x, int y, int w, int h) {
         //set vars to some non-null values
-        setDimensions(new Rectangle(x, y, w, h));
+        dimensions = (new Rectangle(x, y, w, h));
         isSelected = false;
         unselectedColour = selectedColour = currentColour = Colours.GRAY80;
         textColour = Colours.WHITE;
