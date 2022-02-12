@@ -7,11 +7,15 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import javax.xml.parsers.DocumentBuilder; //these two imports are the only reason why
-import javax.xml.parsers.DocumentBuilderFactory; //I have to use Java 1.8 :angry:
+import javax.xml.parsers.DocumentBuilderFactory; //I have to use Java 1.8 :angry: 
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -35,14 +39,14 @@ public class FileIO {
 
         for (int i = 1; i < input.length; i++) {
             Job j = new Job();
-            j.setId( (int)Double.parseDouble(input[i][0]));
+            j.setId((int) Double.parseDouble(input[i][0]));
             j.setClient(input[i][2]);
             j.setType(input[i][3].charAt(0));
             j.setName(input[i][1]);
             j.setFile(input[i][4]);
             j.setDate(Calendar.getInstance());
             list.add(j);
-            
+
         }
 
     }
@@ -55,11 +59,11 @@ public class FileIO {
      */
     public static void exit(DLinkedList list) {
 
-        //sort data by id first
+        // sort data by id first
         Job.mergesort(list, Job.SORT_BY_ID);
 
-        //get data from list and create headers in excel file
-        String[][] temp = Job.convertListIntoArray(list), output = new String[temp.length+1][temp[0].length];
+        // get data from list and create headers in excel file
+        String[][] temp = Job.convertListIntoArray(list), output = new String[temp.length + 1][temp[0].length];
         output[0][0] = "Id";
         output[0][1] = "Name";
         output[0][2] = "Client";
@@ -69,20 +73,20 @@ public class FileIO {
 
         for (int i = 0; i < temp.length; i++) {
             for (int j = 0; j < temp[i].length; j++) {
-                output[i+1][j] = temp[i][j];
+                output[i + 1][j] = temp[i][j];
             }
         }
-        
-        //write stuff out
-        writeGrid(".\\src\\farms4life2016\\init\\initialization.xlsx", output);
 
+        // write stuff out
+        writeGrid(".\\src\\farms4life2016\\init\\initialization.xlsx", output);
 
     }
 
     /**
-     * Reads part of an Excel file. 
+     * Reads part of an Excel file.
+     * 
      * @param fileName
-     * @param height -1 means read all the possible rows in the excel file.
+     * @param height   -1 means read all the possible rows in the excel file.
      * @param width
      * @param sheetNum
      * @return
@@ -99,12 +103,14 @@ public class FileIO {
 
             // create workbook to represent the file
             XSSFWorkbook wb = new XSSFWorkbook(reader);
-            XSSFSheet sheet = wb.getSheetAt(sheetNum); 
+            XSSFSheet sheet = wb.getSheetAt(sheetNum);
 
-            if (height == -1) height = sheet.getPhysicalNumberOfRows();
+            if (height == -1)
+                height = sheet.getPhysicalNumberOfRows();
 
-            output = new String[height][width]; 
-            //yeah we have to swap w and h when creating the array due to how java stores information
+            output = new String[height][width];
+            // yeah we have to swap w and h when creating the array due to how java stores
+            // information
 
             // assume input is valid TODO
 
@@ -251,15 +257,65 @@ public class FileIO {
     }
 
     // https://www.javatpoint.com/how-to-read-xml-file-in-java
-    public void readXML(String file) {
+    public static void readXML(String filePath) {
         try {
 
-            File f = new File(file);
+            // creating a constructor of file class and parsing an XML file
+            File file = new File(filePath);
+            // an instance of factory that gives a document builder
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            // an instance of builder to parse the specified xml file
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(file);
+            doc.getDocumentElement().normalize();
 
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
+            
+            dfs(doc.getDocumentElement());
+
+            /*NodeList children = doc.getDocumentElement().getChildNodes();
+            for (int i = 0; i < children.getLength(); i++) {
+                Node n = children.item(i);
+                System.out.println("\nNode name: " + n.getNodeName());
+                if (n.getNodeType() == Node.ELEMENT_NODE) {
+                    Element e = (Element) n;
+                    System.out.println("\n what does this print wtf: " + e.getNodeName());
+                }
+            }*/
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void dfs(Element e) {
+        NodeList children = e.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+            Node n = children.item(i);
+            if (n.getNodeType() == Node.TEXT_NODE) {
+                System.out.println("Text node says: " + e.getNodeValue());
+                
+            } else if (n.getNodeType() == Node.ELEMENT_NODE) {
+                System.out.print("Element node says: " + e.getNodeName());
+                System.out.println(" \t" + e.getAttribute("Name"));
+
+                if (n.getNodeName().equals("Columns")) {
+                    NodeList list = ((Element)n).getElementsByTagName("Column");
+                    for (int j = 0; j < list.getLength(); j++) {
+                        Element m = (Element)(list.item(j));
+                        System.out.println(m.getNodeName() + "\t" + m.getAttribute("Name"));
+                    }
+                    
+                }
+
+            } else {
+                System.out.println(n.getNodeType() + " node says: " + e.getNodeName());
+            }
+
+            if (n.getChildNodes().getLength() > 0) {
+                dfs((Element) n);
+            }
+            
         }
     }
 
