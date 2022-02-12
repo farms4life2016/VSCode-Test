@@ -20,15 +20,16 @@ public class Job {
     //sorting constants
     public static final int SORT_BY_ID = 0, SORT_BY_CLIENT = 1, SORT_BY_TYPE = 2, SORT_BY_NAME = 3, SORT_BY_FILE = 4, SORT_BY_DATE = 5;
 
-    /**
-     * Make a new Job instance with specified parameters
-     * @param i ID
-     * @param c Client name
-     * @param t Type of job
-     * @param n Name of job
-     * @param f File associated with job
-     */
-    public Job(int i, String c, char t, String n, String f, String d) {
+     /**
+      * Make a new Job instance with specified parameters
+      * @param i ID
+      * @param n Name
+      * @param c Client
+      * @param t Type
+      * @param f File name
+      * @param d Date
+      */
+    public Job(int i, String n, String c, char t, String f, String d) {
 
         this.date = Calendar.getInstance();
 
@@ -46,7 +47,7 @@ public class Job {
      * Make an empty job and then use setters manually and externally
      */
     public Job() {
-       this(0, null, (char) 0, null, null, null);
+       this(0, null, null, (char) 0, null, null);
 
     }
 

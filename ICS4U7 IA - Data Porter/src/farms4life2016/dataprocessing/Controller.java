@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import farms4life2016.fileio.FileIO;
 import farms4life2016.gui.StringDrawer;
 import farms4life2016.gui.displays.Display;
-import farms4life2016.gui.displays.JobUpdateDisplay;
+import farms4life2016.gui.displays.JobUpdateDialogue;
 
 /**
  * 
@@ -19,6 +19,11 @@ public class Controller { //TODO make a log-in page
 
     //I decided to go against my plans and use a linked list instead of an array list
     public static DLinkedList jobList = new DLinkedList();
+
+    //gui things. make static and public so association becomes easier
+    public static JFrame window;
+    public static JobUpdateDialogue jobUpdater;
+    public static Display mainMenu;
 
     //window size
     public static final int WINDOW_W = 1200, WINDOW_H = 720; //50 px for the top bar thingy
@@ -69,36 +74,26 @@ public class Controller { //TODO make a log-in page
         new StringDrawer();
         
         
-        JFrame window = new JFrame("Data Porter"); //name it 
-        Display bigPanel = new Display(window); //make a new window
+        window = new JFrame("Data Porter"); //name it 
+        mainMenu = new Display(window); //make a new window
         Container c = window.getContentPane(); //make something to add all the things to
-        
-        JDialog test = new JDialog(window, "big shot", false);//new JDialog(window, "now's your chance", false);
-        test.setSize(500, 500);
-        test.add(new JobUpdateDisplay(test));
-        
+        jobUpdater = new JobUpdateDialogue(window, "big shot", true);      
 
         //set window size, cannot resize
         window.setSize(WINDOW_W, WINDOW_H);
         window.setResizable(false);
         
         //add panel to frame
-        
         c.setLayout(new BorderLayout());
-        c.add(bigPanel, BorderLayout.CENTER);
-        bigPanel.setBackground(Color.GRAY);
-        
+        c.add(mainMenu, BorderLayout.CENTER);
+        mainMenu.setBackground(Color.GRAY);
 
         //why do we have to add this listener here I'm so confused
         window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); 
-        window.addWindowListener(bigPanel);
+        window.addWindowListener(mainMenu);
         
         //final touches to make window visible and usable
         window.setVisible(true);
-
-        test.setVisible(true);
-        
-
 
     }
 

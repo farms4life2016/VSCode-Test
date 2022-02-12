@@ -20,6 +20,8 @@ public class Table extends Button {
     private int rowHeight;
     private String[] headers;
 
+    public static final int UNIVERSAL_ROW_HEIGHT = 30;
+
     public Table(DLinkedList jobList) {
 
         //initialize variables
@@ -45,14 +47,11 @@ public class Table extends Button {
         columnWidths[3] = 60;
         columnWidths[4] = 200;
         columnWidths[5] = 300;
-        columnWidths[6] = 150;
+        columnWidths[6] = 90;
 
-        rowHeight = 30;
+        rowHeight = UNIVERSAL_ROW_HEIGHT;
 
-        fillJobs(jobList);
-
-        //should be sorted by id already
-        ((TableRow)(rows.get(0))).initHeaderCells();
+        fillJobs(jobList, true);
 
     }
 
@@ -61,7 +60,10 @@ public class Table extends Button {
      * the order of jobs changed (when sorting for example).
      * @param jobList
      */
-    public void fillJobs(DLinkedList jobList) {
+    public void fillJobs(DLinkedList jobList, boolean resetHeaders) {
+
+        //remove previous jobs
+        clearData();
         
         //fill up with jobs
         displayJob = jobList.getNode(0);
@@ -72,12 +74,17 @@ public class Table extends Button {
         
         displayJob = rows.getNode(1);
         jobIndex = 1;
+
+        if (resetHeaders) {
+            ((TableRow)(rows.get(0))).resetColours();
+        }
+
     }
 
     /**
      * Remove all the rows in the table except the header
      */
-    public void clearData() {
+    private void clearData() {
         
         while (rows.length() > 1) {
             rows.remove(1);
@@ -150,6 +157,7 @@ public class Table extends Button {
         for (int i = 0; i < 10; i++) {
            ((TableRow) (n.getData())).onClick(e);
            n = n.getNext();
+           if (n == null) break;
         }
         
     }

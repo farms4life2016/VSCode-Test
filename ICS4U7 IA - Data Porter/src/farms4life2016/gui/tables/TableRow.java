@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 import farms4life2016.dataprocessing.Job;
+import farms4life2016.gui.buttons.ActionButtons;
 import farms4life2016.gui.buttons.Button;
 
 public class TableRow extends Button {
@@ -29,7 +30,10 @@ public class TableRow extends Button {
         //create cells in the table
         int counter = 0;
         for (int i = 0; i < cells.length; i++) {
-            cells[i] = new TableCell(this);
+
+            //the last column should have action buttons to run the job
+            if (i == 6) cells[i] = new ActionButtons(this);
+            else cells[i] = new TableCell(this);
 
             //make sure you set the dimensions NOT the same as the header
             //or else sorting and selecting a cell will get really funky
@@ -70,10 +74,6 @@ public class TableRow extends Button {
         for (int i = 0; i < cells.length; i++) {
             cells[i].setSelected(false);
         }
-    }
-
-    public void initHeaderCells() {
-        cells[0].setSelected(true);
     }
 
     @Override
@@ -121,6 +121,10 @@ public class TableRow extends Button {
 
     public Table getParent() {
         return parent;
+    }
+
+    public Job getJob() {
+        return rowJob;
     }
 
 }

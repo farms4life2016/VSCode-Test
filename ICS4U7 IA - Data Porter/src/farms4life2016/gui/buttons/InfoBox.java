@@ -17,9 +17,9 @@ public class InfoBox extends NPButton {
         ((Button)this).fillBgRect(g);
         ((Button)this).drawBorders(g, outlineWidth, Colours.GRAY160);
 
-        //draw the text TODO fix this part wtf
+        //draw the text
         if (text.equals(DEFAULT_INFO_STRING)) {
-            fontStyle = Font.ITALIC;
+            fontStyle = Font.ITALIC; 
             textColour = Colours.GRAY120;
         } else {
             fontStyle = Font.BOLD;

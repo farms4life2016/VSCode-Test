@@ -54,8 +54,7 @@ public class MultipleChoice extends Button {
 
         //check mark for more visibility
         //in case the colours aren't enough
-        left.setText('✓' + "  Import");
-        right.setText("   Export");
+        setChoice(true);
 
     }
 
@@ -64,15 +63,9 @@ public class MultipleChoice extends Button {
         
         //only 1 button can be selected at once
         if (left.dimensions.contains(e.getPoint())) {
-            left.setSelected(true);
-            right.setSelected(false);
-            left.setText('✓' + "  Import");
-            right.setText("   Export");
+            setChoice(true);
         } else if (right.dimensions.contains(e.getPoint())) {
-            left.setSelected(false);
-            right.setSelected(true);
-            left.setText("   Import");
-            right.setText('✓' + "  Export");
+            setChoice(false);
         }
         
     }
@@ -90,6 +83,29 @@ public class MultipleChoice extends Button {
         //divide the space evenly width-wise for both buttons
         left.setDimensions(new Rectangle(getX(), getY(), getWidth()/2, getHeight()));
         right.setDimensions(new Rectangle(getX() + getWidth()/2 + 1, getY(), getWidth()/2, getHeight()));
+    }
+
+    public String getChoice() {
+        if (left.isSelected()) {
+            return left.getText();
+
+        } else {
+            return right.getText();
+        }
+    }
+
+    public void setChoice(boolean isLeft) {
+        if (isLeft) {
+            left.setSelected(true);
+            right.setSelected(false);
+            left.setText('✓' + "  Import");
+            right.setText("   Export");
+        } else {
+            left.setSelected(false);
+            right.setSelected(true);
+            left.setText("   Import");
+            right.setText('✓' + "  Export");
+        }
     }
     
 }

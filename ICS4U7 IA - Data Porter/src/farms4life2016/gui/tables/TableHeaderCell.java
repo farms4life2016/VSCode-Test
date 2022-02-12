@@ -35,10 +35,9 @@ public class TableHeaderCell extends TableCell {
         if (dimensions.contains(e.getPoint())) {
 
             parent.resetColours();
-            setSelected(true);
-            System.out.println("Sort " + text);
+            if (!text.equals("Actions")) setSelected(true);
 
-            if (text.equals("ID")) {
+            if (text.equals("ID") || text.equals("Actions")) {
                 Job.mergesort(Controller.jobList, Job.SORT_BY_ID);
             } else if (text.equals("Name")) {
                 Job.mergesort(Controller.jobList, Job.SORT_BY_NAME);
@@ -55,17 +54,13 @@ public class TableHeaderCell extends TableCell {
             }
             
             //refill jobs list with sorted items
-            parent.getParent().clearData();
-            parent.getParent().fillJobs(Controller.jobList);
+            parent.getParent().fillJobs(Controller.jobList, false);
 
             //nothing is selected anymore
             Display.setInfoText(NPButton.DEFAULT_INFO_STRING);
 
 
         }
-        
-
-
         
     }
 }

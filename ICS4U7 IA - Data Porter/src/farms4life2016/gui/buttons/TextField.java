@@ -82,7 +82,7 @@ public class TextField extends Button {
                 //backspace means delete character
                 if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
 
-                    if (input.length() > 1) { //can only delete when there are characters
+                    if (input.length() > 0) { //can only delete when there are characters
                         input = input.substring(0, input.length() - 1);
                     }
                    
@@ -98,6 +98,11 @@ public class TextField extends Button {
 
         }
 
+    }
+
+    @Override
+    public void setText(String text) {
+        this.input = text;
     }
     
 }

@@ -24,15 +24,13 @@ import farms4life2016.gui.tables.Table;
 
 public class Display extends GenericDisplay {
     
-	private Table jobTable;
+	public Table jobTable;
 	private static Button extraInfo, createNewJob;
 	private TextField textField;
 	
-	
-	
 
 	/**
-	 * Currently, I'm displaying some stuff.
+	 * 
 	 */
 	public Display(Container p) {
 
@@ -47,7 +45,7 @@ public class Display extends GenericDisplay {
 			@Override
 			public void onClick(MouseEvent e) {
 				if (dimensions.contains(e.getPoint())) {
-					System.out.println(text);
+					Controller.jobUpdater.setVisible(true, null);
 				}
 				
 				
@@ -56,10 +54,13 @@ public class Display extends GenericDisplay {
 			@Override
 			public void drawSelf(Graphics2D g) {
 				super.fillBgRect(g);
+				super.drawText(g);
 				
 			}
 			
 		};
+		createNewJob.setText("Add a job");
+		createNewJob.setTextColour(Colours.BLACK);
 
 		//new job test
 		createNewJob.setDimensions(new Rectangle(5, 70, 500, 50));
@@ -68,7 +69,7 @@ public class Display extends GenericDisplay {
 		createNewJob.setSelected(false);
 		
 		//format extra info button
-		extraInfo.setDimensions(new Rectangle(50, 200+12*30, 950, 50));
+		extraInfo.setDimensions(new Rectangle(50, 200+12*30, 960, 50));
 		extraInfo.setUnselectedColour(Color.CYAN);
 		extraInfo.setSelected(false);
 		extraInfo.setFontSize(32);
