@@ -1,2 +1,0 @@
-AT-US-39US	USA	SUP-NAME-39US	SUP-Address1	SUP-Address2	SUP-Address3	SUP-City	SUP-State	US	12345678	222-333-4444	someone@SUP.com	Sup Contact	N
-AT-US-36US	USA	SUP-NAME-36US	SUP-Address1	SUP-Address2	SUP-Address3	SUP-City	SUP-State	US	12345678	222-333-4444	someone@SUP.com	Sup Contact	N

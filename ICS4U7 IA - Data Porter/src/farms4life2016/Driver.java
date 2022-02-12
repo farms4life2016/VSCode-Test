@@ -22,12 +22,6 @@ public class Driver {
         
         Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
 
-        Button testButton = new TableCell();
-		testButton.setDimensions(new Rectangle(0, 0, 200, 100));
-
-
-		System.out.println(testButton.getDimensions());
-
     } //end main method  
     
     public static void printA(String[][] a) {

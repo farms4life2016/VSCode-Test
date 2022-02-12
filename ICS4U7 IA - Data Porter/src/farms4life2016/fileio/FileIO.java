@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
+import javax.xml.parsers.DocumentBuilder; //these two imports are the only reason why
+import javax.xml.parsers.DocumentBuilderFactory; //I have to use Java 1.8 :angry:
+
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Cell;
@@ -248,5 +251,16 @@ public class FileIO {
     }
 
     // https://www.javatpoint.com/how-to-read-xml-file-in-java
+    public void readXML(String file) {
+        try {
+
+            File f = new File(file);
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
