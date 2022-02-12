@@ -1,6 +1,6 @@
 package farms4life2016.dataprocessing;
 
-public class DNode { //for single linked list
+public class DNode { 
 
 	private DNode next, prev;
 	private Object data;

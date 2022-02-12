@@ -74,6 +74,9 @@ public class Table extends Button {
         jobIndex = 1;
     }
 
+    /**
+     * Remove all the rows in the table except the header
+     */
     public void clearData() {
         
         while (rows.length() > 1) {

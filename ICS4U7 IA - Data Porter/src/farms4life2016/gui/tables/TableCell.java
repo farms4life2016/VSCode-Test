@@ -2,7 +2,6 @@ package farms4life2016.gui.tables;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 import farms4life2016.gui.Colours;
@@ -60,12 +59,4 @@ public class TableCell extends Button {
         
     }
 
-    @Override
-    public void setDimensions(Rectangle dimensions) {
-        //I don't get why the super version of this method
-        //does not work as intented. Maybe cuz I don't
-        //inherit Drawable directly???
-        this.dimensions = dimensions;
-    }
-    
 }

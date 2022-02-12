@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.WindowEvent;
+import java.awt.Container;
 
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.gui.Colours;
@@ -19,8 +20,6 @@ import farms4life2016.gui.buttons.InfoBox;
 import farms4life2016.gui.buttons.NPButton;
 import farms4life2016.gui.buttons.TextField;
 import farms4life2016.gui.tables.Table;
-import farms4life2016.gui.tables.TableCell;
-
 
 
 public class Display extends GenericDisplay {
@@ -30,13 +29,14 @@ public class Display extends GenericDisplay {
 	private TextField textField;
 	
 	
+	
 
 	/**
 	 * Currently, I'm displaying some stuff.
 	 */
-	public Display() {
+	public Display(Container p) {
 
-		super(); //init timers and add listeners
+		super(p); //init timers and add listeners
 		
 		//variables
 		mouse = new Point(0,0);

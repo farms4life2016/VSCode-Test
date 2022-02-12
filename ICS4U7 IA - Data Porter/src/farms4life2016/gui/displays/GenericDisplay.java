@@ -15,6 +15,7 @@ import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.Color;
+import java.awt.Container;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -27,11 +28,13 @@ public abstract class GenericDisplay extends JPanel implements ActionListener,
     protected Point mouse; //tracks mouse position
     protected Timer fps; //for refreshing the screen
     protected Color backgroundColour;
+    protected Container parent;
 
-    public GenericDisplay() {
+    public GenericDisplay(Container p) {
 
         mouse = new Point();
         fps = new Timer(60, this);
+        parent = p;
 
         //add listeners. WindowListener is added in Controller
         addMouseListener(this);

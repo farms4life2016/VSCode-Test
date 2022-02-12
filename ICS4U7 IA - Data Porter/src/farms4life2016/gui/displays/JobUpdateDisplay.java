@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.Container;
 
 import javax.swing.Timer;
 
@@ -17,13 +18,14 @@ import farms4life2016.gui.buttons.TextField;
 
 public class JobUpdateDisplay extends GenericDisplay {
     
-    NPButton title, textboxes[];
+    NPButton title, errorMessage, textboxes[];
     TextField inputBoxes[];
     Button updateJob, cancelUpdate;
     MultipleChoice chooseIO;
-    Timer fps;
 
-    public JobUpdateDisplay() {
+    public JobUpdateDisplay(Container p) {
+
+        super(p);
 
         //init variables
         chooseIO = new MultipleChoice();
@@ -42,7 +44,7 @@ public class JobUpdateDisplay extends GenericDisplay {
         title.setSelected(false);
         title.setText("Add/Update a Job");
 
-        //format textboxes and input boxes
+        //format textboxes 
         for (int i = 0; i < textboxes.length; i++) {
             textboxes[i] = new NPButton(false, 0);
             textboxes[i].setFontSize(20);
@@ -54,6 +56,7 @@ public class JobUpdateDisplay extends GenericDisplay {
             
         }
 
+        //format input boxes
         for (int i = 0; i < inputBoxes.length; i++) {
             inputBoxes[i] = new TextField();
             inputBoxes[i].setFontSize(18);
@@ -75,8 +78,28 @@ public class JobUpdateDisplay extends GenericDisplay {
         textboxes[3].setText("Type:");
         //TODO remember to export date
 
-        
+        //special buttons
+        cancelUpdate = new Button() {
 
+            @Override
+            public void onClick(MouseEvent e) {
+                if (dimensions.contains(e.getPoint())) parent.setVisible(false);
+                
+            }
+
+            @Override
+            public void drawSelf(Graphics2D g) {
+                super.fillBgRect(g);
+                super.drawBorders(g, 3, Colours.BLACK);
+                super.drawText(g);
+                
+            }
+
+        };
+        cancelUpdate.setText("Kill this dialogue");
+        cancelUpdate.setUnselectedColour(Colours.RED);
+        cancelUpdate.setSelected(false);
+        cancelUpdate.setDimensions(new Rectangle(50, 400, 200, 20));
         
 
 
@@ -92,6 +115,7 @@ public class JobUpdateDisplay extends GenericDisplay {
 
         chooseIO.drawSelf(g);
         title.drawSelf(g);
+        cancelUpdate.drawSelf(g);
 
         for (int i = 0; i < textboxes.length; i++) {
             textboxes[i].drawSelf(g);
@@ -115,12 +139,12 @@ public class JobUpdateDisplay extends GenericDisplay {
         if (e.getButton() == MouseEvent.BUTTON1) {
 
             chooseIO.onClick(e);
+            cancelUpdate.onClick(e);
             for (int i = 0; i < inputBoxes.length; i++) {
                 inputBoxes[i].onClick(e);
             }
 
         }
-        
         
     }
 
