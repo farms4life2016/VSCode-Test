@@ -22,7 +22,7 @@ public class Driver {
         
         Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
 
-        //FileIO.readXML(".\\client-data-files\\DRX\\I_Solicitation.xml");
+        FileIO.readXML(".\\client-data-files\\DRX\\I_Solicitation.xml");
 
     } //end main method  
     
