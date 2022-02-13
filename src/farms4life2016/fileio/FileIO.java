@@ -35,7 +35,7 @@ public class FileIO {
      */
     public static void init(DLinkedList list) {
 
-        String[][] input = readGrid(".\\src\\farms4life2016\\init\\hardcode these jobs.xlsx", 6, -1);
+        String[][] input = readGrid(".\\init\\hardcode these jobs.xlsx", 6, -1);
 
         for (int i = 1; i < input.length; i++) {
             Job j = new Job();
@@ -78,7 +78,7 @@ public class FileIO {
         }
 
         // write stuff out
-        writeGrid(".\\src\\farms4life2016\\init\\initialization.xlsx", output);
+        writeGrid(".\\init\\initialization.xlsx", output);
 
     }
 

@@ -66,15 +66,21 @@ public class Table extends Button {
         clearData();
         
         //fill up with jobs
-        displayJob = jobList.getNode(0);
-        for (int i = 0; i < jobList.length(); i++) {
-            rows.add(new TableRow( (Job) displayJob.getData(), this).setIndex(-1));
-            displayJob = displayJob.getNext();
+        if (jobList.length() > 0) { //only if list has jobs
+            displayJob = jobList.getNode(0);
+            for (int i = 0; i < jobList.length(); i++) {
+                rows.add(new TableRow( (Job) displayJob.getData(), this).setIndex(-1));
+                displayJob = displayJob.getNext();
+            }
+            displayJob = rows.getNode(1);
+            jobIndex = 1;
+
+        } else {
+            displayJob = null;
+            jobIndex = -1;
         }
         
-        displayJob = rows.getNode(1);
-        jobIndex = 1;
-
+        
         if (resetHeaders) {
             ((TableRow)(rows.get(0))).resetColours();
         }
@@ -100,14 +106,16 @@ public class Table extends Button {
 
         DNode n = displayJob;
         for (int i = 0; i < 10; i++) {
+            //if there are less than 10 jobs, n will point
+            //to dummy-tail, which is null, indicating no more
+            //elements left
+            if (n == null || n.getData() == null) break;
+
             ((TableRow)(n.getData())).setIndex(i+1);
             ((TableRow)(n.getData())).drawSelf(g);
             n = n.getNext();
 
-            //if there are less than 10 jobs, n will point
-            //to dummy-tail, which is null, indicating no more
-            //elements left
-            if (n.getData() == null) break;
+            
         }
         
     }
@@ -153,11 +161,14 @@ public class Table extends Button {
         //i.e. header and 10 displayed rows
         ((TableRow)(rows.get(0))).onClick(e);
 
-        DNode n = displayJob;
-        for (int i = 0; i < 10; i++) {
-           ((TableRow) (n.getData())).onClick(e);
-           n = n.getNext();
-           if (n == null) break;
+        if (rows.length() > 1) {
+            DNode n = displayJob;
+            for (int i = 0; i < 10; i++) {
+                if (n == null || n.getData() == null) break; //in case there are less than 10 elements
+                ((TableRow) (n.getData())).onClick(e);
+                n = n.getNext();
+               
+            }
         }
         
     }

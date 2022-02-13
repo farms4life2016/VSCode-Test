@@ -18,6 +18,7 @@ import farms4life2016.gui.Colours;
 import farms4life2016.gui.buttons.Button;
 import farms4life2016.gui.buttons.InfoBox;
 import farms4life2016.gui.buttons.NPButton;
+import farms4life2016.gui.buttons.SearchBar;
 import farms4life2016.gui.buttons.TextField;
 import farms4life2016.gui.tables.Table;
 
@@ -26,7 +27,7 @@ public class MenuDisplay extends GenericDisplay {
     
 	public Table jobTable;
 	private static Button extraInfo, createNewJob;
-	private TextField searchBar;
+	private SearchBar searchBar;
 	
 
 	/**
@@ -40,7 +41,7 @@ public class MenuDisplay extends GenericDisplay {
 		mouse = new Point(0,0);
 		jobTable = new Table(Controller.jobList);
 		extraInfo = new InfoBox();
-		searchBar = new TextField();
+		searchBar = new SearchBar();
 		createNewJob = new Button() {
 			@Override
 			public void onClick(MouseEvent e) {
@@ -60,22 +61,16 @@ public class MenuDisplay extends GenericDisplay {
 			
 		};
 		createNewJob.setText("Add a job");
-		createNewJob.setFontSize(16);
+		createNewJob.setFontSize(20);
 		createNewJob.setTextColour(Colours.WHITE);
-		createNewJob.setDimensions(new Rectangle(50, 150, 100, 30));
+		createNewJob.setDimensions(new Rectangle(50, 140, 120, 40));
+		createNewJob.setTextFormat(Button.CENTERED);
 		createNewJob.setUnselectedColour(Colours.GREEN);
 		createNewJob.setSelected(false);
-		
-		//format extra info button
-		extraInfo.setDimensions(new Rectangle(50, 200+12*30, 960, 50));
-		extraInfo.setUnselectedColour(Color.CYAN);
-		extraInfo.setSelected(false);
-		extraInfo.setFontSize(32);
-		extraInfo.setFontStyle(Font.BOLD);
-		extraInfo.setText(NPButton.DEFAULT_INFO_STRING);
 
-		//code for testing type-in button fun
-		searchBar.setDimensions(new Rectangle(0, 0, 500, 50));
+		//format search bar
+		searchBar.setDimensions(new Rectangle(760, 140, 250, 40));
+		searchBar.setFontSize(20);
 
 		backgroundColour = (Colours.GRAY40);
 		

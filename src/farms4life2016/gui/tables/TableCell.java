@@ -1,12 +1,11 @@
 package farms4life2016.gui.tables;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import farms4life2016.gui.Colours;
 import farms4life2016.gui.buttons.Button;
-import farms4life2016.gui.buttons.NPButton;
+import farms4life2016.gui.buttons.InfoBox;
 import farms4life2016.gui.displays.MenuDisplay;
 
 public class TableCell extends Button {
@@ -22,7 +21,7 @@ public class TableCell extends Button {
     public TableCell(TableRow r) {
         super();
         parent = r;
-        selectedColour = Color.CYAN;
+        selectedColour = InfoBox.INFO_BG_COLOUR;
         textColour = Colours.WHITE;
         unselectedColour = Colours.GRAY20;
         setSelected(false);
@@ -50,7 +49,7 @@ public class TableCell extends Button {
             if (isSelected()) {
                 MenuDisplay.setInfoText(this.text);
             } else {
-                MenuDisplay.setInfoText(NPButton.DEFAULT_INFO_STRING);
+                MenuDisplay.setInfoText(InfoBox.DEFAULT_INFO_STRING);
             }
 
         } else {

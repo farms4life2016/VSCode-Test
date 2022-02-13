@@ -6,7 +6,7 @@ import java.awt.event.MouseEvent;
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.Colours;
-import farms4life2016.gui.buttons.NPButton;
+import farms4life2016.gui.buttons.InfoBox;
 import farms4life2016.gui.displays.MenuDisplay;
 
 public class TableHeaderCell extends TableCell {
@@ -57,7 +57,7 @@ public class TableHeaderCell extends TableCell {
             parent.getParent().fillJobs(Controller.jobList, false);
 
             //nothing is selected anymore
-            MenuDisplay.setInfoText(NPButton.DEFAULT_INFO_STRING);
+            MenuDisplay.setInfoText(InfoBox.DEFAULT_INFO_STRING);
 
 
         }

@@ -1,11 +1,9 @@
 package farms4life2016.gui.buttons; 
 
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import farms4life2016.gui.Colours;
-import farms4life2016.gui.StringDrawer;
 
 /**
  * Stands for Non-Pressable Button 
@@ -16,7 +14,7 @@ public class NPButton extends Button {
     private boolean drawOutline;
     protected int outlineWidth;
 
-    public static final String DEFAULT_INFO_STRING = "Click on a cell and its contents will be displayed here!";
+    
 
     public NPButton(boolean hasOutline, int outlineWidth) {
         super();

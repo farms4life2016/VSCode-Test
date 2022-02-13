@@ -104,5 +104,10 @@ public class TextField extends Button {
     public void setText(String text) {
         this.input = text;
     }
+
+    @Override
+    public String getText() {
+        return input;
+    }
     
 }

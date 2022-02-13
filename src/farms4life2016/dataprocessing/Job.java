@@ -225,12 +225,13 @@ public class Job {
         
     }
 
-    public DLinkedList search(DLinkedList jobList, String key) {
+    public static DLinkedList linearSearch(DLinkedList jobList, String key) {
 
         DNode n = jobList.getNode(0);
         DLinkedList results = new DLinkedList();
 
         //we will perform the search ignoring capitalization
+        mergesort(jobList, SORT_BY_ID);
         key = key.toLowerCase();
 
         //perform linear search
@@ -244,7 +245,7 @@ public class Job {
             (j.client.toLowerCase().contains(key)) ||
             (Character.toString(j.type).toLowerCase().contains(key)) ||
             (j.file.toLowerCase().contains(key)) ||
-            (DATE_FORMAT.format(j.date).toLowerCase().contains(key)) ) {
+            (DATE_FORMAT.format(j.date.getTime()).toLowerCase().contains(key)) ) {
 
                 //if the key is a substring of any
                 //field, then put it in the search results
@@ -254,8 +255,7 @@ public class Job {
 
             n = n.getNext();
         }
-
-        mergesort(results, SORT_BY_ID);
+        
         return results;
     }
 
