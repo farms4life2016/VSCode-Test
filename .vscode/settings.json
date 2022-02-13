@@ -9,5 +9,6 @@
         "VSCode Java Project Test/lib/poi-bin-5.1.0/poi-ooxml-full-5.1.0.jar",
         "VSCode Java Project Test/lib/poi-bin-5.1.0/poi-ooxml-lite-5.1.0.jar",
         "VSCode Java Project Test/lib/poi-bin-5.1.0/poi-scratchpad-5.1.0.jar"
-    ]
+    ],
+    "java.project.outputPath": "bin"
 }
