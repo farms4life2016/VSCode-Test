@@ -225,5 +225,38 @@ public class Job {
         
     }
 
+    public DLinkedList search(DLinkedList jobList, String key) {
+
+        DNode n = jobList.getNode(0);
+        DLinkedList results = new DLinkedList();
+
+        //we will perform the search ignoring capitalization
+        key = key.toLowerCase();
+
+        //perform linear search
+        for (int i = 0; i < jobList.length(); i++) {
+
+            Job j = (Job)n.getData(); 
+
+            //check every single field for the key
+            if (Integer.toString(j.id).contains(key) ||
+            (j.name.toLowerCase().contains(key)) ||
+            (j.client.toLowerCase().contains(key)) ||
+            (Character.toString(j.type).toLowerCase().contains(key)) ||
+            (j.file.toLowerCase().contains(key)) ||
+            (DATE_FORMAT.format(j.date).toLowerCase().contains(key)) ) {
+
+                //if the key is a substring of any
+                //field, then put it in the search results
+                results.add(j);
+
+            }
+
+            n = n.getNext();
+        }
+
+        mergesort(results, SORT_BY_ID);
+        return results;
+    }
 
 }

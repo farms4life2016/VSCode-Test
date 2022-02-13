@@ -4,12 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import farms4life2016.fileio.FileIO;
 import farms4life2016.gui.StringDrawer;
-import farms4life2016.gui.displays.Display;
+import farms4life2016.gui.displays.MenuDisplay;
 import farms4life2016.gui.displays.JobUpdateDialogue;
 
 /**
@@ -23,7 +22,7 @@ public class Controller { //TODO make a log-in page
     //gui things. make static and public so association becomes easier
     public static JFrame window;
     public static JobUpdateDialogue jobUpdater;
-    public static Display mainMenu;
+    public static MenuDisplay mainMenu;
 
     //window size
     public static final int WINDOW_W = 1200, WINDOW_H = 720; //50 px for the top bar thingy
@@ -75,7 +74,7 @@ public class Controller { //TODO make a log-in page
         
         
         window = new JFrame("Data Porter"); //name it 
-        mainMenu = new Display(window); //make a new window
+        mainMenu = new MenuDisplay(window); //make a new window
         Container c = window.getContentPane(); //make something to add all the things to
         jobUpdater = new JobUpdateDialogue(window, "big shot", true);      
 

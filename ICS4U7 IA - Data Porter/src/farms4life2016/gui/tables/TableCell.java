@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import farms4life2016.gui.Colours;
 import farms4life2016.gui.buttons.Button;
 import farms4life2016.gui.buttons.NPButton;
-import farms4life2016.gui.displays.Display;
+import farms4life2016.gui.displays.MenuDisplay;
 
 public class TableCell extends Button {
 
@@ -48,9 +48,9 @@ public class TableCell extends Button {
 
             //update info text box
             if (isSelected()) {
-                Display.setInfoText(this.text);
+                MenuDisplay.setInfoText(this.text);
             } else {
-                Display.setInfoText(NPButton.DEFAULT_INFO_STRING);
+                MenuDisplay.setInfoText(NPButton.DEFAULT_INFO_STRING);
             }
 
         } else {
