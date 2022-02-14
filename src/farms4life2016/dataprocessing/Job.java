@@ -133,9 +133,14 @@ public class Job {
 
     public static String[][] convertListIntoArray(DLinkedList list) {
 
-        String[][] output = new String[list.length()][6]; //there are 6 fields in each job
-        DNode n = list.getNode(0);
+        if (list.length() == 0) {
+            String[][] empty = {{"", "", "", "", "", ""}};
+            return empty;
+        }
 
+        String[][] output = new String[list.length()][6]; //there are 6 fields in each job
+
+        DNode n = list.getNode(0);
         //copy from list to array
         for (int i = 0; i < list.length(); i++) {
             Job j = (Job) n.getData(); //assume dlinkedlist holds jobs only

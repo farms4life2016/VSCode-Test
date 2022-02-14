@@ -5,7 +5,10 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 import farms4life2016.dataprocessing.Controller;
+import farms4life2016.dataprocessing.DNode;
+import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.Colours;
+import farms4life2016.gui.displays.MenuDisplay;
 import farms4life2016.gui.tables.TableRow;
 
 public class ActionButtons extends Button {
@@ -46,7 +49,24 @@ public class ActionButtons extends Button {
             public void onClick(MouseEvent e) {
                 
                 if (dimensions.contains(e.getPoint())) {
-                    //TODO delete job
+                    //delete job
+                    int removeId = parent.getJob().getId(); //all ids are unique
+
+                    DNode n = Controller.jobList.getNode(0);
+
+                    //find the tablerow in the table with the matching id
+                    for (int i = 0; i < Controller.jobList.length(); i++) {
+                        if (((Job)(n.getData())).getId() == removeId) {
+                            //remove from joblist in controller
+                            Controller.jobList.remove(i);
+                            break;
+                        }
+                        n = n.getNext();
+                    }
+
+                    MenuDisplay.setInfoText(InfoBox.DEFAULT_INFO_STRING);
+                    parent.getParent().fillJobs(Controller.jobList, true);
+
                 }
             }
             

@@ -7,6 +7,9 @@ import java.awt.Color;
 
 import farms4life2016.gui.Colours;
 
+/**
+ * Intended to magnify text in the table's cells, and also display longer strings
+ */
 public class InfoBox extends NPButton {
 
     public static final String DEFAULT_INFO_STRING = "Click on a cell and its contents will be displayed here!";

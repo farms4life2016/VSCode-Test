@@ -38,15 +38,22 @@ public class FileIO {
         String[][] input = readGrid(".\\init\\hardcode these jobs.xlsx", 6, -1);
 
         for (int i = 1; i < input.length; i++) {
-            Job j = new Job();
-            j.setId((int) Double.parseDouble(input[i][0]));
-            j.setClient(input[i][2]);
-            j.setType(input[i][3].charAt(0));
-            j.setName(input[i][1]);
-            j.setFile(input[i][4]);
-            j.setDate(Calendar.getInstance());
-            list.add(j);
-
+            
+            try {
+                Job j = new Job();
+                j.setId((int) Double.parseDouble(input[i][0]));
+                j.setClient(input[i][2]);
+                j.setType(input[i][3].charAt(0));
+                j.setName(input[i][1]);
+                j.setFile(input[i][4]);
+                j.setDate(Calendar.getInstance());
+                list.add(j);
+    
+            } catch (NullPointerException | NumberFormatException e) {
+                System.out.println("We are not going to add an empty job");
+                e.printStackTrace();
+            }
+            
         }
 
     }
