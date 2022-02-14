@@ -1,7 +1,6 @@
 package farms4life2016.gui.displays;
 
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -26,7 +25,7 @@ import farms4life2016.gui.tables.Table;
 public class MenuDisplay extends GenericDisplay {
     
 	public Table jobTable;
-	private static Button extraInfo, createNewJob;
+	private static Button extraInfo, createNewJob, toHistory;
 	private SearchBar searchBar;
 	
 
@@ -38,7 +37,6 @@ public class MenuDisplay extends GenericDisplay {
 		super(p); //init timers and add listeners
 		
 		//variables
-		mouse = new Point(0,0);
 		jobTable = new Table(Controller.jobList);
 		extraInfo = new InfoBox();
 		searchBar = new SearchBar();
@@ -63,7 +61,7 @@ public class MenuDisplay extends GenericDisplay {
 		createNewJob.setText("Add a job");
 		createNewJob.setFontSize(20);
 		createNewJob.setTextColour(Colours.WHITE);
-		createNewJob.setDimensions(new Rectangle(50, 140, 120, 40));
+		createNewJob.setDimensions(new Rectangle(250, 140, 120, 40));
 		createNewJob.setTextFormat(Button.CENTERED);
 		createNewJob.setUnselectedColour(Colours.GREEN);
 		createNewJob.setSelected(false);
@@ -71,6 +69,30 @@ public class MenuDisplay extends GenericDisplay {
 		//format search bar
 		searchBar.setDimensions(new Rectangle(760, 140, 250, 40));
 		searchBar.setFontSize(20);
+
+		toHistory = new Button() {
+
+			@Override
+			public void onClick(MouseEvent e) {
+				Controller.cdLayout.show(Controller.window.getContentPane(), "history");
+				
+			}
+
+			@Override
+			public void drawSelf(Graphics2D g) {
+				super.fillBgRect(g);
+				super.drawText(g);
+				
+			}
+
+		};
+		toHistory.setDimensions(new Rectangle(50, 140, 120, 40));
+		toHistory.setText("See history");
+		toHistory.setFontSize(20);
+		toHistory.setTextColour(Colours.WHITE);
+		toHistory.setTextFormat(Button.CENTERED);
+		toHistory.setUnselectedColour(Colours.AQUA);
+		toHistory.setSelected(false);
 
 		backgroundColour = (Colours.GRAY40);
 		
@@ -103,6 +125,7 @@ public class MenuDisplay extends GenericDisplay {
 		extraInfo.drawSelf(g);
 		searchBar.drawSelf(g);
 		createNewJob.drawSelf(g);
+		toHistory.drawSelf(g);
 		
 	}
 
@@ -114,6 +137,7 @@ public class MenuDisplay extends GenericDisplay {
 			jobTable.onClick(e);
 			searchBar.onClick(e);
 			createNewJob.onClick(e);
+			toHistory.onClick(e);
 		}
 		
 	}

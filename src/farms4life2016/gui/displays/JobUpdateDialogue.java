@@ -24,8 +24,10 @@ public class JobUpdateDialogue extends JDialog {
         if (isVisible) {
             if (j == null) {
                 display.setMode(JobUpdateDisplay.ADD, null);
+                setTitle("Add a Job");
             } else {
                 display.setMode(JobUpdateDisplay.UPDATE, j);
+                setTitle("Update a Job");
             }
         }
 

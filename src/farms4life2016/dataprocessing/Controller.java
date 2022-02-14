@@ -1,6 +1,6 @@
 package farms4life2016.dataprocessing;
 
-import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
 
@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import farms4life2016.fileio.FileIO;
 import farms4life2016.gui.StringDrawer;
 import farms4life2016.gui.displays.MenuDisplay;
+import farms4life2016.gui.displays.HistoryDisplay;
 import farms4life2016.gui.displays.JobUpdateDialogue;
 
 /**
@@ -24,6 +25,8 @@ public class Controller { //TODO make a log-in page
     public static JFrame window;
     public static JobUpdateDialogue jobUpdater;
     public static MenuDisplay mainMenu;
+    public static CardLayout cdLayout;
+    public static HistoryDisplay history;
 
     //window size
     public static final int WINDOW_W = 1200, WINDOW_H = 720; //50 px for the top bar thingy
@@ -75,11 +78,12 @@ public class Controller { //TODO make a log-in page
         //variables
         new StringDrawer();
         
-        
+        cdLayout = new CardLayout();
         window = new JFrame("Data Porter"); //name it 
         mainMenu = new MenuDisplay(window); //make a new window
+        history = new HistoryDisplay(window);
         Container c = window.getContentPane(); //make something to add all the things to
-        jobUpdater = new JobUpdateDialogue(window, "big shot", true);      
+        jobUpdater = new JobUpdateDialogue(window, "Add/Update a Job", true);      
 
         //set window size, cannot resize
         window.setSize(WINDOW_W, WINDOW_H);
@@ -87,8 +91,9 @@ public class Controller { //TODO make a log-in page
         window.setIconImage(new ImageIcon("icons\\Logo.png").getImage());
         
         //add panel to frame
-        c.setLayout(new BorderLayout());
-        c.add(mainMenu, BorderLayout.CENTER);
+        c.setLayout(cdLayout);
+        c.add("menu", mainMenu);
+        c.add("history", history);
         mainMenu.setBackground(Color.GRAY);
 
         //why do we have to add this listener here I'm so confused
