@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import farms4life2016.fileio.FileIO;
@@ -68,6 +69,8 @@ public class Controller { //TODO make a log-in page
      * Creates the GUI. Most of this method is copied from the GUI programs that I wrote in grade 10.
      */
     public static void initGUI() {
+
+        
         
         //variables
         new StringDrawer();
@@ -81,6 +84,7 @@ public class Controller { //TODO make a log-in page
         //set window size, cannot resize
         window.setSize(WINDOW_W, WINDOW_H);
         window.setResizable(false);
+        window.setIconImage(new ImageIcon("icons\\Logo.png").getImage());
         
         //add panel to frame
         c.setLayout(new BorderLayout());
