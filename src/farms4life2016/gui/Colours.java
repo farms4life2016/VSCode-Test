@@ -29,6 +29,7 @@ public interface Colours {
         YELLOW = new Color(200, 200, 0),
         AQUA = new Color(140, 250, 250),
         BLUE = new Color(0, 170, 240),
+        OCEAN = new Color(0, 50, 100),
 
 
         LAST_COLOUR = null

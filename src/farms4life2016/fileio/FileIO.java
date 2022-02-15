@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import java.util.List; 
@@ -375,4 +377,31 @@ public class FileIO {
 
         return dataPorterConfig;
     }
+
+    /**
+     * ok random access files are a little useless XD
+     * @return
+     */
+    public static String readRAF() {
+        byte b[] = new byte[50];
+        String s = null;
+        try {
+            RandomAccessFile test = new RandomAccessFile("output.txt", "r");
+            test.seek(0);
+            
+            test.read(b);
+            s = new String(b);
+
+            test.seek(1);
+            Arrays.fill(b, (byte)0);
+            test.read(b, 0, 30);
+            s += ("   " + new String(b));
+            test.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return s;
+    }
 }
+

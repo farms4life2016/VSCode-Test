@@ -74,7 +74,8 @@ public class MenuDisplay extends GenericDisplay {
 
 			@Override
 			public void onClick(MouseEvent e) {
-				Controller.cdLayout.show(Controller.window.getContentPane(), "history");
+				if (dimensions.contains(e.getPoint()))
+					Controller.cdLayout.show(Controller.window.getContentPane(), "history");
 				
 			}
 

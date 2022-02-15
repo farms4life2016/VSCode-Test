@@ -45,13 +45,22 @@ public class TableRow extends Button {
             
         }
 
+        
+        //set character maxes
+        ((TableCell) cells[0]).setMaxLen(3);
+        ((TableCell) cells[1]).setMaxLen(13);
+        ((TableCell) cells[2]).setMaxLen(6);
+        ((TableCell) cells[3]).setMaxLen(2);
+        ((TableCell) cells[4]).setMaxLen(16);
+        ((TableCell) cells[5]).setMaxLen(300); //date will always be the same number of chars
+
         //set text based on job information
-        cells[0].setText( Integer.toString( rowJob.getId() ) );
-        cells[1].setText(rowJob.getName());
-        cells[2].setText(rowJob.getClient());
-        cells[3].setText(Character.toString(rowJob.getType()));
-        cells[4].setText(rowJob.getFile());
-        cells[5].setText(Job.DATE_FORMAT.format(rowJob.getDate().getTime()));
+        ((TableCell) cells[0]).setText( Integer.toString( rowJob.getId() ) );
+        ((TableCell) cells[1]).setText(rowJob.getName());
+        ((TableCell) cells[2]).setText(rowJob.getClient());
+        ((TableCell) cells[3]).setText(Character.toString(rowJob.getType()));
+        ((TableCell) cells[4]).setText(rowJob.getFile());
+        ((TableCell) cells[5]).setText(Job.DATE_FORMAT.format(rowJob.getDate().getTime()));
 
     }
 

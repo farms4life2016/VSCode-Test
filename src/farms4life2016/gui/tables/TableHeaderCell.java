@@ -11,8 +11,9 @@ import farms4life2016.gui.displays.MenuDisplay;
 
 public class TableHeaderCell extends TableCell {
 
-    public TableHeaderCell() {
-        super();
+    
+    public TableHeaderCell(TableRow r) {
+        super(r);
 
         //different colours
         unselectedColour = Colours.D_JARATE;
@@ -22,11 +23,6 @@ public class TableHeaderCell extends TableCell {
         //different font
         fontStyle = Font.BOLD;
         fontSize = 20;
-    }
-
-    public TableHeaderCell(TableRow r) {
-        this();
-        parent = r;
     }
 
     @Override

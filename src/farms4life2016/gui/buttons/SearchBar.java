@@ -41,6 +41,8 @@ public class SearchBar extends Button {
                 ((Button)this).drawText(g);
             }
         };
+        text.setMaxLen(17);
+        text.setTextColour(Colours.BLACK);
 
     }
     

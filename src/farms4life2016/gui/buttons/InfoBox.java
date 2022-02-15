@@ -13,7 +13,7 @@ import farms4life2016.gui.Colours;
 public class InfoBox extends NPButton {
 
     public static final String DEFAULT_INFO_STRING = "Click on a cell and its contents will be displayed here!";
-    public static final Color INFO_BG_COLOUR = Colours.BLACK;
+    public static final Color INFO_BG_COLOUR = Colours.OCEAN;
 
     public InfoBox() {
         super(true, 3);
@@ -36,7 +36,7 @@ public class InfoBox extends NPButton {
         //draw the text
         if (text.equals(DEFAULT_INFO_STRING)) {
             fontStyle = Font.ITALIC; 
-            setTextColour(Colours.GRAY120);
+            setTextColour(Colours.GRAY160);
         } else {
             fontStyle = Font.BOLD;
             setTextColour(Colours.WHITE);

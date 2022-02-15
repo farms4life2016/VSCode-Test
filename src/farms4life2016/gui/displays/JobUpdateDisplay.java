@@ -73,6 +73,7 @@ public class JobUpdateDisplay extends GenericDisplay {
             inputBoxes[i].setSelectedColour(Colours.WHITE);
             inputBoxes[i].setDimensions(new Rectangle(150, 150 + 50*i, 250, 30));
             inputBoxes[i].setSelected(false);
+            inputBoxes[i].setMaxLen(24);
         }
 
         //multiple choice field

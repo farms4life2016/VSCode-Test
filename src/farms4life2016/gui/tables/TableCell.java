@@ -11,12 +11,11 @@ import farms4life2016.gui.displays.MenuDisplay;
 public class TableCell extends Button {
 
     protected TableRow parent;
+    private int maxLen;
+    private String fullText;
 
     public static final int OUTLINE_WIDTH = 3;
 
-    public TableCell() {
-        this(null);
-    }
 
     public TableCell(TableRow r) {
         super();
@@ -26,6 +25,7 @@ public class TableCell extends Button {
         unselectedColour = Colours.GRAY20;
         setSelected(false);
         text = "";
+        maxLen = 200;
                 
     }
 
@@ -47,7 +47,7 @@ public class TableCell extends Button {
 
             //update info text box
             if (isSelected()) {
-                MenuDisplay.setInfoText(this.text);
+                MenuDisplay.setInfoText(this.fullText);
             } else {
                 MenuDisplay.setInfoText(InfoBox.DEFAULT_INFO_STRING);
             }
@@ -58,4 +58,26 @@ public class TableCell extends Button {
         
     }
 
+    @Override
+    public void setText(String text) {
+        fullText = text;
+        super.setText(text);
+        
+        //dealing with super long text that doesn't fit
+        //the cell dimensions
+        if (fullText.length() > maxLen) {
+            this.text = fullText.substring(0, maxLen-1) + "..";
+        }
+
+    }
+
+    public int getMaxLen() {
+        return maxLen;
+    }
+
+    public void setMaxLen(int maxLen) {
+        this.maxLen = maxLen;
+        //make sure u call settext() afterwards
+    }
+    
 }

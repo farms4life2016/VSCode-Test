@@ -19,8 +19,6 @@ import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.DLinkedList;
 import farms4life2016.dataprocessing.Job;
 import farms4life2016.fileio.*;
-import farms4life2016.gui.buttons.Button;
-import farms4life2016.gui.tables.TableCell;
 
 
 public class Driver {
@@ -33,7 +31,7 @@ public class Driver {
         Logger logger = LogManager.getLogger(Driver.class);
         
         Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
-
+/*
         //FileIO.readXML(".\\client-data-files\\DRX\\I_Solicitation.xml");
         try {
             DataPorterConfig dataPorterConfig= FileIO.readXML(".\\client-data-files\\DRX\\I_Plant.xml");            
@@ -74,6 +72,8 @@ public class Driver {
             logger.error(e.getMessage());
             //e.printStackTrace();  
         }  
+*/
+       
 
     } //end main method  
     

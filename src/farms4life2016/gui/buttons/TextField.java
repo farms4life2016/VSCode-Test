@@ -12,6 +12,10 @@ public class TextField extends Button {
     private int underscoreCounter;
     private boolean underscore;
     private String input;
+    private int maxLen;
+    private Color normalColour;
+
+    private static final Color OVERFLOW_COLOR = Colours.RED;
     
 
     public TextField() {
@@ -21,6 +25,7 @@ public class TextField extends Button {
         selectedColour = new Color(200, 200, 200);
         underscore = false;
         underscoreCounter = 0;
+        maxLen = 200;
     }
 
     @Override
@@ -46,7 +51,8 @@ public class TextField extends Button {
     public void onRefresh() {
         
         //trying to recreate the funny flashy | or _ that appears at the end of a textbox
-        if (isSelected()) {
+        if (isSelected() && input.length() < maxLen) { //do not underscore if no more chars left
+
             underscoreCounter += 1;
             if (underscoreCounter == 10) {
                 underscore = !underscore;
@@ -64,6 +70,14 @@ public class TextField extends Button {
             underscoreCounter = 0;
             underscore = false;
             text = input;
+
+        }
+
+        //warn user if they have hit char limit
+        if (isSelected() && input.length() == maxLen) {
+            textColour = OVERFLOW_COLOR;
+        } else {
+            textColour = normalColour; 
         }
         
     }
@@ -75,7 +89,11 @@ public class TextField extends Button {
             
             //only allow certain characters that are allowed in file names
             if (Character.isLetterOrDigit(e.getKeyChar()) || e.getKeyChar() == ' ' || e.getKeyChar() == '_' || e.getKeyChar() == '.') {
-                input += e.getKeyChar();
+                
+                //make sure there are still characters left for the textbox
+                if (input.length() < maxLen) {
+                    input += e.getKeyChar();
+                }
                 
             } else {
 
@@ -109,5 +127,19 @@ public class TextField extends Button {
     public String getText() {
         return input;
     }
+
+    @Override
+    public void setTextColour(Color textColour) {
+        normalColour = textColour;
+    }
+
+    public int getMaxLen() {
+        return maxLen;
+    }
+
+    public void setMaxLen(int maxLen) {
+        this.maxLen = maxLen;
+    }
+    
     
 }
