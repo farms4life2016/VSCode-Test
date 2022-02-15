@@ -21,7 +21,6 @@ public class TableHeaderCell extends TableCell {
         setSelected(false);
 
         //different font
-        fontStyle = Font.BOLD;
         fontSize = 20;
     }
 

@@ -21,7 +21,7 @@ public abstract class Button {
     protected Color textColour, unselectedColour, selectedColour;
     protected Rectangle dimensions;
     protected String text;
-    protected int textFormat, fontStyle;
+    protected int textFormat;
     protected float fontSize;
     
 
@@ -40,7 +40,6 @@ public abstract class Button {
         textColour = Colours.WHITE;
         text = "farms4life2016";
         textFormat = LEFT_ALIGN;
-        fontStyle = Font.PLAIN;
         fontSize = 16;        
 
     }
@@ -73,9 +72,9 @@ public abstract class Button {
         //draw the text
         g.setColor(textColour);
         if (textFormat == LEFT_ALIGN) {
-            StringDrawer.drawStringCenteredYLeftAligned(g, text, dimensions, fontStyle, fontSize);
+            StringDrawer.drawStringCenteredYLeftAligned(g, text, dimensions, Font.PLAIN, fontSize);
         } else if (textFormat == CENTERED) {
-            StringDrawer.drawStringSuperCentered(g, text, dimensions, fontStyle, fontSize);
+            StringDrawer.drawStringSuperCentered(g, text, dimensions, Font.PLAIN, fontSize);
         }
         
     }
@@ -146,14 +145,6 @@ public abstract class Button {
 
     public void setTextFormat(int textFormat) {
         this.textFormat = textFormat;
-    }
-
-    public int getFontStyle() {
-        return fontStyle;
-    }
-
-    public void setFontStyle(int fontStyle) {
-        this.fontStyle = fontStyle;
     }
 
     public float getFontSize() {

@@ -44,7 +44,6 @@ public class JobUpdateDisplay extends GenericDisplay {
 
         //format title textbox
         title.setFontSize(40);
-        title.setFontStyle(Font.BOLD);
         title.setUnselectedColour(backgroundColour);
         title.setTextColour(Colours.WHITE);
         title.setDimensions(new Rectangle(50, 20, 400, 100));
@@ -55,7 +54,6 @@ public class JobUpdateDisplay extends GenericDisplay {
         for (int i = 0; i < textboxes.length; i++) {
             textboxes[i] = new NPButton(false, 0);
             textboxes[i].setFontSize(20);
-            textboxes[i].setFontStyle(Font.BOLD);
             textboxes[i].setTextColour(Colours.WHITE);
             textboxes[i].setUnselectedColour(backgroundColour);
             textboxes[i].setDimensions(new Rectangle(50, 150 + 50*i, 100, 30));
@@ -67,7 +65,6 @@ public class JobUpdateDisplay extends GenericDisplay {
         for (int i = 0; i < inputBoxes.length; i++) {
             inputBoxes[i] = new TextField();
             inputBoxes[i].setFontSize(18);
-            inputBoxes[i].setFontStyle(Font.PLAIN);
             inputBoxes[i].setTextColour(Colours.BLACK);
             inputBoxes[i].setUnselectedColour(Colours.GRAY160);
             inputBoxes[i].setSelectedColour(Colours.WHITE);

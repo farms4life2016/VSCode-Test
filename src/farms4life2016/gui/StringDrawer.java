@@ -16,7 +16,7 @@ public class StringDrawer {
 	public StringDrawer() {
 		
 		try {
-			FileInputStream in = new FileInputStream( new File(".\\src\\farms4life2016\\gui\\Inconsolata-Regular.ttf"));
+			FileInputStream in = new FileInputStream( new File(".\\fonts\\Inconsolata-Regular.ttf"));
 			inconsolata = Font.createFont(Font.TRUETYPE_FONT, in);
 		} catch (IOException | FontFormatException e) {
 			e.printStackTrace();

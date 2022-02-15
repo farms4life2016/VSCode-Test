@@ -41,7 +41,6 @@ public class TableRow extends Button {
             counter += parent.getColumnWidths()[i];
             cells[i].setTextFormat(Button.LEFT_ALIGN);
             cells[i].setFontSize(20);
-            cells[i].setFontStyle(Font.PLAIN);
             
         }
 

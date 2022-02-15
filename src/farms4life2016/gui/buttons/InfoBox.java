@@ -1,7 +1,6 @@
 package farms4life2016.gui.buttons;
 
 import java.awt.Graphics2D;
-import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Color;
 
@@ -22,7 +21,6 @@ public class InfoBox extends NPButton {
 		setUnselectedColour(INFO_BG_COLOUR);
 		setSelected(false);
 		setFontSize(32);
-		setFontStyle(Font.BOLD);
 		setText(DEFAULT_INFO_STRING);
         setTextColour(Colours.GRAY120);
         
@@ -35,10 +33,8 @@ public class InfoBox extends NPButton {
 
         //draw the text
         if (text.equals(DEFAULT_INFO_STRING)) {
-            fontStyle = Font.ITALIC; 
             setTextColour(Colours.GRAY160);
         } else {
-            fontStyle = Font.BOLD;
             setTextColour(Colours.WHITE);
         }
 
