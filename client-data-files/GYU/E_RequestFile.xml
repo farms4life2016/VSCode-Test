@@ -1,19 +1,51 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<DataPorterConfig xmlns="" WorkingFolder="\client-data-files\GYU" ConnennectionString="" >
-  <ExportSection Name="Export">
-    <Export Name="RequestFile" SourceStoredProcedure="Upload_RequestFile_Extract" CommandTimeOut="6000" Delimiter="	" RemotePath="\Export" DestinationFile="E_Allrequests.xlsx">
-      <Columns>
-        <Column Name="SignatureDate" Length="0" />
-        <Column Name="CertificateID" Length="0" />
-        <Column Name="CertificateState" Length="0" />
-        <Column Name="SupplierCode" Length="0" />
-        <Column Name="ProductCode" Length="0" />
-        <Column Name="ProductDescription" Length="0" />
-        <Column Name="BlanketPeriodStart" Length="0" />
-        <Column Name="BlanketPeriodEnd" Length="0" />
-        <Column Name="CertificateHsCode" Length="0" />
-		<Column Name="CertificateType" Length="0" />
-      </Columns>
-    </Export>
-  </ExportSection>
-</DataPorterConfig>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
+<dataPorterConfig workingFolder=".\client-data-files\GYU\">  
+	<porterConfigs>		
+		<name>RequestFile</name>		
+		<delimiter>	</delimiter>		
+		<filename>E_Allrequests.xlsx</filename>		
+		<dbTable>Extract_RequestFile</dbTable>		
+		<remotePath>Export\</remotePath>			
+		<dbSproc>Upload_RequestFile_Extract</dbSproc>		
+		<columns>		
+			<name>SignatureDate</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>CertificateID</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>CertificateState</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>SupplierCode</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>ProductCode</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>ProductDescription</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>BlanketPeriodStart</name>		
+			<length>0</length>
+		</columns>	
+		<columns>		
+			<name>BlanketPeriodEnd</name>		
+			<length>0</length>
+		</columns>	
+		<columns>		
+			<name>CertificateHsCode</name>		
+			<length>0</length>
+		</columns>	
+		<columns>		
+			<name>CertificateType</name>		
+			<length>0</length>
+		</columns>
+	</porterConfigs>
+</dataPorterConfig>

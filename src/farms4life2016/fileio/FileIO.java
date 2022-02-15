@@ -6,12 +6,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 
+import java.util.List; 
+
+import javax.xml.bind.JAXBContext;  
+import javax.xml.bind.JAXBException;  
+import javax.xml.bind.Unmarshaller; 
+/*
 import javax.xml.parsers.DocumentBuilder; //these two imports are the only reason why
 import javax.xml.parsers.DocumentBuilderFactory; //I have to use Java 1.8 :angry: 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
-import org.w3c.dom.Element;
+import org.w3c.dom.Element;*/
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -22,6 +28,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import farms4life2016.dataprocessing.DLinkedList;
 import farms4life2016.dataprocessing.Job;
+
+
 
 public class FileIO {
 
@@ -262,7 +270,7 @@ public class FileIO {
 
         return answer;
     }
-
+/*
     // https://www.javatpoint.com/how-to-read-xml-file-in-java
     public static void readXML(String filePath) {
         try {
@@ -288,7 +296,7 @@ public class FileIO {
                     Element e = (Element) n;
                     System.out.println("\n what does this print wtf: " + e.getNodeName());
                 }
-            }*/
+            }**
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -325,5 +333,46 @@ public class FileIO {
             
         }
     }
+*/
 
+    //https://www.javatpoint.com/jaxb-unmarshalling-example
+    public static DataPorterConfig readXML(String filePath) {
+        DataPorterConfig dataPorterConfig = null;
+
+        try {
+
+            // creating a constructor of file class and parsing an XML file
+            File file = new File(filePath);
+            JAXBContext jaxbContext = JAXBContext.newInstance(DataPorterConfig.class);  
+       
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();  
+            dataPorterConfig= (DataPorterConfig) jaxbUnmarshaller.unmarshal(file);  
+            
+            //comment below when no need to show the config data(config file is OK)
+            System.out.println(dataPorterConfig.getWorkingFolder()); 
+            System.out.println("dataImports:");        
+            List<PorterConfig> porterConfigs=dataPorterConfig.getPorterConfigs();  
+            for(PorterConfig porterConfig:porterConfigs) 
+            {                
+                System.out.println("one dataImport:");             
+                System.out.println(porterConfig.getName()); 
+                System.out.println(porterConfig.getDelimiter()); 
+                System.out.println(porterConfig.getFilename()); 
+                System.out.println(porterConfig.getDbTable()); 
+                System.out.println(porterConfig.getRemotePath());            
+                System.out.println("columns:");        
+                List<Column> columns=porterConfig.getColumns();   
+                for(Column column:columns) 
+                {              
+                    System.out.println("one column:"); 
+                    System.out.println(column.getName());
+                }
+                //End: comment below when no need(config file is OK)
+            }
+        } catch (JAXBException e) {  
+            e.printStackTrace();  
+        }  
+
+        return dataPorterConfig;
+    }
 }

@@ -1,23 +1,66 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<DataPorterConfig xmlns="" WorkingFolder="\client-data-files\Drx" ConnennectionString="" >
-	<ImportSection Name="ClientImport">
-		<Import Name="ImportSupplier" Delimiter="	" SourceFile="Supplier_data.txt" DestinationTable="Upload_ClientSupplier" RemotePath="\Import">
-			<Columns>
-                <Column Name="SupplierCode" Length="0" />
-                <Column Name="Region" Length="40" />
-                <Column Name="SupplierName" Length="0" />
-                <Column Name="SupplierAddress1" Length="0" />
-                <Column Name="SupplierAddress2" Length="0" />
-                <Column Name="SupplierAddress3" Length="0" />
-                <Column Name="City" Length="0" />
-                <Column Name="Province" Length="0" />
-                <Column Name="Country" Length="0" />
-                <Column Name="PostalCode" Length="0" />
-                <Column Name="SupplierContactPhone" Length="0" />
-                <Column Name="SupplierContactEMail" Length="0" />
-                <Column Name="SupplierContactName" Length="0" />
-                <Column Name="IsAllied" Length="0" />
-            </Columns>
-        </Import>
-    </ImportSection>
-</DataPorterConfig>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
+<dataPorterConfig workingFolder=".\client-data-files\DRX\">  
+	<porterConfigs>		
+		<name>ImportSupplier</name>		
+		<delimiter>	</delimiter>		
+		<filename>Supplier_data.txt</filename>		
+		<dbTable>Upload_ClientSupplier</dbTable>		
+		<remotePath>Import\</remotePath>		
+		<columns>		
+			<name>SupplierCode</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>Region</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>SupplierName</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>SupplierAddress1</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>SupplierAddress2</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>SupplierAddress3</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>City</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>Province</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>Country</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>PostalCode</name>		
+			<length>0</length>
+		</columns>		
+		<columns>
+			<name>SupplierContactPhone</name>		
+			<length>0</length>
+		</columns>	
+		<columns>		
+			<name>SupplierContactEMail</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>SupplierContactName</name>		
+			<length>0</length>
+		</columns>		
+		<columns>
+			<name>IsAllied</name>		
+			<length>0</length>
+		</columns>
+	</porterConfigs>
+</dataPorterConfig>

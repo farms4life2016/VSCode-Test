@@ -12,7 +12,8 @@
             "VSCode Java Project Test/lib/poi-bin-5.1.0/poi-scratchpad-5.1.0.jar"
         ],
         "exclude": [
-            "lib/poi-bin-5.1.0/auxiliary/xml-apis-1.4.01.jar"
+            "lib/poi-bin-5.1.0/auxiliary/xml-apis-1.4.01.jar",
+            "lib/poi-bin-5.1.0/lib/log4j-api-2.14.1.jar"
         ]
     },
     "java.project.outputPath": "bin"

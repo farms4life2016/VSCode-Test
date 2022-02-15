@@ -1,30 +1,94 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<DataPorterConfig xmlns="" WorkingFolder="\client-data-files\Drx" ConnennectionString="" >
-	<ImportSection Name="ClientImport">
-		<Import Name="ImportBOM" Delimiter="	" SourceFile="T_usmca_bom.txt" DestinationTable="Upload_RawBom" RemotePath="\Import">
-			<Columns>
-				<Column Name="PlantCode" Length="255" />
-				<Column Name="PlantRegion" Length="255" />
-				<Column Name="ProductCurrency" Length="255" />
-				<Column Name="ProductHSCountry" Length="255" />
-				<Column Name="ProductCode" Length="255" />
-				<Column Name="ProductDescription" Length="255" />
-				<Column Name="BomAlternative" Length="255" />
-				<Column Name="ProductHSCode" Length="255" />
-				<Column Name="ProductCost" Length="255" />
-				<Column Name="ProductPrice" Length="255" />
-				<Column Name="AutomotiveIndicator" Length="255" />
-				<Column Name="BOMLevel" Length="255" />
-				<Column Name="BOMType" Length="255" />
-				<Column Name="MaterialCode" Length="255" />
-				<Column Name="MaterialDescription" Length="255" />
-				<Column Name="MaterialHSCode" Length="255" />
-				<Column Name="MaterialUnitCost" Length="255" />
-				<Column Name="MaterialQuantity" Length="255" />
-				<Column Name="IndirectPackingIndicator" Length="255" />
-				<Column Name="MaterialSupplierCode" Length="255" />
-				<Column Name="ProductTotalCost" Length="255" />
-            </Columns>
-        </Import>
-    </ImportSection>
-</DataPorterConfig>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
+<dataPorterConfig workingFolder=".\client-data-files\DRX\">  
+	<porterConfigs>		
+		<name>ImportBOM</name>		
+		<delimiter>	</delimiter>		
+		<filename>T_usmca_bom.txt</filename>		
+		<dbTable>Upload_RawBom</dbTable>		
+		<remotePath>Import\</remotePath>		
+		<columns>		
+			<name>PlantCode</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>PlantRegion</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>ProductCurrency</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>ProductHSCountry</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>ProductCode</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>ProductDescription</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>BomAlternative</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>ProductHSCode</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>ProductCost</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>ProductPrice</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>AutomotiveIndicator</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>BOMLevel</name>		
+			<length>0</length>
+		</columns>				
+		<columns>		
+			<name>BOMType</name>		
+			<length>0</length>
+		</columns>				
+		<columns>		
+			<name>MaterialCode</name>		
+			<length>0</length>
+		</columns>				
+		<columns>		
+			<name>MaterialDescription</name>		
+			<length>0</length>
+		</columns>				
+		<columns>		
+			<name>MaterialHSCode</name>		
+			<length>0</length>
+		</columns>				
+		<columns>		
+			<name>MaterialUnitCost</name>		
+			<length>0</length>
+		</columns>				
+		<columns>		
+			<name>MaterialQuantity</name>		
+			<length>0</length>
+		</columns>				
+		<columns>		
+			<name>IndirectPackingIndicator</name>		
+			<length>0</length>
+		</columns>			
+		<columns>		
+			<name>MaterialSupplierCode</name>		
+			<length>0</length>
+		</columns>				
+		<columns>		
+			<name>ProductTotalCost</name>		
+			<length>0</length>
+		</columns>			
+	</porterConfigs>
+</dataPorterConfig>
