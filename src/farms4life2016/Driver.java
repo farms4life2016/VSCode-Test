@@ -2,6 +2,7 @@ package farms4life2016;
 
 import java.io.File;
 import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.io.IOException;
 import java.util.Scanner; // Import the Scanner class to read text files
 /*
 import java.util.logging.Level;
@@ -30,8 +31,8 @@ public class Driver {
     public static void main(String[] args) {
         Logger logger = LogManager.getLogger(Driver.class);
         
-        Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
-/*
+        //Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
+
         //FileIO.readXML(".\\client-data-files\\DRX\\I_Solicitation.xml");
         try {
             DataPorterConfig dataPorterConfig= FileIO.readXML(".\\client-data-files\\DRX\\I_Plant.xml");            
@@ -72,9 +73,8 @@ public class Driver {
             logger.error(e.getMessage());
             //e.printStackTrace();  
         }  
-*/
-       
 
+      
     } //end main method  
     
     public static void printA(String[][] a) {

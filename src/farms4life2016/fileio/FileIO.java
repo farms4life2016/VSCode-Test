@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Calendar;
 
@@ -339,6 +340,7 @@ public class FileIO {
 
     //https://www.javatpoint.com/jaxb-unmarshalling-example
     public static DataPorterConfig readXML(String filePath) {
+
         DataPorterConfig dataPorterConfig = null;
 
         try {
@@ -348,7 +350,7 @@ public class FileIO {
             JAXBContext jaxbContext = JAXBContext.newInstance(DataPorterConfig.class);  
        
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();  
-            dataPorterConfig= (DataPorterConfig) jaxbUnmarshaller.unmarshal(file);  
+            dataPorterConfig = (DataPorterConfig) jaxbUnmarshaller.unmarshal(file);  
             
             //comment below when no need to show the config data(config file is OK)
             System.out.println(dataPorterConfig.getWorkingFolder()); 
@@ -376,6 +378,7 @@ public class FileIO {
         }  
 
         return dataPorterConfig;
+        
     }
 
     /**
@@ -402,6 +405,39 @@ public class FileIO {
         }
 
         return s;
+
     }
+
+    public static void write2RAF(String s, int start) {
+        try {
+            RandomAccessFile test = new RandomAccessFile("new file.txt", "rw");
+            test.seek(start * 1L);
+            test.writeBytes(s);
+            test.setLength(1000);
+            test.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Copies a file to another destination. The destination file will be automatically created
+     * if it does not yet exist, but this method will never override an existing file.
+     * @param originalFile The name of the original file plus its path
+     * @param destinationFile The name of the output file plus its path
+     * @throws IOException Please handle in the class that is calling this method
+     */
+    public static void copyFiles(String originalFile, String destinationFile) throws IOException {
+
+        File original = new File(originalFile);
+        File destination = new File(destinationFile);
+
+        Files.copy(original.toPath(), destination.toPath());
+
+    }
+
+
+
 }
 

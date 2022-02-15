@@ -1,6 +1,5 @@
 package farms4life2016.gui.displays;
 
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
