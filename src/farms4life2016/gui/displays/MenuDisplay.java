@@ -24,8 +24,9 @@ import farms4life2016.gui.tables.Table;
 public class MenuDisplay extends GenericDisplay {
     
 	public Table jobTable;
-	private static Button extraInfo, createNewJob, toHistory;
+	private Button extraInfo, createNewJob, toStart;
 	private SearchBar searchBar;
+	private NPButton errorBar, displayBar;
 	
 
 	/**
@@ -60,7 +61,7 @@ public class MenuDisplay extends GenericDisplay {
 		createNewJob.setText("Add a job");
 		createNewJob.setFontSize(20);
 		createNewJob.setTextColour(Colours.WHITE);
-		createNewJob.setDimensions(new Rectangle(250, 140, 120, 40));
+		createNewJob.setDimensions(new Rectangle(260, 140, 200, 40));
 		createNewJob.setTextFormat(Button.CENTERED);
 		createNewJob.setUnselectedColour(Colours.GREEN);
 		createNewJob.setSelected(false);
@@ -69,12 +70,15 @@ public class MenuDisplay extends GenericDisplay {
 		searchBar.setDimensions(new Rectangle(760, 140, 250, 40));
 		searchBar.setFontSize(20);
 
-		toHistory = new Button() {
+		toStart = new Button() {
 
 			@Override
 			public void onClick(MouseEvent e) {
-				if (dimensions.contains(e.getPoint()))
-					Controller.cdLayout.show(Controller.window.getContentPane(), "history");
+				if (dimensions.contains(e.getPoint())) {
+					Controller.cdLayout.show(Controller.window.getContentPane(), "start");
+					Controller.setTitle("Data Porter - Welcome");
+				}
+					
 				
 			}
 
@@ -86,13 +90,19 @@ public class MenuDisplay extends GenericDisplay {
 			}
 
 		};
-		toHistory.setDimensions(new Rectangle(50, 140, 120, 40));
-		toHistory.setText("See history");
-		toHistory.setFontSize(20);
-		toHistory.setTextColour(Colours.WHITE);
-		toHistory.setTextFormat(Button.CENTERED);
-		toHistory.setUnselectedColour(Colours.AQUA);
-		toHistory.setSelected(false);
+		toStart.setDimensions(new Rectangle(50, 140, 200, 40));
+		toStart.setText("Welcome screen");
+		toStart.setFontSize(20);
+		toStart.setTextColour(Colours.WHITE);
+		toStart.setTextFormat(Button.CENTERED);
+		toStart.setUnselectedColour(Colours.BLUE);
+		toStart.setSelected(false);
+
+		errorBar = new NPButton(false, 0);
+
+		//we don't have a scrollbar, so this is how we tell
+		//the user how many jobs are left
+		displayBar = new NPButton(false, 0);
 
 		backgroundColour = (Colours.GRAY40);
 		
@@ -125,7 +135,9 @@ public class MenuDisplay extends GenericDisplay {
 		extraInfo.drawSelf(g);
 		searchBar.drawSelf(g);
 		createNewJob.drawSelf(g);
-		toHistory.drawSelf(g);
+		toStart.drawSelf(g);
+		errorBar.drawSelf(g);
+		displayBar.drawSelf(g);
 		
 	}
 
@@ -137,7 +149,7 @@ public class MenuDisplay extends GenericDisplay {
 			jobTable.onClick(e);
 			searchBar.onClick(e);
 			createNewJob.onClick(e);
-			toHistory.onClick(e);
+			toStart.onClick(e);
 		}
 		
 	}
@@ -176,7 +188,7 @@ public class MenuDisplay extends GenericDisplay {
 		
 	}
 
-	public static void setInfoText(String newText) {
+	public void setInfoText(String newText) {
 		extraInfo.setText(newText);
 	}
 

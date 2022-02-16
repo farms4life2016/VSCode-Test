@@ -80,7 +80,7 @@ public class SearchBar extends Button {
         //we don't want to set controller's joblist to search results
         Controller.mainMenu.jobTable.fillJobs(Job.linearSearch(Controller.jobList, text.getText()), true);
         //we are just displaying a subset of controller's joblist; we aren't modifying anything
-        MenuDisplay.setInfoText(InfoBox.DEFAULT_INFO_STRING);
+        Controller.mainMenu.setInfoText(InfoBox.DEFAULT_INFO_STRING);
         
     }
 

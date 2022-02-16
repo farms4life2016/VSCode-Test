@@ -31,7 +31,7 @@ public class Driver {
     public static void main(String[] args) {
         Logger logger = LogManager.getLogger(Driver.class);
         
-        //Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
+        Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
 
         //FileIO.readXML(".\\client-data-files\\DRX\\I_Solicitation.xml");
         try {

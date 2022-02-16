@@ -65,7 +65,7 @@ public class ActionButtons extends Button {
                         n = n.getNext();
                     }
 
-                    MenuDisplay.setInfoText(InfoBox.DEFAULT_INFO_STRING);
+                    Controller.mainMenu.setInfoText(InfoBox.DEFAULT_INFO_STRING);
                     parent.getParent().fillJobs(Controller.jobList, true);
 
                 }

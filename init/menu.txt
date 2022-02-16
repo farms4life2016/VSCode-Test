@@ -10,4 +10,6 @@ Id	Name	Client	Type	File	Date
 9	Solicitation	GYU	I	I_Solicitation.xml	Feb 29, 2004 (00:00:00 EST)
 10	BOM	GYU	I	I_BOM.xml	Feb 29, 2004 (00:00:00 EST)
 11	RequestFile	GYU	E	E_RequestFile.xml	Feb 29, 2004 (00:00:00 EST)
-12	BOM	GYU	E	E_BOM.xml	Feb 29, 2004 (00:00:00 EST)
+12	BOM	GYU	E	E_BOM.xml	Feb 29, 2004 (00:00:00 EST)	Active
+
+

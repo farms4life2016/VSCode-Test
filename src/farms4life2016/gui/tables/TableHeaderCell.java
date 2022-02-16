@@ -52,7 +52,7 @@ public class TableHeaderCell extends TableCell {
             parent.getParent().fillJobs(Controller.jobList, false);
 
             //nothing is selected anymore
-            MenuDisplay.setInfoText(InfoBox.DEFAULT_INFO_STRING);
+            Controller.mainMenu.setInfoText(InfoBox.DEFAULT_INFO_STRING);
 
 
         }

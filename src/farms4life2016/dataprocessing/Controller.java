@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import farms4life2016.fileio.FileIO;
 import farms4life2016.gui.StringDrawer;
 import farms4life2016.gui.displays.MenuDisplay;
-import farms4life2016.gui.displays.HistoryDisplay;
+import farms4life2016.gui.displays.StartDisplay;
 import farms4life2016.gui.displays.JobUpdateDialogue;
 
 /**
@@ -26,7 +26,7 @@ public class Controller { //TODO make a log-in page
     public static JobUpdateDialogue jobUpdater;
     public static MenuDisplay mainMenu;
     public static CardLayout cdLayout;
-    public static HistoryDisplay history;
+    public static StartDisplay startMenu;
 
     //window size
     public static final int WINDOW_W = 1200, WINDOW_H = 720; //50 px for the top bar thingy
@@ -79,9 +79,9 @@ public class Controller { //TODO make a log-in page
         new StringDrawer();
         
         cdLayout = new CardLayout();
-        window = new JFrame("Data Porter"); //name it 
+        window = new JFrame("Data Porter - Welcome"); //name it 
         mainMenu = new MenuDisplay(window); //make a new window
-        history = new HistoryDisplay(window);
+        startMenu = new StartDisplay(window);
         Container c = window.getContentPane(); //make something to add all the things to
         jobUpdater = new JobUpdateDialogue(window, "Add/Update a Job", true);      
 
@@ -93,7 +93,8 @@ public class Controller { //TODO make a log-in page
         //add panel to frame
         c.setLayout(cdLayout);
         c.add("menu", mainMenu);
-        c.add("history", history);
+        c.add("start", startMenu);
+        cdLayout.show(c, "start");
         mainMenu.setBackground(Color.GRAY);
 
         //why do we have to add this listener here I'm so confused
@@ -103,6 +104,10 @@ public class Controller { //TODO make a log-in page
         //final touches to make window visible and usable
         window.setVisible(true);
 
+    }
+
+    public static void setTitle (String newName) {
+        window.setTitle(newName);
     }
 
 }

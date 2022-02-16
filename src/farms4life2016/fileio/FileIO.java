@@ -46,7 +46,7 @@ public class FileIO {
      */
     public static void init(DLinkedList list) {
 
-        String[][] input = readGrid(".\\init\\hardcode these jobs.xlsx", 6, -1);
+        String[][] input = readGrid(".\\init\\hardcode these jobs.xlsx", 7, -1);
 
         for (int i = 1; i < input.length; i++) {
             
@@ -57,7 +57,9 @@ public class FileIO {
                 j.setType(input[i][3].charAt(0));
                 j.setName(input[i][1]);
                 j.setFile(input[i][4]);
-                j.setDate(Calendar.getInstance());
+                j.setDate(input[i][5]);
+                if (input[i][6].equals("Active")) j.setActive(true);
+                else j.setActive(false);
                 list.add(j);
     
             } catch (NullPointerException | NumberFormatException e) {
@@ -88,6 +90,7 @@ public class FileIO {
         output[0][3] = "Type";
         output[0][4] = "File";
         output[0][5] = "Date";
+        output[0][6] = "Status";
 
         for (int i = 0; i < temp.length; i++) {
             for (int j = 0; j < temp[i].length; j++) {

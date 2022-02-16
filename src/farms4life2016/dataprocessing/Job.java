@@ -13,6 +13,7 @@ public class Job {
     private char type;
     private String file; //should I change this to java.util.File?
     private Calendar date;
+    private boolean active;
     
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy '('hh:mm:ss z')'");
 
@@ -133,12 +134,12 @@ public class Job {
 
     public static String[][] convertListIntoArray(DLinkedList list) {
 
-        if (list.length() == 0) {
+        if (list.length() == 0) {//TODO this is wrong lol
             String[][] empty = {{"", "", "", "", "", ""}};
             return empty;
         }
 
-        String[][] output = new String[list.length()][6]; //there are 6 fields in each job
+        String[][] output = new String[list.length()][7]; //there are 7 fields in each job
 
         DNode n = list.getNode(0);
         //copy from list to array
@@ -150,6 +151,8 @@ public class Job {
             output[i][3] = Character.toString(j.type);
             output[i][4] = j.file;
             output[i][5] = DATE_FORMAT.format(j.date.getTime());
+            if (j.isActive()) output[i][6] = "Active";
+            else output[i][6] = "Deleted";
             n = n.getNext();
 
         }
@@ -228,6 +231,14 @@ public class Job {
             e.printStackTrace();
         }
         
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public static DLinkedList linearSearch(DLinkedList jobList, String key) {

@@ -3,10 +3,10 @@ package farms4life2016.gui.tables;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
+import farms4life2016.dataprocessing.Controller;
 import farms4life2016.gui.Colours;
 import farms4life2016.gui.buttons.Button;
 import farms4life2016.gui.buttons.InfoBox;
-import farms4life2016.gui.displays.MenuDisplay;
 
 public class TableCell extends Button {
 
@@ -47,9 +47,9 @@ public class TableCell extends Button {
 
             //update info text box
             if (isSelected()) {
-                MenuDisplay.setInfoText(this.fullText);
+                Controller.mainMenu.setInfoText(this.fullText);
             } else {
-                MenuDisplay.setInfoText(InfoBox.DEFAULT_INFO_STRING);
+                Controller.mainMenu.setInfoText(InfoBox.DEFAULT_INFO_STRING);
             }
 
         } else {
