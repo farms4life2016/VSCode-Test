@@ -29,9 +29,27 @@ public class Driver {
      * @param args 
      */
     public static void main(String[] args) {
-        Logger logger = LogManager.getLogger(Driver.class);
+        
         
         Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
+
+        
+    } //end main method  
+    
+    public static void printA(String[][] a) {
+        for (String[] strings : a) {
+            for (String strings2 : strings) {
+                System.out.print(strings2 + "\t\t");
+            }
+
+            System.out.println();
+            
+        }
+    }
+
+    public static void readXMLTest() {
+
+        Logger logger = LogManager.getLogger(Driver.class);
 
         //FileIO.readXML(".\\client-data-files\\DRX\\I_Solicitation.xml");
         try {
@@ -75,19 +93,6 @@ public class Driver {
         }  
 
       
-    } //end main method  
-    
-    public static void printA(String[][] a) {
-        for (String[] strings : a) {
-            for (String strings2 : strings) {
-                System.out.print(strings2 + "\t\t");
-            }
-
-            System.out.println();
-            
-        }
     }
-
-    
 
 }
