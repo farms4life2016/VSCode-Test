@@ -58,7 +58,7 @@ public class TableRow extends Button {
         ((TableCell) cells[2]).setText(rowJob.getClient());
         ((TableCell) cells[3]).setText(Character.toString(rowJob.getType()));
         ((TableCell) cells[4]).setText(rowJob.getFile());
-        ((TableCell) cells[5]).setText(Job.LONG_DATE_FORMATER.format(rowJob.getDate().getTime()));
+        ((TableCell) cells[5]).setText(rowJob.getLongDate());
 
     }
 

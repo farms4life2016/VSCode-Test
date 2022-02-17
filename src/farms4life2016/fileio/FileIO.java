@@ -25,6 +25,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.DLinkedList;
 import farms4life2016.dataprocessing.Job;
 
@@ -33,6 +34,9 @@ public class FileIO {
 
     // https://www.javatpoint.com/how-to-read-excel-file-in-java
     // https://www.geeksforgeeks.org/how-to-write-data-into-excel-sheet-using-java/
+
+    private static final String BLANKS_100 = "                                                                                                   \n";
+    public static int nextId = 1;
 
     /**
      * Read init file. This method is also proof of concept of an excel file reader.
@@ -64,6 +68,68 @@ public class FileIO {
             
         }
 
+    }
+
+    /**
+     * Read the init file
+     * @throws IOException
+     */
+    public static void init() throws IOException {
+
+        List<String> list = readAllTxt(".\\init\\menu.txt");
+
+        for (int i = 1; i < list.size(); i++) {
+            String[] items = list.get(i).split("\t");
+            Job j = new Job();
+
+            j.setActive(items[6].trim());
+
+            //deactivated jobs are deleted jobs
+            if (!j.isActive()) {
+                break;
+            }
+
+            j.setId(Integer.parseInt(items[0]));
+            j.setName(items[1]);
+            j.setClient(items[2]); 
+            j.setType(items[3].charAt(0));
+            j.setFile(items[4]);;
+            j.setDate(items[5]);
+
+            Controller.jobList.add(j);
+
+        }
+
+        nextId = list.size();
+
+    }
+
+    public static void edit(Job j) throws IOException {
+
+        RandomAccessFile initFile = new RandomAccessFile(".\\init\\menuout.txt", "rw");
+        
+        String output = "";
+        output += j.getId();
+        output += "\t" + j.getName();
+        output += "\t" + j.getClient();
+        output += "\t" + j.getType();
+        output += "\t" + j.getFile();
+        output += "\t" + j.getLongDate();
+        output += "\t" + j.getActiveString();
+
+        //clear previous data
+        initFile.setLength(nextId*100);
+        initFile.seek(j.getId()*100);
+        //initFile.write(BLANKS_100.getBytes());
+        initFile.write(output.getBytes());
+
+        initFile.close();
+
+    }
+
+    public static void add(Job j) throws IOException {
+        nextId++;
+        edit(j);
     }
 
     /**
@@ -408,10 +474,11 @@ public class FileIO {
 
     public static void write2RAF(String s, int start) {
         try {
-            RandomAccessFile test = new RandomAccessFile("new file.txt", "rw");
+            RandomAccessFile test = new RandomAccessFile("hellobro.txt", "rw");
+            test.setLength(100);
             test.seek(start * 1L);
             test.writeBytes(s);
-            test.setLength(1000);
+            //test.setLength(1000);
             test.close();
 
         } catch (IOException e) {

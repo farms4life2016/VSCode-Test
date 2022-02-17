@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.Calendar;
 import java.awt.Container;
 
@@ -12,6 +13,7 @@ import javax.swing.Timer;
 
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.Job;
+import farms4life2016.fileio.FileIO;
 import farms4life2016.gui.Colours;
 import farms4life2016.gui.buttons.Button;
 import farms4life2016.gui.buttons.MultipleChoice;
@@ -80,7 +82,6 @@ public class JobUpdateDisplay extends GenericDisplay {
         textboxes[1].setText("Client:");
         textboxes[2].setText("File:");
         textboxes[3].setText("Type:");
-        //TODO remember to export date
 
         //special buttons
         cancelUpdate = new Button() {
@@ -111,17 +112,31 @@ public class JobUpdateDisplay extends GenericDisplay {
             public void onClick(MouseEvent e) {
                 if (dimensions.contains(e.getPoint()) && noEmptyFields()) {
                     
-                    if (mode == ADD) {
-                        Controller.jobList.add(new Job(100, inputBoxes[0].getText(), inputBoxes[1].getText(), chooseIO.getChoice().charAt(3), inputBoxes[2].getText(), null));
+                    try {
+                        if (mode == ADD) {
+                            Job toAdd = new Job();
+                            toAdd.setId(FileIO.nextId);
+                            toAdd.setName(inputBoxes[0].getText());
+                            toAdd.setClient(inputBoxes[1].getText());
+                            toAdd.setType(chooseIO.getChoice().charAt(3));
+                            toAdd.setFile(inputBoxes[2].getText());
+                            toAdd.setDate(Calendar.getInstance());
+                            toAdd.setActive(true);
+                            Controller.jobList.add(toAdd);
+                            FileIO.add(toAdd);
 
-                    } else if (mode == UPDATE) {
-                        currentJob.setName(inputBoxes[0].getText());
-                        currentJob.setClient(inputBoxes[1].getText());
-                        currentJob.setType(chooseIO.getChoice().charAt(3));
-                        currentJob.setFile(inputBoxes[2].getText());
-                        currentJob.setDate(Calendar.getInstance());
+                        } else if (mode == UPDATE) {
+                            currentJob.setName(inputBoxes[0].getText());
+                            currentJob.setClient(inputBoxes[1].getText());
+                            currentJob.setType(chooseIO.getChoice().charAt(3));
+                            currentJob.setFile(inputBoxes[2].getText());
+                            currentJob.setDate(Calendar.getInstance());
+                            FileIO.edit(currentJob);
+                        }
+                    } catch (IOException ioe) {
+                        System.out.println("Somethings went wrong!"); //TODO error bar
+                        ioe.printStackTrace();
                     }
-
                     Job.mergesort(Controller.jobList, Job.SORT_BY_ID);
                     Controller.mainMenu.jobTable.fillJobs(Controller.jobList, true);
                     parent.setVisible(false);

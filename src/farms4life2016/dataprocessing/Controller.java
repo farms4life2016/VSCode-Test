@@ -3,6 +3,7 @@ package farms4life2016.dataprocessing;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -61,7 +62,12 @@ public class Controller { //TODO make a log-in page
     }
 
     private static void initFromFile() {
-        FileIO.init(jobList);
+        try {
+            FileIO.init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
     }
 
     public static void saveToFile() {

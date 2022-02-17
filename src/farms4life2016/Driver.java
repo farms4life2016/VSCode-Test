@@ -29,8 +29,10 @@ public class Driver {
      * @param args 
      */
     public static void main(String[] args) {
+
+        //System.out.println("                                                                                                   \n".length());
         
-        
+        //FileIO.write2RAF("\n", 99);
         Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
 
         

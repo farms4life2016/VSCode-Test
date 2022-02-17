@@ -15,7 +15,7 @@ public class Job {
     private Calendar date;
     private boolean active;
     
-    public static final SimpleDateFormat LONG_DATE_FORMATER = new SimpleDateFormat("MMM d, yyyy '('hh:mm:ss z')'");
+    private static final SimpleDateFormat LONG_DATE_FORMATER = new SimpleDateFormat("MMM d, yyyy '('hh:mm:ss z')'");
     public static final SimpleDateFormat SHORT_DATE_FORMATER = new SimpleDateFormat("MMM.d.yyyy..hh.mm.ss..z");
 
     
@@ -238,8 +238,25 @@ public class Job {
         return active;
     }
 
+    public String getActiveString() {
+        if (active) return "Active";
+        else return "Deleted";
+    }
+
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getLongDate() {
+        return LONG_DATE_FORMATER.format(date.getTime());
+    }
+
+    public void setActive(String activeString) {
+        if (activeString.equals("Active")) {
+            active = true;
+        } else {
+            active = false;
+        }
     }
 
     public static DLinkedList linearSearch(DLinkedList jobList, String key) {
