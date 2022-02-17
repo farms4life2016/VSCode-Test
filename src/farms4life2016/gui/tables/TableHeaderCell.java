@@ -1,13 +1,11 @@
 package farms4life2016.gui.tables;
 
-import java.awt.Font;
 import java.awt.event.MouseEvent;
 
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.Colours;
 import farms4life2016.gui.buttons.InfoBox;
-import farms4life2016.gui.displays.MenuDisplay;
 
 public class TableHeaderCell extends TableCell {
 

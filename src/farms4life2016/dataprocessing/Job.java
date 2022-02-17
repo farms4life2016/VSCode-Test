@@ -15,7 +15,8 @@ public class Job {
     private Calendar date;
     private boolean active;
     
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("MMM d, yyyy '('hh:mm:ss z')'");
+    public static final SimpleDateFormat LONG_DATE_FORMATER = new SimpleDateFormat("MMM d, yyyy '('hh:mm:ss z')'");
+    public static final SimpleDateFormat SHORT_DATE_FORMATER = new SimpleDateFormat("MMM.d.yyyy..hh.mm.ss..z");
 
     
     //sorting constants
@@ -150,7 +151,7 @@ public class Job {
             output[i][2] = j.client;
             output[i][3] = Character.toString(j.type);
             output[i][4] = j.file;
-            output[i][5] = DATE_FORMAT.format(j.date.getTime());
+            output[i][5] = LONG_DATE_FORMATER.format(j.date.getTime());
             if (j.isActive()) output[i][6] = "Active";
             else output[i][6] = "Deleted";
             n = n.getNext();
@@ -163,7 +164,7 @@ public class Job {
     
     @Override
     public String toString() {
-        String out = id + "\t" + client + "\t" + type + "\t" + name + "\t" + file + "\t" + DATE_FORMAT.format(date.getTime());
+        String out = id + "\t" + client + "\t" + type + "\t" + name + "\t" + file + "\t" + LONG_DATE_FORMATER.format(date.getTime());
         return out;
     }
     
@@ -225,7 +226,7 @@ public class Job {
     public void setDate(String date) {
 
         try {
-            this.date.setTime(DATE_FORMAT.parse(date));
+            this.date.setTime(LONG_DATE_FORMATER.parse(date));
         } catch (ParseException e) {
             System.out.println("You have failed to parse the date!");
             e.printStackTrace();
@@ -261,7 +262,7 @@ public class Job {
             (j.client.toLowerCase().contains(key)) ||
             (Character.toString(j.type).toLowerCase().contains(key)) ||
             (j.file.toLowerCase().contains(key)) ||
-            (DATE_FORMAT.format(j.date.getTime()).toLowerCase().contains(key)) ) {
+            (LONG_DATE_FORMATER.format(j.date.getTime()).toLowerCase().contains(key)) ) {
 
                 //if the key is a substring of any
                 //field, then put it in the search results

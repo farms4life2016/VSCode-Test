@@ -1,7 +1,9 @@
 package farms4life2016.dataprocessing;
 
+import java.io.IOException;
 import java.util.List;
 
+import farms4life2016.fileio.FileIO;
 import farms4life2016.fileio.PorterConfig;
 
 public class JobRunner {
@@ -10,7 +12,7 @@ public class JobRunner {
     String[][] data;
     String name, delimiter, fileName, dbTable, remotePath;
 
-    public JobRunner(PorterConfig pconfig, String[] headers, List<String> inputData) {
+    public JobRunner(String workingFolder, PorterConfig pconfig) {
 
         //copy strings from porter config
         name = pconfig.getName();
@@ -20,13 +22,41 @@ public class JobRunner {
         remotePath = pconfig.getRemotePath();
 
         //copy headers
-
-        //copy data from arrays
-        colHeaders = headers;
-        data = new String[inputData.size()][];
-        for (int i = 0; i < data.length; i++) {
-            data[i] = inputData.get(i).split(delimiter);
+        int length = pconfig.getColumns().size();
+        colHeaders = new String[length];
+        for (int i = 0; i < length; i++) {
+            colHeaders[i] = pconfig.getColumns().get(i).getName();
         }
+        
+        //read data  TODO what if file name is *?
+        String filePath = workingFolder + remotePath + fileName;
+        String ext = FileIO.getFileExt(filePath);
+        try {
+            if (ext.equals("txt")) {
+                List<String> input = FileIO.readAllTxt(filePath);
+
+                data = new String[input.size()][colHeaders.length];
+                for (int i = 0; i < input.size(); i++) {
+                    data[i] = input.get(i).split(delimiter);
+                }
+
+            } else if (ext.equals("xlsx")) {
+                data = FileIO.readGrid(filePath, colHeaders.length, -1);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+       
     }
+
+    public void runJob() {
+        
+    }
+
+    public void runExport() {
+        
+    }
+
 
 }

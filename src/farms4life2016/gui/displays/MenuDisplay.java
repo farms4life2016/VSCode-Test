@@ -46,15 +46,12 @@ public class MenuDisplay extends GenericDisplay {
 				if (dimensions.contains(e.getPoint())) {
 					Controller.jobUpdater.setVisible(true, null);
 				}
-				
-				
 			}
 
 			@Override
 			public void drawSelf(Graphics2D g) {
 				super.fillBgRect(g);
 				super.drawText(g);
-				
 			}
 			
 		};
@@ -103,6 +100,7 @@ public class MenuDisplay extends GenericDisplay {
 		//we don't have a scrollbar, so this is how we tell
 		//the user how many jobs are left
 		displayBar = new NPButton(false, 0);
+		
 
 		backgroundColour = (Colours.GRAY40);
 		

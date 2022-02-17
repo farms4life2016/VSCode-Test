@@ -17,13 +17,6 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;  
 import javax.xml.bind.JAXBException;  
 import javax.xml.bind.Unmarshaller; 
-/*
-import javax.xml.parsers.DocumentBuilder; //these two imports are the only reason why
-import javax.xml.parsers.DocumentBuilderFactory; //I have to use Java 1.8 :angry: 
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;*/
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -34,7 +27,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import farms4life2016.dataprocessing.DLinkedList;
 import farms4life2016.dataprocessing.Job;
-
 
 
 public class FileIO {
@@ -455,6 +447,27 @@ public class FileIO {
         File f = new File(filePath);
         return Files.readAllLines(f.toPath());
 
+    }
+
+    /**
+     * Finds the file extension for a specified file. For example, 
+     * <code>PartyGirl.txt</code> would return <code>txt</code>.
+     * @param fileName The file name of the file. Yes you can input the 
+     * path of the file name along with the file name.
+     * @return The file extension, such as txt or xlsx. The period
+     * is NOT included.
+     */
+    public static String getFileExt(String fileName) {
+        char[] arr = fileName.toCharArray();
+        String extension = "";
+        for (int i = arr.length-1; i >= 0; i--) {
+            if (arr[i] != '.') {
+                extension = arr[i] + extension;
+            } else {
+                break;
+            }
+        }
+        return extension;
     }
 
 
