@@ -1,10 +1,13 @@
 package farms4life2016.fileio;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -437,6 +440,20 @@ public class FileIO {
         File destination = new File(destinationFile);
 
         Files.copy(original.toPath(), destination.toPath());
+
+    }
+
+    public static void moveFiles(String originalFile, String destinationFile) throws IOException {
+        File original = new File(originalFile);
+        File destination = new File(destinationFile);
+
+        Files.move(original.toPath(), destination.toPath());
+    }
+
+    public static List<String> readAllTxt(String filePath) throws IOException {
+
+        File f = new File(filePath);
+        return Files.readAllLines(f.toPath());
 
     }
 

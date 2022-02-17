@@ -109,8 +109,8 @@ public class JobUpdateDisplay extends GenericDisplay {
 
             @Override
             public void onClick(MouseEvent e) {
-                if (dimensions.contains(e.getPoint())) {
-                    //TODO check for empty strings
+                if (dimensions.contains(e.getPoint()) && noEmptyFields()) {
+                    
                     if (mode == ADD) {
                         Controller.jobList.add(new Job(100, inputBoxes[0].getText(), inputBoxes[1].getText(), chooseIO.getChoice().charAt(3), inputBoxes[2].getText(), null));
 
@@ -223,6 +223,16 @@ public class JobUpdateDisplay extends GenericDisplay {
         else chooseIO.setChoice(false);
         title.setText("Update a Job");
         updateJob.setText("Update");
+    }
+
+    private boolean noEmptyFields() {
+        //loop through textboxes to check their lengths
+        for (int i = 0; i < inputBoxes.length; i++) {
+            if (inputBoxes[i].getText().equals("")) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

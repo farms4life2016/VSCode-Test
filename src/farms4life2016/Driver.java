@@ -53,7 +53,9 @@ public class Driver {
 
         //FileIO.readXML(".\\client-data-files\\DRX\\I_Solicitation.xml");
         try {
-            DataPorterConfig dataPorterConfig= FileIO.readXML(".\\client-data-files\\DRX\\I_Plant.xml");            
+            //read xml file
+            DataPorterConfig dataPorterConfig= FileIO.readXML(".\\client-data-files\\DRX\\I_Plant.xml");      
+
             //DataPorterConfig dataPorterConfig= FileIO.readXML(".\\client-data-files\\DRX\\I_Solicitation.xml");
             //DataPorterConfig dataPorterConfig= FileIO.readXML(".\\client-data-files\\DRX\\I_Supplier.xml");            
             //DataPorterConfig dataPorterConfig= FileIO.readXML(".\\client-data-files\\DRX\\I_BOM.xml");
@@ -65,15 +67,22 @@ public class Driver {
             //DataPorterConfig dataPorterConfig= FileIO.readXML(".\\client-data-files\\GYU\\I_BOM.xml");
             //DataPorterConfig dataPorterConfig= FileIO.readXML(".\\client-data-files\\GYU\\E_BOM.xml");            
             //DataPorterConfig dataPorterConfig= FileIO.readXML(".\\client-data-files\\GYU\\E_RequestFile.xml");
+
+            //error with reading xml file
             if(dataPorterConfig == null){
                 System.out.println("The config file is not right.");
                 return;
             }
             
             //get PorterConfig
-            List<PorterConfig> porterConfigs=dataPorterConfig.getPorterConfigs();  
-            for(PorterConfig porterConfig:porterConfigs) 
-            {  
+            List<PorterConfig> porterConfigs = dataPorterConfig.getPorterConfigs();  
+
+            //loop through each porterconfig in the file
+            //there may be multiple. call porterConfigs.size() for length
+            for (PorterConfig porterConfig : porterConfigs) {  
+
+                //this part is all about reading the .txt file. TODO use BufferedReader
+
                 //get the data file, this is an example, you can use other methods to read the file
                 String dataFilename =  dataPorterConfig.getWorkingFolder()
                     + porterConfig.getRemotePath() + porterConfig.getFilename();
@@ -86,10 +95,15 @@ public class Driver {
                     System.out.println(data);
                 }
                 myReader.close();
+
+                //end of file reading
+
             }
         } catch (Exception e) {  
+
+            //log the error instead of printing to console
             logger.error(e.getMessage());
-            //e.printStackTrace();  
+            
         }  
 
       
