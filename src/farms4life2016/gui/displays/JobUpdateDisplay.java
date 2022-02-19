@@ -249,6 +249,6 @@ public class JobUpdateDisplay extends GenericDisplay {
             }
         }
         return true;
-    }
+    } //TODO show error message on gui
 
 }

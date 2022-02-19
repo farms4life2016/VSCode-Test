@@ -1,7 +1,6 @@
 package farms4life2016.dataprocessing;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import farms4life2016.fileio.PorterConfig;
 public class JobRunner {
 
     private Job runThisJob;
-    private String errorMessage;
+    private String errorMessage; //the heck are we doing with this variable
 
     public JobRunner(Job j) {
         runThisJob = j;
@@ -32,7 +31,7 @@ public class JobRunner {
 
     }
 
-    public void exportToFile() throws Exception {
+    private void exportToFile() throws Exception {
 
         DataPorterConfig dpc = getConfigFromXML();
         List<PorterConfig> portConfig = dpc.getPorterConfigs();
@@ -42,23 +41,48 @@ public class JobRunner {
 
             //get export file's path
             String exportPath = dpc.getWorkingFolder() + pc.getRemotePath() + pc.getFilename();
-
-            //delete the file if it already exists to prevent overriding issues
             File target = new File(exportPath);
-            if (target.exists()) {
-                Files.delete(target.toPath());
-            } //do we even need this if the fileio methods default to overwriting existing files????
 
-            //read data from db
-            List<String[]> dbData = DatabaseIO.readData(pc.getDbSproc(), runThisJob.getClient());
+            try {
+                
+                //read data from db and convert to 2D str array
+                List<String[]> dbData = DatabaseIO.readData(pc.getDbSproc(), runThisJob.getClient());
+                String[][] data = new String[dbData.size()][pc.getColumns().size()];
+                for (int i = 0; i < data.length; i++) {
+                    data[i] = dbData.get(i);
+                }
 
-            //TODO write to file
+                //delete the file if it already exists to prevent overriding issues
+                if (target.exists()) {
+                    Files.delete(target.toPath());
+                } //do we even need this if the fileio methods default to overwriting existing files????
 
+                //write txt
+                if (FileIO.getFileExt(pc.getFilename()).equals("txt")) {
+                    FileIO.writeTableToTxt(target, data, pc.getDelimiter());
+                //write excel
+                } else if (FileIO.getFileExt(pc.getFilename()).equals("xlsx")) {
+                    FileIO.writeGrid(exportPath, data);
+                }
+
+                //no need for timestamp or renaming of files if successful
+
+            } catch (Exception e) { //TODO display error on gui
+                //handle the failure to read db or write to a file
+                Controller.LOGGER4J.error(e.getMessage());
+
+                //move the partially constructed file to the failure folder.
+                if (target.exists()) {
+                    FileIO.moveFiles(target.getPath(), target.getParent() + "\\Failure\\" + target.getName() + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime()));
+                }
+
+            } //note that there might be other exceptions such as the XML file not reading properly. 
+            //these are not handled in this catch block
 
         }
     }
 
-    public void importFromFile() throws Exception {
+    private void importFromFile() throws Exception {
 
         DataPorterConfig dpc = getConfigFromXML(); //read XML
         List<PorterConfig> portConfig = dpc.getPorterConfigs();

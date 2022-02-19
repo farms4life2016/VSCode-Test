@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.DNode;
 import farms4life2016.dataprocessing.Job;
+import farms4life2016.dataprocessing.JobRunner;
 import farms4life2016.gui.Colours;
 import farms4life2016.gui.displays.MenuDisplay;
 import farms4life2016.gui.tables.TableRow;
@@ -22,12 +23,15 @@ public class ActionButtons extends Button {
 
             @Override
             public void onClick(MouseEvent e) {
-                // TODO run the job
+
                 if (dimensions.contains(e.getPoint())) {
-                    System.out.println("run the job");
+                    try {
+                        JobRunner jr = new JobRunner(parent.getJob());
+                        jr.run();
+                    } catch (Exception ex) {
+                        ex.printStackTrace(); //log this? display on gui? TODO
+                    }
                 }
-                
-                
             }
             
         };

@@ -66,7 +66,7 @@ public class DatabaseIO {
         return result;
     }      
     
-    public static void WriteData(String dBTable, String[][] tableData) throws Exception {
+    public static void WriteData(String dBTable, String[][] tableData) throws Exception { //TODO research this part please
         try (Connection con = DriverManager.getConnection(CONNECTION_URL); Statement stmt = con.createStatement();) {
         }
         // Handle any errors that may have occurred.
@@ -75,9 +75,7 @@ public class DatabaseIO {
         }
     }  
     
-    //not sure when the below two methods are used...
-
-
+    
     private static ResultSet executeSprocNoParameter(String sProcName) throws Exception {
         Connection con = DriverManager.getConnection(CONNECTION_URL); Statement stmt = con.createStatement();
         String sqlString = "EXEC " + sProcName;
@@ -97,7 +95,7 @@ public class DatabaseIO {
         }
         // Handle any errors that may have occurred.
         catch (SQLException e) {
-            throw new Exception(String.format("Unable to generateLoadingId in the database. Error Message: %s", e.getMessage()));
+            throw new Exception("Unable to generateLoadingId in the database. Error Message: " + e.getMessage());
         }
 
         return result;

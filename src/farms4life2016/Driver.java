@@ -27,25 +27,9 @@ public class Driver {
      */
     public static void main(String[] args) {
 
-        //Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
+        Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
 
-        try {
-            System.out.println(Arrays.toString("✓".getBytes("UTF-8")));
-            System.out.println(new String("✓".getBytes("UTF-8"), "UTF-8"));
-        } catch (UnsupportedEncodingException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-
-        try {
-            File folder = new File(".\\init\\menu.txt");
-            
-            System.out.println(folder.getName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
+        
         
     } //end main method  
     

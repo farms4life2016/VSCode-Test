@@ -37,7 +37,6 @@ public class FileIO {
     // https://www.javatpoint.com/how-to-read-excel-file-in-java
     // https://www.geeksforgeeks.org/how-to-write-data-into-excel-sheet-using-java/
 
-    private static final String BLANKS_100 = "                                                                                                   \n";
     public static int nextId = 1;
 
     /**
@@ -473,6 +472,36 @@ public class FileIO {
 
         File f = new File(filePath);
         return Files.readAllLines(f.toPath());
+
+    }
+
+    public static void writeTableToTxt(String filePath, String[][] data, String separator) throws IOException {
+        writeTableToTxt(new File(filePath), data, separator);
+    }
+
+    public static void writeTableToTxt(File file, String[][] data, String separator) throws IOException {
+
+        //make a new writer
+        BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+        String row = "";
+
+        //loop through data to extract the content in all cells
+        for (int i = 0; i < data.length; i++) {
+            
+            for (int j = 0; j < data[i].length; j++) {
+                row += data[i][j]; //append to row
+
+                //add a delimitor/separator afterwards, but append newline after last data point
+                if (j != data[i].length) row += separator;
+                else row += "\n";
+            }
+
+            //write to file
+            bw.write(row);
+        }
+
+        //close writer
+        bw.close();
 
     }
 
