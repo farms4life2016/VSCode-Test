@@ -1,9 +1,11 @@
 package farms4life2016.fileio;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
@@ -76,13 +78,15 @@ public class FileIO {
      */
     public static void init() throws IOException {
 
-        List<String> list = readAllTxt(".\\init\\menu.txt");
+        List<String> list = readAllTxt(".\\init\\menuout.txt");
 
-        for (int i = 1; i < list.size(); i++) {
+        for (int i = 0; i < list.size()-1; i++) {
             String[] items = list.get(i).split("\t");
             Job j = new Job();
+            System.out.println(Arrays.toString(items));
 
             j.setActive(items[6].trim());
+            
 
             //deactivated jobs are deleted jobs
             if (!j.isActive()) {
@@ -106,6 +110,7 @@ public class FileIO {
 
     public static void edit(Job j) throws IOException {
 
+        //use randomaccessfile
         RandomAccessFile initFile = new RandomAccessFile(".\\init\\menuout.txt", "rw");
         
         String output = "";
@@ -115,12 +120,19 @@ public class FileIO {
         output += "\t" + j.getType();
         output += "\t" + j.getFile();
         output += "\t" + j.getLongDate();
-        output += "\t" + j.getActiveString();
+        output += "\t" + j.getActiveString() + " ";
+        String temp = "\n";
+
+
+        for (int i = output.length(); i < 99; i++) {
+            temp = ' ' + temp;
+        }
+        output += temp;
+        
 
         //clear previous data
         initFile.setLength(nextId*100);
-        initFile.seek(j.getId()*100);
-        //initFile.write(BLANKS_100.getBytes());
+        initFile.seek((j.getId()-1)*100);
         initFile.write(output.getBytes());
 
         initFile.close();
@@ -403,6 +415,11 @@ public class FileIO {
 */
 
     //https://www.javatpoint.com/jaxb-unmarshalling-example
+    /**
+     * Reads an XML file and constructs an Object to with the data from the file.
+     * @param filePath the file's path
+     * @return
+     */
     public static DataPorterConfig readXML(String filePath) {
 
         DataPorterConfig dataPorterConfig = null;
@@ -416,74 +433,12 @@ public class FileIO {
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();  
             dataPorterConfig = (DataPorterConfig) jaxbUnmarshaller.unmarshal(file);  
             
-            //comment below when no need to show the config data(config file is OK)
-            System.out.println(dataPorterConfig.getWorkingFolder()); 
-            System.out.println("dataImports:");        
-            List<PorterConfig> porterConfigs=dataPorterConfig.getPorterConfigs();  
-            for(PorterConfig porterConfig:porterConfigs) 
-            {                
-                System.out.println("one dataImport:");             
-                System.out.println(porterConfig.getName()); 
-                System.out.println(porterConfig.getDelimiter()); 
-                System.out.println(porterConfig.getFilename()); 
-                System.out.println(porterConfig.getDbTable()); 
-                System.out.println(porterConfig.getRemotePath());            
-                System.out.println("columns:");        
-                List<Column> columns=porterConfig.getColumns();   
-                for(Column column:columns) 
-                {              
-                    System.out.println("one column:"); 
-                    System.out.println(column.getName());
-                }
-                //End: comment below when no need(config file is OK)
-            }
         } catch (JAXBException e) {  
             e.printStackTrace();  
         }  
 
         return dataPorterConfig;
         
-    }
-
-    /**
-     * ok random access files are a little useless XD
-     * @return
-     */
-    public static String readRAF() {
-        byte b[] = new byte[50];
-        String s = null;
-        try {
-            RandomAccessFile test = new RandomAccessFile("output.txt", "r");
-            test.seek(0);
-            
-            test.read(b);
-            s = new String(b);
-
-            test.seek(1);
-            Arrays.fill(b, (byte)0);
-            test.read(b, 0, 30);
-            s += ("   " + new String(b));
-            test.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return s;
-
-    }
-
-    public static void write2RAF(String s, int start) {
-        try {
-            RandomAccessFile test = new RandomAccessFile("hellobro.txt", "rw");
-            test.setLength(100);
-            test.seek(start * 1L);
-            test.writeBytes(s);
-            //test.setLength(1000);
-            test.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -509,6 +464,11 @@ public class FileIO {
         Files.move(original.toPath(), destination.toPath());
     }
 
+    public static void deleteFile(String target) throws IOException {
+        File toDelete = new File(target);
+        Files.delete(toDelete.toPath()); //say bye bye! THERE IS NO UNDO!!!
+    }
+
     public static List<String> readAllTxt(String filePath) throws IOException {
 
         File f = new File(filePath);
@@ -519,8 +479,9 @@ public class FileIO {
     /**
      * Finds the file extension for a specified file. For example, 
      * <code>PartyGirl.txt</code> would return <code>txt</code>.
-     * @param fileName The file name of the file. Yes you can input the 
-     * path of the file name along with the file name.
+     * @param fileName The file name of the file. Yes, you can input the 
+     * path of the file name along with the file name, but the file
+     * MUST have an extension (or else this function will return something weird).
      * @return The file extension, such as txt or xlsx. The period
      * is NOT included.
      */
@@ -534,6 +495,7 @@ public class FileIO {
                 break;
             }
         }
+        
         return extension;
     }
 

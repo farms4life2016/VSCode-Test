@@ -1,25 +1,22 @@
 package farms4life2016;
 
 import java.io.File;
-import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.io.IOException;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner; // Import the Scanner class to read text files
 /*
 import java.util.logging.Level;
 import java.util.logging.Logger;*/
 
-import java.awt.Rectangle;
-import java.util.Calendar;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import farms4life2016.dataprocessing.Controller;
-
-import farms4life2016.dataprocessing.DLinkedList;
 import farms4life2016.dataprocessing.Job;
-import farms4life2016.fileio.*;
+import farms4life2016.dataprocessing.RunJob;
+import farms4life2016.fileio.DataPorterConfig;
+import farms4life2016.fileio.FileIO;
+import farms4life2016.fileio.PorterConfig;
 
 
 public class Driver {
@@ -30,10 +27,24 @@ public class Driver {
      */
     public static void main(String[] args) {
 
-        //System.out.println("                                                                                                   \n".length());
-        
-        //FileIO.write2RAF("\n", 99);
-        Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
+        //Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
+
+        try {
+            System.out.println(Arrays.toString("✓".getBytes("UTF-8")));
+            System.out.println(new String("✓".getBytes("UTF-8"), "UTF-8"));
+        } catch (UnsupportedEncodingException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
+        try {
+            File folder = new File(".\\init\\menu.txt");
+            
+            System.out.println(folder.getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         
     } //end main method  
@@ -51,7 +62,7 @@ public class Driver {
 
     public static void readXMLTest() {
 
-        Logger logger = LogManager.getLogger(Driver.class);
+        
 
         //FileIO.readXML(".\\client-data-files\\DRX\\I_Solicitation.xml");
         try {
@@ -104,11 +115,40 @@ public class Driver {
         } catch (Exception e) {  
 
             //log the error instead of printing to console
-            logger.error(e.getMessage());
+            //logger.error(e.getMessage());
             
         }  
 
       
+    }
+
+    public static void runXMLwithDB() {
+        
+        Job job = new Job (1, "Test", "DRX", 'E', "E_BOM.xml", null);
+
+        //Job job = new Job (1, "Test", "DRX", 'I', "I_Plant.xml", null);
+
+        RunJob runJob = new RunJob(Controller.LOGGER4J);
+
+        try {
+
+            String errorMessage = runJob.run(job);
+
+            if(!errorMessage.isBlank()){
+
+                System.out.println(errorMessage);
+
+            } else {
+
+                System.out.println("The job ran successfully");
+
+            }    
+
+        } catch (Exception e) {  
+
+            Controller.LOGGER4J.error(e.getMessage());
+
+        }          
     }
 
 }

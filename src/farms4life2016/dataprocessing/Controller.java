@@ -10,14 +10,17 @@ import javax.swing.JFrame;
 
 import farms4life2016.fileio.FileIO;
 import farms4life2016.gui.StringDrawer;
+import farms4life2016.gui.displays.JobUpdateDialogue;
 import farms4life2016.gui.displays.MenuDisplay;
 import farms4life2016.gui.displays.StartDisplay;
-import farms4life2016.gui.displays.JobUpdateDialogue;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 
  */
-public class Controller { //TODO make a log-in page
+public class Controller { 
 
     //I decided to go against my plans and use a linked list instead of an array list
     public static DLinkedList jobList = new DLinkedList();
@@ -31,6 +34,9 @@ public class Controller { //TODO make a log-in page
 
     //window size
     public static final int WINDOW_W = 1200, WINDOW_H = 720; //50 px for the top bar thingy
+
+    //logger
+    public static final Logger LOGGER4J = LogManager.getLogger();
 
     /**
      * I'm not sure we need a fancy constructor.
@@ -55,7 +61,7 @@ public class Controller { //TODO make a log-in page
     public static void terminate() {
 
         //write init file based on current job list
-        saveToFile();
+        //saveToFile();
 
         //TODO ensure that all file IO tasks are done and closed safely before exiting
         System.exit(0);

@@ -116,20 +116,20 @@ public class JobUpdateDisplay extends GenericDisplay {
                         if (mode == ADD) {
                             Job toAdd = new Job();
                             toAdd.setId(FileIO.nextId);
-                            toAdd.setName(inputBoxes[0].getText());
-                            toAdd.setClient(inputBoxes[1].getText());
+                            toAdd.setName(inputBoxes[0].getText().trim());
+                            toAdd.setClient(inputBoxes[1].getText().trim());
                             toAdd.setType(chooseIO.getChoice().charAt(3));
-                            toAdd.setFile(inputBoxes[2].getText());
+                            toAdd.setFile(inputBoxes[2].getText().trim());
                             toAdd.setDate(Calendar.getInstance());
                             toAdd.setActive(true);
                             Controller.jobList.add(toAdd);
                             FileIO.add(toAdd);
 
                         } else if (mode == UPDATE) {
-                            currentJob.setName(inputBoxes[0].getText());
-                            currentJob.setClient(inputBoxes[1].getText());
+                            currentJob.setName(inputBoxes[0].getText().trim());
+                            currentJob.setClient(inputBoxes[1].getText().trim());
                             currentJob.setType(chooseIO.getChoice().charAt(3));
-                            currentJob.setFile(inputBoxes[2].getText());
+                            currentJob.setFile(inputBoxes[2].getText().trim());
                             currentJob.setDate(Calendar.getInstance());
                             FileIO.edit(currentJob);
                         }
@@ -244,6 +244,7 @@ public class JobUpdateDisplay extends GenericDisplay {
         //loop through textboxes to check their lengths
         for (int i = 0; i < inputBoxes.length; i++) {
             if (inputBoxes[i].getText().equals("")) {
+                System.out.println("you have empty fields!");
                 return false;
             }
         }

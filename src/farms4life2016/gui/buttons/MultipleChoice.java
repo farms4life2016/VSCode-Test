@@ -98,13 +98,13 @@ public class MultipleChoice extends Button {
         if (isLeft) {
             left.setSelected(true);
             right.setSelected(false);
-            left.setText('✓' + "  Import");
+            left.setText('\u2713' + "  Import"); // '\u2713' is a check mark characater in UTF-8
             right.setText("   Export");
         } else {
             left.setSelected(false);
             right.setSelected(true);
             left.setText("   Import");
-            right.setText('✓' + "  Export");
+            right.setText('\u2713' + "  Export");
         }
     }
     

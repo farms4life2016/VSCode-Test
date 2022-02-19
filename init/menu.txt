@@ -1,4 +1,3 @@
-Id	Name	Client	Type	File	Date	Status
 1	Supplier	DRX	I	I_Supplier.xml	Feb 29, 2004 (00:00:00 EST)	Active
 2	Plant	DRX	I	I_Plant.xml	Feb 29, 2004 (00:00:00 EST)	Active
 3	Solicitation	DRX	I	I_Solicitation.xml	Feb 29, 2004 (00:00:00 EST)	Active
