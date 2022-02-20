@@ -60,9 +60,6 @@ public class Controller {
      */
     public static void terminate() {
 
-        //write init file based on current job list
-        //saveToFile();
-
         //TODO ensure that all file IO tasks are done and closed safely before exiting
         System.exit(0);
     }
@@ -70,14 +67,10 @@ public class Controller {
     private static void initFromFile() {
         try {
             FileIO.init();
-        } catch (IOException e) {
+        } catch (IOException e) { //I guess we make a new init file?
             e.printStackTrace();
         }
         
-    }
-
-    public static void saveToFile() {
-        FileIO.exit(jobList);
     }
 
     /**
@@ -95,7 +88,7 @@ public class Controller {
         mainMenu = new MenuDisplay(window); //make a new window
         startMenu = new StartDisplay(window);
         Container c = window.getContentPane(); //make something to add all the things to
-        jobUpdater = new JobUpdateDialogue(window, "Add/Update a Job", true);      
+        jobUpdater = new JobUpdateDialogue(window, "Add/Update a Job", true);   
 
         //set window size, cannot resize
         window.setSize(WINDOW_W, WINDOW_H);

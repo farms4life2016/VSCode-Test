@@ -3,11 +3,15 @@ package farms4life2016.gui.buttons;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+
+import javax.xml.bind.JAXBException;
 
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.DNode;
 import farms4life2016.dataprocessing.Job;
 import farms4life2016.dataprocessing.JobRunner;
+import farms4life2016.fileio.FileIO;
 import farms4life2016.gui.Colours;
 import farms4life2016.gui.displays.MenuDisplay;
 import farms4life2016.gui.tables.TableRow;
@@ -24,13 +28,14 @@ public class ActionButtons extends Button {
             @Override
             public void onClick(MouseEvent e) {
 
+                //run the job
                 if (dimensions.contains(e.getPoint())) {
-                    try {
-                        JobRunner jr = new JobRunner(parent.getJob());
-                        jr.run();
-                    } catch (Exception ex) {
-                        ex.printStackTrace(); //log this? display on gui? TODO
-                    }
+
+                    //start counting errors as well
+                    Controller.mainMenu.errorBar.resetErrorCount();
+                    JobRunner jr = new JobRunner(parent.getJob());
+                    jr.run();
+                    
                 }
             }
             
@@ -39,12 +44,10 @@ public class ActionButtons extends Button {
 
             @Override
             public void onClick(MouseEvent e) {
-                // TODO open editor
+                //open job editor
                 if (dimensions.contains(e.getPoint())) {
                     Controller.jobUpdater.setVisible(true, parent.getJob());
                 }
-                
-                
             }
             
         };
@@ -54,7 +57,10 @@ public class ActionButtons extends Button {
             public void onClick(MouseEvent e) {
                 
                 if (dimensions.contains(e.getPoint())) {
+
+                    try {
                     //delete job
+                    parent.getJob().setActive(false);
                     int removeId = parent.getJob().getId(); //all ids are unique
 
                     DNode n = Controller.jobList.getNode(0);
@@ -69,8 +75,16 @@ public class ActionButtons extends Button {
                         n = n.getNext();
                     }
 
+                    //edit the init file
+                    FileIO.edit(parent.getJob());
+
+                    //update table in menu
                     Controller.mainMenu.setInfoText(InfoBox.DEFAULT_INFO_STRING);
                     parent.getParent().fillJobs(Controller.jobList, true);
+
+                    } catch (IOException ex) {
+                        ex.printStackTrace(); //if init file cannot be edited
+                    }
 
                 }
             }

@@ -15,8 +15,8 @@ public class Job {
     private Calendar date;
     private boolean active;
     
-    private static final SimpleDateFormat LONG_DATE_FORMATER = new SimpleDateFormat("MMM d, yyyy '('hh:mm:ss z')'");
-    public static final SimpleDateFormat SHORT_DATE_FORMATER = new SimpleDateFormat("MMM.d.yyyy..hh.mm.ss..z");
+    public static final SimpleDateFormat LONG_DATE_FORMATER = new SimpleDateFormat("MMM d, yyyy '('hh:mm:ss z')'");
+    public static final SimpleDateFormat SHORT_DATE_FORMATER = new SimpleDateFormat("yyyymmddhhmmss");
 
     
     //sorting constants
@@ -54,6 +54,9 @@ public class Job {
     }
 
     public static void mergesort(DLinkedList tableRows, int field) {
+
+        if (tableRows.length() == 0) return; //can't sort empty list
+        
         split(tableRows, 0, tableRows.length()-1, field);
     }
 
@@ -240,7 +243,7 @@ public class Job {
 
     public String getActiveString() {
         if (active) return "Active";
-        else return "Deleted";
+        else return "Deletd"; //we need to have the same number of chars for both statuses
     }
 
     public void setActive(boolean active) {

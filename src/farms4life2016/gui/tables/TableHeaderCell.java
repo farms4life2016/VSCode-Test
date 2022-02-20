@@ -27,9 +27,11 @@ public class TableHeaderCell extends TableCell {
         //sort stuff
         if (dimensions.contains(e.getPoint())) {
 
+            //reset colours for all header cells and change colour for current cell
             parent.resetColours();
             if (!text.equals("Actions")) setSelected(true);
 
+            //sorting by fields TODO this should only sort the tablerows, not the entire joblist
             if (text.equals("ID") || text.equals("Actions")) {
                 Job.mergesort(Controller.jobList, Job.SORT_BY_ID);
             } else if (text.equals("Name")) {

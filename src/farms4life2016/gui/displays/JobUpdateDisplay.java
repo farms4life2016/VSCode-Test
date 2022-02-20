@@ -134,7 +134,7 @@ public class JobUpdateDisplay extends GenericDisplay {
                             FileIO.edit(currentJob);
                         }
                     } catch (IOException ioe) {
-                        System.out.println("Somethings went wrong!"); //TODO error bar
+                        System.out.println("Could not access init file"); //TODO error bar
                         ioe.printStackTrace();
                     }
                     Job.mergesort(Controller.jobList, Job.SORT_BY_ID);

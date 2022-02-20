@@ -1,8 +1,6 @@
 package farms4life2016.gui.displays;
 
-
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -14,19 +12,23 @@ import java.awt.Container;
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.gui.Colours;
 import farms4life2016.gui.buttons.Button;
+import farms4life2016.gui.buttons.ErrorBox;
 import farms4life2016.gui.buttons.InfoBox;
 import farms4life2016.gui.buttons.NPButton;
 import farms4life2016.gui.buttons.SearchBar;
-import farms4life2016.gui.buttons.TextField;
 import farms4life2016.gui.tables.Table;
 
 
 public class MenuDisplay extends GenericDisplay {
     
+	//these two are public since a lot of other classes
+	//interact with them
 	public Table jobTable;
+	public ErrorBox errorBar;
+
 	private Button extraInfo, createNewJob, toStart;
 	private SearchBar searchBar;
-	private NPButton errorBar, displayBar;
+	private NPButton displayBar;
 	
 
 	/**
@@ -95,7 +97,7 @@ public class MenuDisplay extends GenericDisplay {
 		toStart.setUnselectedColour(Colours.BLUE);
 		toStart.setSelected(false);
 
-		errorBar = new NPButton(false, 0);
+		errorBar = new ErrorBox();
 
 		//we don't have a scrollbar, so this is how we tell
 		//the user how many jobs are left
@@ -122,7 +124,6 @@ public class MenuDisplay extends GenericDisplay {
 			searchBar.onRefresh();
 		}
 		
-		
 	}
 	
 	@Override
@@ -145,17 +146,22 @@ public class MenuDisplay extends GenericDisplay {
 		//detect left-click
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			jobTable.onClick(e);
-			searchBar.onClick(e);
 			createNewJob.onClick(e);
 			toStart.onClick(e);
+
+			//java is dumb. when dialogue goes visible, all keyboard input
+			//goes to dialogue, even when dialogue closes; so we have to manually redirect
+			//key input back to main menu
+			if (searchBar.getDimensions().contains(e.getPoint())) {
+				addNotify();
+				searchBar.onClick(e);
+			}
+			
 		}
 		
 	}
 
-	/*
-	 * For the search bar later on 
-	 */
-	
+	//search bar
 	@Override
 	public void keyTyped(KeyEvent e) {
 		searchBar.onType(e);
@@ -166,7 +172,6 @@ public class MenuDisplay extends GenericDisplay {
 	 * Scrollwheel might be easier to implement than buttons to change pages,
 	 * plus the former is more user-friendly
 	 */
-
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		jobTable.onScroll(e);
@@ -176,8 +181,6 @@ public class MenuDisplay extends GenericDisplay {
 	/*
  	 * We have to specify more about how to close the program
  	 */
-
-
 	@Override
 	public void windowClosing(WindowEvent e) {
 		System.out.println("you tried to close the program!"); //more debugging stuff

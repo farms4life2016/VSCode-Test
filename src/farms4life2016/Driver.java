@@ -3,6 +3,7 @@ package farms4life2016;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
@@ -28,8 +29,8 @@ public class Driver {
     public static void main(String[] args) {
 
         Controller.run(); //I spent a lot of time trying to sync github with my project. I'm glad that it worked out in the end.
-
-        
+        IOException e = new IOException();
+        System.out.println(e instanceof IOException );
         
     } //end main method  
     

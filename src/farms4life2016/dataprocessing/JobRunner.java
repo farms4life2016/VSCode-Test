@@ -1,11 +1,14 @@
 package farms4life2016.dataprocessing;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.xml.bind.JAXBException;
 
 import farms4life2016.database.DatabaseIO;
 import farms4life2016.fileio.DataPorterConfig;
@@ -15,26 +18,45 @@ import farms4life2016.fileio.PorterConfig;
 public class JobRunner {
 
     private Job runThisJob;
-    private String errorMessage; //the heck are we doing with this variable
 
     public JobRunner(Job j) {
         runThisJob = j;
     }
 
-    public void run() throws Exception {
 
-        if (runThisJob.getType() == 'I') {
-            importFromFile();
-        } else {
-            exportToFile();
+    public void run() {
+
+        boolean successful = true;
+
+        try { //match job type with respective method
+            if (runThisJob.getType() == 'I') {
+                successful = importFromFile();
+            } else {
+                successful = exportToFile();
+            }
+
+        //the entire job fails if the config file cannot be read in
+        } catch (JAXBException e) { //TODO more errors
+            successful = false;
+            Controller.LOGGER4J.error("The XML file for Job #" + runThisJob.getId() + " is missing or written using the incorrect format: " + e.getMessage());
+            Controller.mainMenu.errorBar.increaseErrorCount("The XML file for Job #" + runThisJob.getId() + " is missing or written using the incorrect format.", runThisJob.getId());
+        }
+
+        if (successful) { //also show successes
+            Controller.mainMenu.errorBar.showSuccess(runThisJob.getId());
         }
 
     }
 
-    private void exportToFile() throws Exception {
+    /**
+     * 
+     * @return true means that the job was run successfully without any file IO problems
+     */
+    private boolean exportToFile() throws JAXBException { 
 
         DataPorterConfig dpc = getConfigFromXML();
         List<PorterConfig> portConfig = dpc.getPorterConfigs();
+        boolean successful = true;
 
         //loop through all subjobs in the config file
         for (PorterConfig pc : portConfig) {
@@ -67,25 +89,52 @@ public class JobRunner {
 
                 //no need for timestamp or renaming of files if successful
 
-            } catch (Exception e) { //TODO display error on gui
+            //each individual sub-job should handle errors so the next sub-jobs can still run to completion 
+            } catch (SQLException | IOException e) { 
+
+                successful = false;
+
                 //handle the failure to read db or write to a file
-                Controller.LOGGER4J.error(e.getMessage());
+                if (e instanceof SQLException) {
+                    Controller.LOGGER4J.error("Failed to read from database while trying to create " + target.getName() + " for Job #" + runThisJob.getId() + ": " +  e.getMessage());
+                    Controller.mainMenu.errorBar.increaseErrorCount("Failed to read from database while trying to create " + target.getName() + " for Job #" + runThisJob.getId() + ".", runThisJob.getId());
+               
+                } else if (e instanceof IOException) {
+                    Controller.LOGGER4J.error("Failed to access and overwrite " + target.getName() + " for Job #" + runThisJob.getId() + ": " + e.getMessage());
+                    Controller.mainMenu.errorBar.increaseErrorCount("Failed to access and overwrite " + target.getName() + " for Job #" + runThisJob.getId() + ".", runThisJob.getId());
+
+                }
 
                 //move the partially constructed file to the failure folder.
                 if (target.exists()) {
-                    FileIO.moveFiles(target.getPath(), target.getParent() + "\\Failure\\" + target.getName() + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime()));
+                    String destination = target.getParent() + "\\Failure\\" + //insert date before the dot in the extension
+                    target.getName().substring(0, target.getName().lastIndexOf('.')) + '-'//assume file has extension
+                    + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime()) + target.getName().substring(target.getName().lastIndexOf('.'));
+
+                    try {
+                        FileIO.moveFiles(target.getPath(), destination); //this will throw io exception :(
+                    } catch (IOException ex) {
+                        Controller.LOGGER4J.error("Failed to move " + target.getName() + "to the failure folder for Job #" + runThisJob.getId() + ": " + ex.getMessage());
+                        Controller.mainMenu.errorBar.increaseErrorCount("Failed to move " + target.getName() + "to the failure folder for Job #" + runThisJob.getId() + ".", runThisJob.getId());
+
+                    }
+                    
                 }
 
             } //note that there might be other exceptions such as the XML file not reading properly. 
             //these are not handled in this catch block
 
-        }
-    }
+        } // end for
 
-    private void importFromFile() throws Exception {
+        return successful;
+
+    } //end export
+
+    private boolean importFromFile() throws JAXBException { 
 
         DataPorterConfig dpc = getConfigFromXML(); //read XML
         List<PorterConfig> portConfig = dpc.getPorterConfigs();
+        boolean successful = true;
 
         //loop through all subjobs in the config file
         for (PorterConfig pc : portConfig) {
@@ -101,7 +150,7 @@ public class JobRunner {
 
                 for (File f : folderContents) {
                     //only add files that have the same extension as *.txt or *.xlsx
-                    if (FileIO.getFileExt(f.getName()).equals(FileIO.getFileExt(pc.getFilename()))) {
+                    if (FileIO.getFileExt(f).equals(FileIO.getFileExt(pc.getFilename()))) {
                         files.add(f);
                     }
                 }
@@ -120,7 +169,7 @@ public class JobRunner {
                     String[][] data = null;
                     
                     //read txt files
-                    if (FileIO.getFileExt(f.getName()).equals("txt")) {
+                    if (FileIO.getFileExt(f).equals("txt")) {
 
                         List<String> input = FileIO.readAllTxt(f.getPath());
 
@@ -137,7 +186,7 @@ public class JobRunner {
                         }
 
                     //reading excel files
-                    } else if (FileIO.getFileExt(f.getName()).equals("xlsx")) {
+                    } else if (FileIO.getFileExt(f).equals("xlsx")) {
 
                         String[][] temp = FileIO.readGrid(f.getPath(), pc.getColumns().size(), -1);
                         data = new String[temp.length][temp[0].length+2];
@@ -156,34 +205,55 @@ public class JobRunner {
                     //write to database
                     DatabaseIO.WriteData(pc.getDbTable(), data);
 
-                    //move to sucess folder TODO with current timestamp? !!CURRENTLY COPYING!!! 
-                    FileIO.copyFiles(f.getPath(), f.getParent() + "\\Success\\" + f.getName() + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime()));
-                    
-                } catch (Exception e) { //handle errors regarding the current file
+                    //move to sucess folder TODO  !!CURRENTLY COPYING!!! 
+                    String destination = f.getParent() + "\\Success\\" +  //insert date before the dot in the extension
+                        f.getName().substring(0, f.getName().lastIndexOf('.')) + '-'//assume file has extension
+                        + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime()) + f.getName().substring(f.getName().lastIndexOf('.'));
 
-                    //log message TODO and also display on menu
-                    Controller.LOGGER4J.error(e.getMessage());
+                    FileIO.copyFiles(f.getPath(), destination);
 
-                    //move to the failure folder with date stamp
-                    FileIO.copyFiles(f.getPath(), f.getParent() + "\\Failure\\" + f.getName() + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime()));
-                    
+                } catch (SQLException | IOException e) { //handle errors regarding the current file
+
+                    successful = false;
+
+                    //handle the failure to read db or write to a file
+                    if (e instanceof SQLException) {
+                        Controller.LOGGER4J.error("Failed to write to database after reading " + f.getName() + " for Job #" + runThisJob.getId() + ": " +  e.getMessage());
+                        Controller.mainMenu.errorBar.increaseErrorCount("Failed to write to database after reading " + f.getName() + " for Job #" + runThisJob.getId() + ".", runThisJob.getId());
+                    } else if (e instanceof IOException) {
+                        Controller.LOGGER4J.error("Failed to read " + f.getName() + " for Job #" + runThisJob.getId() + ": " + e.getMessage());
+                        Controller.mainMenu.errorBar.increaseErrorCount("Failed to read " + f.getName() + " for Job #" + runThisJob.getId() + ".", runThisJob.getId());
+
+                    }
+
+                    String destination = f.getParent() + "\\Failure\\" + //insert date before the dot in the extension
+                        f.getName().substring(0, f.getName().lastIndexOf('.')) + '-' //assume file has extension
+                        + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime()) + f.getName().substring(f.getName().lastIndexOf('.'));
+
+                    //move to failure folder TODO  !!CURRENTLY COPYING!!! 
+                    try {
+                        FileIO.copyFiles(f.getPath(), destination); //this will throw io exception :(
+                    } catch (IOException ex) {
+                        Controller.LOGGER4J.error("Failed to move " + f.getName() + "to the failure folder for Job #" + runThisJob.getId() + ": " + ex.getMessage());
+                        Controller.mainMenu.errorBar.increaseErrorCount("Failed to move " + f.getName() + "to the failure folder for Job #" + runThisJob.getId() + ".", runThisJob.getId());
+
+                    }
+                
                 } //note that there might be other exceptions such as the XML file not reading properly. 
                 //these are not handled in this catch block
 
-            }
-        }
+            } //end file for
+
+        } //end pc config for
+
+        return successful;
 
     } //end import from file
 
-    public DataPorterConfig getConfigFromXML() throws FileNotFoundException {
-
-        //read xml file
+    public DataPorterConfig getConfigFromXML() throws JAXBException {
+        
+        //shorthand for reading xml file
         DataPorterConfig dpc = FileIO.readXML(".\\client-data-files\\" + runThisJob.getClient() + "\\" + runThisJob.getFile());
-
-        if (dpc == null) { //null check
-            errorMessage = "The config file is not right.";
-            throw new FileNotFoundException("The configuration file is missing or written using the incorrect format.");
-        }
 
         return dpc;
     }

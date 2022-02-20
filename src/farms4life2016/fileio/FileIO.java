@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
@@ -39,12 +40,14 @@ public class FileIO {
 
     public static int nextId = 1;
 
+    private FileIO() {} //this class is strictly static
+
     /**
      * Read init file. This method is also proof of concept of an excel file reader.
      * 
      * @param list
      */
-    public static void init(DLinkedList list) {
+    public static void init(DLinkedList list) throws IOException {
 
         String[][] input = readGrid(".\\init\\hardcode these jobs.xlsx", 7, -1);
 
@@ -77,33 +80,29 @@ public class FileIO {
      */
     public static void init() throws IOException {
 
-        List<String> list = readAllTxt(".\\init\\menuout.txt");
+        List<String> list = readAllTxt(".\\init\\menuout.txt");  
+        nextId = list.size() + 1;
 
-        for (int i = 0; i < list.size()-1; i++) {
+
+        for (int i = 0; i < list.size(); i++) {
             String[] items = list.get(i).split("\t");
             Job j = new Job();
-            System.out.println(Arrays.toString(items));
-
-            j.setActive(items[6].trim());
             
+            j.setActive(items[6].trim());
 
-            //deactivated jobs are deleted jobs
-            if (!j.isActive()) {
-                break;
+            //only add jobs that have not been deleted
+            if (j.isActive()) {
+                j.setId(Integer.parseInt(items[0]));
+                j.setName(items[1]);
+                j.setClient(items[2]); 
+                j.setType(items[3].charAt(0));
+                j.setFile(items[4]);;
+                j.setDate(items[5]);
+
+                Controller.jobList.add(j);
             }
 
-            j.setId(Integer.parseInt(items[0]));
-            j.setName(items[1]);
-            j.setClient(items[2]); 
-            j.setType(items[3].charAt(0));
-            j.setFile(items[4]);;
-            j.setDate(items[5]);
-
-            Controller.jobList.add(j);
-
         }
-
-        nextId = list.size();
 
     }
 
@@ -130,7 +129,7 @@ public class FileIO {
         
 
         //clear previous data
-        initFile.setLength(nextId*100);
+        initFile.setLength((nextId-1)*100);
         initFile.seek((j.getId()-1)*100);
         initFile.write(output.getBytes());
 
@@ -149,7 +148,7 @@ public class FileIO {
      * 
      * @param list
      */
-    public static void exit(DLinkedList list) {
+    public static void exit(DLinkedList list) throws IOException {
 
         // sort data by id first
         Job.mergesort(list, Job.SORT_BY_ID);
@@ -184,56 +183,50 @@ public class FileIO {
      * @param sheetNum
      * @return
      */
-    public static String[][] readGrid(String fileName, int width, int height, int sheetNum) {
+    public static String[][] readGrid(String fileName, int width, int height, int sheetNum) throws IOException {
 
         // variables
         String[][] output = null;
 
-        try {
+        // file reader
+        FileInputStream reader = new FileInputStream(fileName);
 
-            // file reader
-            FileInputStream reader = new FileInputStream(fileName);
+        // create workbook to represent the file
+        XSSFWorkbook wb = new XSSFWorkbook(reader);
+        XSSFSheet sheet = wb.getSheetAt(sheetNum);
 
-            // create workbook to represent the file
-            XSSFWorkbook wb = new XSSFWorkbook(reader);
-            XSSFSheet sheet = wb.getSheetAt(sheetNum);
+        if (height == -1)
+            height = sheet.getPhysicalNumberOfRows();
 
-            if (height == -1)
-                height = sheet.getPhysicalNumberOfRows();
+        output = new String[height][width];
+        // yeah we have to swap w and h when creating 
+        // the array due to how java stores information
 
-            output = new String[height][width];
-            // yeah we have to swap w and h when creating the array due to how java stores
-            // information
+        // assume input is valid TODO
 
-            // assume input is valid TODO
+        // loop through each row and column
+        for (int i = 0; i < height; i++) {
 
-            // loop through each row and column
-            for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
 
-                for (int j = 0; j < width; j++) {
+                Cell c = sheet.getRow(i).getCell(j, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
 
-                    Cell c = sheet.getRow(i).getCell(j, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-
-                    // read in data and cast everything to String
-                    if (c.getCellType().equals(CellType.STRING) || c.getCellType().equals(CellType.BLANK)) {
-                        output[i][j] = c.getStringCellValue();
-                    } else if (c.getCellType().equals(CellType.NUMERIC) || c.getCellType().equals(CellType.FORMULA)) {
-                        output[i][j] = Double.toString(c.getNumericCellValue());
-                    } else {
-                        // assume that boolean and error cell types are never used
-                        output[i][j] = "data type not supported";
-                    }
-
+                // read in data and cast everything to String
+                if (c.getCellType().equals(CellType.STRING) || c.getCellType().equals(CellType.BLANK)) {
+                    output[i][j] = c.getStringCellValue();
+                } else if (c.getCellType().equals(CellType.NUMERIC) || c.getCellType().equals(CellType.FORMULA)) {
+                    output[i][j] = Double.toString(c.getNumericCellValue());
+                } else {
+                    // assume that boolean and error cell types are never used
+                    output[i][j] = "data type not supported";
                 }
 
-            } // end fors
+            }
 
-            // close io
-            wb.close();
+        } // end fors
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // close io
+        wb.close();
 
         // return data from spreadsheet
         return output;
@@ -247,7 +240,7 @@ public class FileIO {
      * @param height
      * @return
      */
-    public static String[][] readGrid(String fileName, int width, int height) {
+    public static String[][] readGrid(String fileName, int width, int height) throws IOException {
         return readGrid(fileName, width, height, 0);
     }
 
@@ -257,55 +250,49 @@ public class FileIO {
      * @param data
      * @return
      */
-    public static boolean writeGrid(String fileName, String[][] data) {
+    public static boolean writeGrid(String fileName, String[][] data) throws IOException {
 
         boolean success = false;
 
-        try {
+        // file writer
+        FileOutputStream writer = new FileOutputStream(fileName);
 
-            // file writer
-            FileOutputStream writer = new FileOutputStream(fileName);
+        // create a new workbook
+        XSSFWorkbook wb = new XSSFWorkbook();
+        XSSFSheet sheet = wb.createSheet("Sheet 1");
+        
+        // loop through all the data
+        for (int i = 0; i < data.length; i++) {
 
-            // create a new workbook
-            XSSFWorkbook wb = new XSSFWorkbook();
-            XSSFSheet sheet = wb.createSheet("Sheet 1");
+            // make a row
+            XSSFRow row = sheet.createRow(i);
 
-            // loop through all the data
-            for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length; j++) {
+                Cell c = row.createCell(j);
 
-                // make a row
-                XSSFRow row = sheet.createRow(i);
-
-                for (int j = 0; j < data[i].length; j++) {
-                    Cell c = row.createCell(j);
-
-                    // convert strings into other types if possible
-                    if (isNumeric(data[i][j])) {
-                        c.setCellValue(Double.parseDouble(data[i][j]));
-                    } else if (data[i][j].equals("")) {
-                        c.setBlank();
-                    } else {
-                        c.setCellValue(data[i][j]); // otherwise just write string into the cell
-                    }
-
+                // convert strings into other types if possible
+                if (isNumeric(data[i][j])) {
+                    c.setCellValue(Double.parseDouble(data[i][j]));
+                } else if (data[i][j].equals("")) {
+                    c.setBlank();
+                } else {
+                    c.setCellValue(data[i][j]); // otherwise just write string into the cell
                 }
 
             }
 
-            // write to file ***NOTE: THIS WILL OVERWRITE THE PREVIOUS FILE OF THE SAME
-            // NAME! THERE IS NO UNDO!!!
-            wb.write(writer);
-
-            // close resources
-            wb.close();
-            writer.close();
-
-            // successful io
-            success = true;
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+
+        // write to file ***NOTE: THIS WILL OVERWRITE THE PREVIOUS FILE OF THE SAME
+        // NAME! THERE IS NO UNDO!!!
+        wb.write(writer);
+
+        // close resources
+        wb.close();
+        writer.close();
+
+        // successful io
+        success = true;
 
         // let me know if things are going smoothly
         return success;
@@ -319,7 +306,7 @@ public class FileIO {
      * @param data
      * @return
      */
-    public static boolean safeWriteGrid(String fileName, String[][] data) {
+    public static boolean safeWriteGrid(String fileName, String[][] data) throws IOException {
 
         // check if file already exists
         File f = new File(fileName);
@@ -348,70 +335,6 @@ public class FileIO {
 
         return answer;
     }
-/*
-    // https://www.javatpoint.com/how-to-read-xml-file-in-java
-    public static void readXML(String filePath) {
-        try {
-
-            // creating a constructor of file class and parsing an XML file
-            File file = new File(filePath);
-            // an instance of factory that gives a document builder
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            // an instance of builder to parse the specified xml file
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(file);
-            doc.getDocumentElement().normalize();
-
-            System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
-            
-            dfs(doc.getDocumentElement());
-
-            /*NodeList children = doc.getDocumentElement().getChildNodes();
-            for (int i = 0; i < children.getLength(); i++) {
-                Node n = children.item(i);
-                System.out.println("\nNode name: " + n.getNodeName());
-                if (n.getNodeType() == Node.ELEMENT_NODE) {
-                    Element e = (Element) n;
-                    System.out.println("\n what does this print wtf: " + e.getNodeName());
-                }
-            }**
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void dfs(Element e) {
-        NodeList children = e.getChildNodes();
-        for (int i = 0; i < children.getLength(); i++) {
-            Node n = children.item(i);
-            if (n.getNodeType() == Node.TEXT_NODE) {
-                System.out.println("Text node says: " + e.getNodeValue());
-                
-            } else if (n.getNodeType() == Node.ELEMENT_NODE) {
-                System.out.print("Element node says: " + e.getNodeName());
-                System.out.println(" \t" + e.getAttribute("Name"));
-
-                if (n.getNodeName().equals("Columns")) {
-                    NodeList list = ((Element)n).getElementsByTagName("Column");
-                    for (int j = 0; j < list.getLength(); j++) {
-                        Element m = (Element)(list.item(j));
-                        System.out.println(m.getNodeName() + "\t" + m.getAttribute("Name"));
-                    }
-                    
-                }
-
-            } else {
-                System.out.println(n.getNodeType() + " node says: " + e.getNodeName());
-            }
-
-            if (n.getChildNodes().getLength() > 0) {
-                dfs((Element) n);
-            }
-            
-        }
-    }
-*/
 
     //https://www.javatpoint.com/jaxb-unmarshalling-example
     /**
@@ -419,22 +342,23 @@ public class FileIO {
      * @param filePath the file's path
      * @return
      */
-    public static DataPorterConfig readXML(String filePath) {
+    public static DataPorterConfig readXML(String filePath) throws JAXBException {
 
         DataPorterConfig dataPorterConfig = null;
-
-        try {
-
-            // creating a constructor of file class and parsing an XML file
-            File file = new File(filePath);
-            JAXBContext jaxbContext = JAXBContext.newInstance(DataPorterConfig.class);  
        
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();  
+        // creating a file object and parsing an XML file
+        File file = new File(filePath);
+        JAXBContext jaxbContext = JAXBContext.newInstance(DataPorterConfig.class);  
+    
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();  
+
+        //this one line can throw three different exceptions
+        try {
             dataPorterConfig = (DataPorterConfig) jaxbUnmarshaller.unmarshal(file);  
-            
-        } catch (JAXBException e) {  
-            e.printStackTrace();  
-        }  
+        } catch (Exception e) {
+            throw new JAXBException(e);
+        }
+        
 
         return dataPorterConfig;
         
@@ -508,24 +432,29 @@ public class FileIO {
     /**
      * Finds the file extension for a specified file. For example, 
      * <code>PartyGirl.txt</code> would return <code>txt</code>.
-     * @param fileName The file name of the file. Yes, you can input the 
-     * path of the file name along with the file name, but the file
-     * MUST have an extension (or else this function will return something weird).
+     * @param fileName The file name of the file. No, you cannot input the 
+     * path of the file. Use {@code getFileExt(File f)} instead if you want
+     * to input the full file path.
      * @return The file extension, such as txt or xlsx. The period
      * is NOT included.
      */
     public static String getFileExt(String fileName) {
-        char[] arr = fileName.toCharArray();
-        String extension = "";
-        for (int i = arr.length-1; i >= 0; i--) {
-            if (arr[i] != '.') {
-                extension = arr[i] + extension;
-            } else {
-                break;
-            }
-        }
-        
-        return extension;
+
+        //find last index of '.'
+        int index = fileName.lastIndexOf('.');
+
+        //no '.' in string means no extension. '.' at end also means no ext
+        if (index == -1 || index == fileName.length()) return "";
+
+        //else return everything after the period
+        return fileName.substring(index+1);
+
+    }
+
+    public static String getFileExt(File f) {
+
+       return getFileExt(f.getName());
+
     }
 
 

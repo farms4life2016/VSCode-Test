@@ -7,7 +7,7 @@ import farms4life2016.dataprocessing.Job;
 
 public class JobUpdateDialogue extends JDialog {
 
-    JobUpdateDisplay display;
+    private JobUpdateDisplay display;
 
     public JobUpdateDialogue(JFrame frame, String title, boolean modial) {
         super(frame, title, modial);
@@ -29,6 +29,8 @@ public class JobUpdateDialogue extends JDialog {
                 display.setMode(JobUpdateDisplay.UPDATE, j);
                 setTitle("Update a Job");
             }
+        } else {
+            
         }
 
         super.setVisible(isVisible);

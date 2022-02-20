@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.Colours;
-import farms4life2016.gui.displays.MenuDisplay;
 
 public class SearchBar extends Button { 
 
@@ -77,6 +76,7 @@ public class SearchBar extends Button {
         if (text.getText().equals("")) {
             Controller.mainMenu.jobTable.fillJobs(Controller.jobList, true);
         }
+        
         //we don't want to set controller's joblist to search results
         Controller.mainMenu.jobTable.fillJobs(Job.linearSearch(Controller.jobList, text.getText()), true);
         //we are just displaying a subset of controller's joblist; we aren't modifying anything

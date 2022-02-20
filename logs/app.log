@@ -1,0 +1,7 @@
+2022-02-19 11:31:28,444 ERROR f.d.Controller [AWT-EventQueue-0] test
+2022-02-19 11:39:04,395 ERROR f.d.Controller [AWT-EventQueue-0] test
+2022-02-19 16:24:28,380 ERROR f.d.Controller [AWT-EventQueue-0] The result set is closed.
+2022-02-19 16:28:16,716 ERROR f.d.Controller [AWT-EventQueue-0] The result set is closed.
+2022-02-20 12:10:49,098 ERROR f.d.Controller [AWT-EventQueue-0] The configuration file is missing or written using the incorrect format: null
+2022-02-20 12:11:18,536 ERROR f.d.Controller [AWT-EventQueue-0] The configuration file is missing or written using the incorrect format: null
+2022-02-20 15:01:29,770 ERROR f.d.Controller [AWT-EventQueue-0] The XML file for Job #13 is missing or written using the incorrect format: null
