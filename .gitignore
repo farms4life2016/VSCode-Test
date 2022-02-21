@@ -5,3 +5,4 @@ logs/
 client-data-files/*/Export/
 client-data-files/*/*/Failure/
 client-data-files/*/*/Success/
+init/menuout.txt

@@ -73,7 +73,7 @@ public class JobRunner {
             try {
                 
                 //read data from db
-                List<String[]> dbData = DatabaseIO.readData(pc.getDbSproc(), runThisJob.getClient());
+                List<String[]> dbData = DatabaseIO.readData(pc.getDbSproc(), runThisJob.getClient(), pc.getColumns().size());
 
                 //for excel files, also add the headers to the start of this list
                 if (FileIO.getFileExt(pc.getFilename()).equals("xlsx")) {

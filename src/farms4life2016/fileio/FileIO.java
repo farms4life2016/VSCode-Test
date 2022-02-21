@@ -73,7 +73,7 @@ public class FileIO {
      */
     public static void init() throws IOException {
 
-        List<String> list = readAllTxt(".\\init\\menuout.txt");  
+        List<String> list = readAllTxt(".\\init\\init.txt");  
         nextId = list.size() + 1;
 
 
@@ -112,18 +112,16 @@ public class FileIO {
         output += "\t" + j.getFile();
         output += "\t" + j.getLongDate();
         output += "\t" + j.getActiveString() + " ";
-        String temp = "\n";
+        String temp = "\r\n";
 
-
-        for (int i = output.length(); i < 99; i++) {
+        for (int i = output.length(); i < 118; i++) {
             temp = ' ' + temp;
         }
-        output += temp;
-        
+        output += temp;        
 
         //clear previous data
-        initFile.setLength((nextId-1)*100);
-        initFile.seek((j.getId()-1)*100);
+        initFile.setLength((nextId-1)*120);
+        initFile.seek((j.getId()-1)*120);
         initFile.write(output.getBytes());
 
         initFile.close();

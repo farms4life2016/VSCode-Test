@@ -1,0 +1,13 @@
+1	Supplier	DRX	I	I_Supplier.xml	Feb 29, 2004 (12:00:00 EST)	Active                                                    
+2	Plant	DRX	I	I_Plant.xml	Feb 19, 2022 (12:47:27 EST)	Active                                                          
+3	Solicitation	DRX	I	I_Solicitation.xml	Feb 19, 2022 (12:00:14 EST)	Active                                            
+4	BOM	DRX	I	I_BOM.xml	Feb 19, 2022 (12:00:16 EST)	Active                                                              
+5	RequestFile	DRX	E	E_RequestFile.xml	Feb 19, 2022 (12:00:19 EST)	Active                                              
+6	BOM	DRX	E	E_BOM.xml	Feb 19, 2022 (12:00:21 EST)	Active                                                              
+7	Supplier	GYU	I	I_Supplier.xml	Feb 19, 2022 (12:00:24 EST)	Active                                                    
+8	Plant	GYU	I	I_Plant.xml	Feb 19, 2022 (12:00:27 EST)	Active                                                          
+9	Solicitation	GYU	I	I_Solicitation.xml	Feb 19, 2022 (12:00:30 EST)	Active                                            
+10	BOM	GYU	I	I_BOM.xml	Feb 19, 2022 (12:00:32 EST)	Active                                                             
+11	RequestFile	GYU	E	E_RequestFile.xml	Feb 19, 2022 (12:46:07 EST)	Active                                             
+12	BOM	GYU	E	E_BOM.xml	Feb 19, 2022 (12:46:10 EST)	Active                                                             
+13	DNE	limit	I	where is it.xml	Feb 20, 2022 (12:08:02 EST)	Active                                                     

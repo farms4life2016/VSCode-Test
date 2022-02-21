@@ -103,7 +103,7 @@ public class MenuDisplay extends GenericDisplay {
 		//we don't have a scrollbar, so this is how we tell
 		//the user how many jobs are left
 		scrollBarReplacement = new NPButton(false, 0);
-		scrollBarReplacement.setDimensions(new Rectangle(Controller.WINDOW_W - 260, Controller.WINDOW_H-65, 500, 20));
+		scrollBarReplacement.setDimensions(new Rectangle(Controller.WINDOW_W - 280, Controller.WINDOW_H-65, 500, 20));
 		scrollBarReplacement.setUnselectedColour(Colours.GRAY40);
 		scrollBarReplacement.setFontSize(12);
 		scrollBarReplacement.setSelected(false);
@@ -211,7 +211,7 @@ public class MenuDisplay extends GenericDisplay {
 		//then they know when they have hit the bottom or top of the job list
 		if (Controller.jobList.length() > 0) {
 			scrollBarReplacement.setText( "First Job's ID: " + ((Job)(Controller.jobList.get(0))).getId() + 
-			"  ||  Last Job's ID: " + ((Job)(Controller.jobList.get(Controller.jobList.length()-1))).getId() );
+			"  --  Last Job's ID: " + ((Job)(Controller.jobList.get(Controller.jobList.length()-1))).getId() );
 		} else {
 			scrollBarReplacement.setText("No jobs are on display, but you can add one!");
 		}

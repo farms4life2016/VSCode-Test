@@ -21,10 +21,14 @@ public class DatabaseIO {
         //never instantatiate this class
     }      
     
-    public static List<String[]> readData(String sProcName, String client) throws SQLException {
+    public static List<String[]> readData(String sProcName, String client, int columnNumber) throws SQLException {
 
         //stores the rows from the db.
         List<String[]> result = new ArrayList<String[]>();
+
+        if (columnNumber < 1) { //means no data required
+            return result;
+        }
         
         //connect to the database
         Connection connect = DriverManager.getConnection(CONNECTION_URL);
@@ -43,6 +47,11 @@ public class DatabaseIO {
             return result;
         }
         
+        if (columnCount > columnNumber) {
+            // get the top columns required
+            columnCount = columnNumber;
+        }
+        
         //add rows from db data to java list
         while (resSet.next()) {
             String[] row = new String[columnCount];
@@ -59,38 +68,37 @@ public class DatabaseIO {
        
         return result;
     }      
-    
-    //TODO reformat code XD
+
     public static void WriteData(String dBTable, String[][] tableData, String[] columnNames) throws SQLException {    
         
         //do not write if input is empty
         if (tableData.length < 1 || tableData[0].length < 1){
             return;
         } 
+        
+        //connect to the database
+        Connection connect = DriverManager.getConnection(CONNECTION_URL); 
+        Statement statement = connect.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE); 
 
-        try (Connection con = DriverManager.getConnection(CONNECTION_URL); 
-            Statement stmt = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);) { 
+        // Get data from the source table as a ResultSet.
+        ResultSet rsData = statement.executeQuery("SELECT TOP 0 * FROM " + dBTable);            
 
-            // Get data from the source table as a ResultSet.
-            ResultSet rsData = stmt.executeQuery("SELECT TOP 0 * FROM " + dBTable);            
-
-            // Insert records into the table.
-            int rowCount = tableData.length;
-            int columnCount = tableData[0].length >= columnNames.length ? columnNames.length : tableData[0].length;
-            for (int i = 0; i < rowCount; i++) {  
-                // Move to insert row and add column data with updateXXX() 
-                rsData.moveToInsertRow();           
-                for (int j = 0; j < columnCount; j++) {   
-                    rsData.updateString(columnNames[j], tableData[i][j]);
-                }
-                // Commit row
-                rsData.insertRow();
+        // Insert records into the table.
+        int rowCount = tableData.length;
+        int columnCount = tableData[0].length >= columnNames.length ? columnNames.length : tableData[0].length;
+        for (int i = 0; i < rowCount; i++) {  
+            // Move to insert row and add column data with updateXXX() 
+            rsData.moveToInsertRow();           
+            for (int j = 0; j < columnCount; j++) {   
+                rsData.updateString(columnNames[j], tableData[i][j]);
             }
-        }
-        // Handle any errors that may have occurred.
-        catch (SQLException e) {
-            throw e;
-        }
+            // Commit row
+            rsData.insertRow();
+        }        
+
+        //close connections and statments
+        statement.close();
+        connect.close();        
     }   
     
 
