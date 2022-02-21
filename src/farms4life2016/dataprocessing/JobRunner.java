@@ -188,7 +188,15 @@ public class JobRunner {
                     //read excel files
                     if (FileIO.getFileExt(f).equals("xlsx")) {
 
-                        temp = FileIO.readGrid(f.getPath(), pc.getColumns().size(), -1);
+                        String withHeaders[][] = FileIO.readGrid(f.getPath(), pc.getColumns().size(), -1);
+                        temp = new String[withHeaders.length-1][withHeaders[0].length];
+
+                        //discard headers (the first row)
+                        for (int i = 0; i < temp.length; i++) {
+                            for (int j = 0; j < temp[i].length; j++) {
+                                temp[i][j] = withHeaders[i+1][j];
+                            }
+                        }
                         
                     //any other ext means read txt
                     } else {

@@ -10,6 +10,7 @@ import java.awt.event.WindowEvent;
 import java.awt.Container;
 
 import farms4life2016.dataprocessing.Controller;
+import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.Colours;
 import farms4life2016.gui.buttons.Button;
 import farms4life2016.gui.buttons.ErrorBox;
@@ -28,7 +29,7 @@ public class MenuDisplay extends GenericDisplay {
 
 	private Button extraInfo, createNewJob, toStart;
 	private SearchBar searchBar;
-	private NPButton displayBar;
+	private NPButton scrollBarReplacement, title;
 	
 
 	/**
@@ -101,13 +102,22 @@ public class MenuDisplay extends GenericDisplay {
 
 		//we don't have a scrollbar, so this is how we tell
 		//the user how many jobs are left
-		displayBar = new NPButton(false, 0);
+		scrollBarReplacement = new NPButton(false, 0);
+		scrollBarReplacement.setDimensions(new Rectangle(Controller.WINDOW_W - 260, Controller.WINDOW_H-65, 500, 20));
+		scrollBarReplacement.setUnselectedColour(Colours.GRAY40);
+		scrollBarReplacement.setFontSize(12);
+		scrollBarReplacement.setSelected(false);
 		
+		title = new NPButton(false, 0);
+		title.setText("Main Menu");
+		title.setDimensions(new Rectangle(50, 30, 200, 100));
+		title.setUnselectedColour(Colours.GRAY40);
+		title.setFontSize(40);
+		title.setTextColour(Colours.GRAY100); //don't make the title too distracting
+		title.setSelected(false);
 
 		backgroundColour = (Colours.GRAY40);
 		
-		//String[] headers = {"ID", "Name", "Client", "Type", "File", "Date"};
-
 		//start timer
 		fps.start();
 		
@@ -122,6 +132,7 @@ public class MenuDisplay extends GenericDisplay {
 
 			//and other refreshes
 			searchBar.onRefresh();
+			updateScrollBarReplacement();
 		}
 		
 	}
@@ -136,7 +147,8 @@ public class MenuDisplay extends GenericDisplay {
 		createNewJob.drawSelf(g);
 		toStart.drawSelf(g);
 		errorBar.drawSelf(g);
-		displayBar.drawSelf(g);
+		scrollBarReplacement.drawSelf(g);
+		title.drawSelf(g);
 		
 	}
 
@@ -191,6 +203,21 @@ public class MenuDisplay extends GenericDisplay {
 
 	public void setInfoText(String newText) {
 		extraInfo.setText(newText);
+	}
+
+	private void updateScrollBarReplacement() {
+
+		//tell user what is the first job in the list and the last one
+		//then they know when they have hit the bottom or top of the job list
+		if (Controller.jobList.length() > 0) {
+			scrollBarReplacement.setText( "First Job's ID: " + ((Job)(Controller.jobList.get(0))).getId() + 
+			"  ||  Last Job's ID: " + ((Job)(Controller.jobList.get(Controller.jobList.length()-1))).getId() );
+		} else {
+			scrollBarReplacement.setText("No jobs are on display, but you can add one!");
+		}
+
+		//the text will also change to reflect changes after sorting
+
 	}
 
 }
