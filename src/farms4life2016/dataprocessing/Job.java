@@ -1,6 +1,7 @@
 package farms4life2016.dataprocessing;
 
 import java.util.Calendar;
+import java.util.Locale;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -15,8 +16,8 @@ public class Job {
     private Calendar date;
     private boolean active;
     
-    public static final SimpleDateFormat LONG_DATE_FORMATER = new SimpleDateFormat("MMM d, yyyy '('hh:mm:ss z')'");
-    public static final SimpleDateFormat SHORT_DATE_FORMATER = new SimpleDateFormat("yyyy-MMM-dd-hh-mm-ss");
+    public static final SimpleDateFormat LONG_DATE_FORMATER = new SimpleDateFormat("MMM d, yyyy '('hh:mm:ss z')'", Locale.ENGLISH);
+    public static final SimpleDateFormat SHORT_DATE_FORMATER = new SimpleDateFormat("yyyy-MMM-dd-hh-mm-ss", Locale.ENGLISH);
 
     
     //sorting constants
