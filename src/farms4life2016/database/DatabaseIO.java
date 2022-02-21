@@ -61,7 +61,7 @@ public class DatabaseIO {
     }      
     
     //TODO reformat code XD
-    public static void WriteData(String dBTable, String[][] tableData) throws SQLException {    
+    public static void WriteData(String dBTable, String[][] tableData, String[] columnNames) throws SQLException {    
         
         //do not write if input is empty
         if (tableData.length < 1 || tableData[0].length < 1){
@@ -76,12 +76,12 @@ public class DatabaseIO {
 
             // Insert records into the table.
             int rowCount = tableData.length;
-            int columnCount = tableData[0].length;
+            int columnCount = tableData[0].length >= columnNames.length ? columnNames.length : tableData[0].length;
             for (int i = 0; i < rowCount; i++) {  
                 // Move to insert row and add column data with updateXXX() 
                 rsData.moveToInsertRow();           
-                for (int j = 0; j < columnCount; j++) {  
-                    rsData.updateString(j+1, tableData[i][j]);
+                for (int j = 0; j < columnCount; j++) {   
+                    rsData.updateString(columnNames[j], tableData[i][j]);
                 }
                 // Commit row
                 rsData.insertRow();

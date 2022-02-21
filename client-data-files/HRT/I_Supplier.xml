@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
-<dataPorterConfig workingFolder=".\client-data-files\DRX\">  
+<dataPorterConfig workingFolder=".\client-data-files\HRT\">  
 	<porterConfigs>		
 		<name>ImportSupplier</name>		
-		<delimiter>	</delimiter>		
+		<delimiter>,</delimiter>		
 		<filename>Supplier_data.txt</filename>		
 		<dbTable>Upload_ClientSupplier</dbTable>		
 		<remotePath>Import\</remotePath>					
-		<keepfile>true</keepfile>	
+		<keepfile>true</keepfile>			
 		<columns>		
 			<name>SupplierCode</name>		
 			<length>0</length>

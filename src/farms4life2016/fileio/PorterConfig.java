@@ -10,19 +10,21 @@ public class PorterConfig {
     private String filename;
     private String dbTable;
     private String dbSproc;
+    private String keepfile;
     private List<Column> columns;      
 
     public PorterConfig() {}  
 
     public PorterConfig(String name, String delimiter, String remotePath, 
-        String filename, String dbTable, String dbSproc, List<Column> columns) {  
+        String filename, String dbTable, String dbSproc, String keepfile, List<Column> columns) {  
         super();  
         this.name = name;  
         this.delimiter = delimiter;  
         this.remotePath = remotePath;  
         this.filename = filename;  
         this.dbTable = dbTable;   
-        this.dbSproc = dbSproc;  
+        this.dbSproc = dbSproc;    
+        this.keepfile = keepfile;  
         this.columns = columns;  
     }  
 
@@ -72,6 +74,14 @@ public class PorterConfig {
 
     public void setDbSproc(String dbSproc) {  
         this.dbSproc = dbSproc;  
+    }    
+
+    public String getKeepfile() {
+        return keepfile;
+    }
+
+    public void setKeepfile(String keepfile) {  
+        this.keepfile = keepfile;  
     }  
 
     public List<Column> getColumns() {

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>  
-<dataPorterConfig workingFolder=".\client-data-files\GYU\">  
+<dataPorterConfig workingFolder=".\client-data-files\HRT\">  
 	<porterConfigs>		
 		<name>ImportSolicitation</name>		
-		<delimiter>	</delimiter>		
-		<filename>solicitation.xlsx</filename>		
+		<delimiter>,</delimiter>		
+		<filename>solicitation.txt</filename>		
 		<dbTable>Upload_ClientSolicitation</dbTable>		
 		<remotePath>Import\</remotePath>						
 		<keepfile>true</keepfile>		
@@ -51,5 +51,5 @@
 			<name>EffectiveEndDate</name>		
 			<length>0</length>
 		</columns>
-	</porterConfigs>
+	</porterConfigs> 
 </dataPorterConfig>

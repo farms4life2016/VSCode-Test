@@ -5,7 +5,8 @@
 		<delimiter>	</delimiter>		
 		<filename>solicitation.txt</filename>		
 		<dbTable>Upload_ClientSolicitation</dbTable>		
-		<remotePath>Import\</remotePath>		
+		<remotePath>Import\</remotePath>			
+		<keepfile>true</keepfile>			
 		<columns>		
 			<name>PartCode</name>		
 			<length>0</length>
@@ -34,6 +35,50 @@
 			<name>HSCode2</name>		
 			<length>0</length>
 		</columns>		
+		<columns>		
+			<name>SupplierCode</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>Region</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>EffectiveStartDate</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>EffectiveEndDate</name>		
+			<length>0</length>
+		</columns>
+	</porterConfigs>
+	<porterConfigs>		
+		<name>ImportSolicitationJp</name>		
+		<delimiter>	</delimiter>		
+		<filename>solicitation_jp.txt</filename>		
+		<dbTable>Upload_ClientSolicitation</dbTable>		
+		<remotePath>Import\</remotePath>				
+		<keepfile>true</keepfile>			
+		<columns>		
+			<name>PartCode</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>PartDescription</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>PartType</name>		
+			<length>0</length>
+		</columns>
+		<columns>		
+			<name>CertificateType</name>		
+			<length>0</length>
+		</columns>		
+		<columns>		
+			<name>HSCode</name>		
+			<length>0</length>
+		</columns>	
 		<columns>		
 			<name>SupplierCode</name>		
 			<length>0</length>

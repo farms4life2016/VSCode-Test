@@ -1,3 +1,7 @@
 # Build results
 [Bb]in/
 *.class
+logs/
+client-data-files/*/Export/
+client-data-files/*/*/Failure/
+client-data-files/*/*/Success/

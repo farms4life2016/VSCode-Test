@@ -5,7 +5,8 @@
 		<delimiter>	</delimiter>		
 		<filename>plants.txt</filename>		
 		<dbTable>Upload_RawPlant</dbTable>		
-		<remotePath>Import\</remotePath>		
+		<remotePath>Import\</remotePath>				
+		<keepfile>true</keepfile>	
 		<columns>		
 			<name>SupplierCode</name>		
 			<length>0</length>

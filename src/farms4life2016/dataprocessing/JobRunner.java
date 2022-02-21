@@ -1,16 +1,19 @@
 package farms4life2016.dataprocessing;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
+import org.apache.commons.io.filefilter.WildcardFileFilter;
+
 import farms4life2016.database.DatabaseIO;
+import farms4life2016.fileio.Column;
 import farms4life2016.fileio.DataPorterConfig;
 import farms4life2016.fileio.FileIO;
 import farms4life2016.fileio.PorterConfig;
@@ -38,7 +41,9 @@ public class JobRunner {
         //the entire job fails if the config file cannot be read in
         } catch (JAXBException e) { 
             successful = false;
-            Controller.LOGGER4J.error("The XML file for Job #" + runThisJob.getId() + " is missing or written using the incorrect format: " + e.getMessage());
+            Controller.LOGGER4J.error("The XML file for Job #" + runThisJob.getId() + " (" + runThisJob.getClient() 
+                + ", " + runThisJob.getFile() 
+                + ") is missing or written using the incorrect format: " + e.getMessage());
             Controller.mainMenu.errorBar.increaseErrorCount("The XML file for Job #" + runThisJob.getId() + " is missing or written using the incorrect format.", runThisJob.getId());
         }
 
@@ -106,18 +111,22 @@ public class JobRunner {
                 //no need for timestamp or renaming of files if successful
 
             //each individual sub-job should handle errors so the next sub-jobs can still run to completion 
-            } catch (SQLException | IOException e) { 
+            } catch (Exception e) { 
 
                 successful = false;
 
                 //handle the failure to read db or write to a file
                 if (e instanceof SQLException) {
-                    Controller.LOGGER4J.error("Failed to read from database while trying to create " + target.getName() + " for Job #" + runThisJob.getId() + ": " +  e.getMessage());
-                    Controller.mainMenu.errorBar.increaseErrorCount("Failed to read from database while trying to create " + target.getName() + " for Job #" + runThisJob.getId() + ".", runThisJob.getId());
+                    Controller.LOGGER4J.error("Failed to read from database while trying to create " + target.getName() 
+                        + " for Job #" + runThisJob.getId() + ", " + runThisJob.getClient() 
+                        + ", " + pc.getName() + ": " +  e.getMessage());
+                    Controller.mainMenu.errorBar.increaseErrorCount("Failed to read from database for Job #" + runThisJob.getId() + ".", runThisJob.getId());
                
-                } else if (e instanceof IOException) {
-                    Controller.LOGGER4J.error("Failed to access and overwrite " + target.getName() + " for Job #" + runThisJob.getId() + ": " + e.getMessage());
-                    Controller.mainMenu.errorBar.increaseErrorCount("Failed to access and overwrite " + target.getName() + " for Job #" + runThisJob.getId() + ".", runThisJob.getId());
+                } else {
+                    Controller.LOGGER4J.error("Failed to process the file " + target.getName() + " for Job #" + 
+                        runThisJob.getId() + ", " + runThisJob.getClient() 
+                        + ", " + pc.getName() + ": " + e.getMessage());
+                    Controller.mainMenu.errorBar.increaseErrorCount("Failed to process the file for Job #" + runThisJob.getId() + ".", runThisJob.getId());
 
                 }
 
@@ -128,7 +137,9 @@ public class JobRunner {
                     try {
                         FileIO.moveFiles(target.getPath(), destination); //this will throw io exception :(
                     } catch (IOException ex) {
-                        Controller.LOGGER4J.error("Failed to move " + target.getName() + "to the failure folder for Job #" + runThisJob.getId() + ": " + ex.getMessage());
+                        Controller.LOGGER4J.error("Failed to move " + target.getName() + "to the failure folder for Job #" 
+                            + runThisJob.getId() + ", " + runThisJob.getClient() 
+                            + ", " + pc.getName() + ": " + ex.getMessage());
                         Controller.mainMenu.errorBar.increaseErrorCount("Failed to move " + target.getName() + "to the failure folder for Job #" + runThisJob.getId() + ".", runThisJob.getId());
 
                     }
@@ -152,32 +163,24 @@ public class JobRunner {
 
         //loop through all subjobs in the config file
         for (PorterConfig pc : portConfig) {
-            
-            List<File> files = new ArrayList<>();
 
-            //handle *.txt or *.xlsx 
-            if (pc.getFilename().charAt(0) == '*') {
+            //get data files, maybe "*" in the filename
+            File[] files = getWildcardFiles(dpc.getWorkingFolder() + pc.getRemotePath(), pc.getFilename());
 
-                //get all files in the folder
-                File folder = new File(dpc.getWorkingFolder() + pc.getRemotePath());
-                File[] folderContents = folder.listFiles();
-
-                for (File f : folderContents) {
-                    //only add files that have the same extension as *.txt or *.xlsx
-                    if (FileIO.getFileExt(f).equals(FileIO.getFileExt(pc.getFilename()))) {
-                        files.add(f);
-                    }
-                }
-
-            } else {
-                //only a one file specified
-                files.add(new File(dpc.getWorkingFolder() + pc.getRemotePath() + pc.getFilename()));
+            if (files == null) {
+                //no data files means successful run
+                continue;
             }
-
+            
             //loop through all the sub-job files
             for (File f : files) {
 
                 try {
+
+                    if (!f.exists()) {                        
+                        //no data files means successful run
+                        continue;
+                    }
 
                     int loadingID = DatabaseIO.generateLoadingId(); //same for all data in a file
                     String[][] data = null, temp = null;
@@ -214,37 +217,60 @@ public class JobRunner {
                         }
                     }
 
+                    //Get column Names
+                    List<Column> columns = pc.getColumns();
+                    String[] columnNames = new String[columns.size()+2];
+                    columnNames[0] = "LoadingID";
+                    columnNames[1] = "RowNum";
+                    for (int i = 2; i < columnNames.length; i++) {  
+                        columnNames[i] = columns.get(i-2).getName();
+                    }
+                    
                     //write to database
-                    DatabaseIO.WriteData(pc.getDbTable(), data);
+                    DatabaseIO.WriteData(pc.getDbTable(), data, columnNames);
 
-                    //move to sucess folder TODO  !!CURRENTLY COPYING!!! 
+                    //copy or move to sucess folder based on config
                     String destination = f.getParent() + "\\Success\\" + appendTimestamp(f.getName());
+                    if(pc.getKeepfile() != null && pc.getKeepfile().equals("true")) {
+                        FileIO.copyFiles(f.getPath(), destination);
+                    } else {                        
+                        FileIO.moveFiles(f.getPath(), destination);
+                    }
 
-                    FileIO.copyFiles(f.getPath(), destination);
-
-                } catch (SQLException | IOException e) { //handle errors regarding the current file
+                } catch (Exception e) { //handle errors regarding the current file
 
                     successful = false;
 
                     //handle the failure to read db or write to a file
                     if (e instanceof SQLException) {
-                        Controller.LOGGER4J.error("Failed to write to database after reading " + f.getName() + " for Job #" + runThisJob.getId() + ": " +  e.getMessage());
+                        Controller.LOGGER4J.error("Failed to write to database after reading " + f.getName() 
+                            + " for Job #" + runThisJob.getId() + ", " + runThisJob.getClient() 
+                            + ", " + pc.getName() + ": " +  e.getMessage());
                         Controller.mainMenu.errorBar.increaseErrorCount("Failed to write to database after reading " + f.getName() + " for Job #" + runThisJob.getId() + ".", runThisJob.getId());
-                    } else if (e instanceof IOException) {
-                        Controller.LOGGER4J.error("Failed to read " + f.getName() + " for Job #" + runThisJob.getId() + ": " + e.getMessage());
-                        Controller.mainMenu.errorBar.increaseErrorCount("Failed to read " + f.getName() + " for Job #" + runThisJob.getId() + ".", runThisJob.getId());
+                    } else {
+                        Controller.LOGGER4J.error("Failed to process the file " + f.getName() 
+                        + " for Job #" + runThisJob.getId() + ", " + runThisJob.getClient() 
+                        + ", " + pc.getName() + ": " + e.getMessage());
+                        Controller.mainMenu.errorBar.increaseErrorCount("Failed to process the file for Job #" + runThisJob.getId() + ".", runThisJob.getId());
 
                     }
-
+ 
                     String destination = f.getParent() + "\\Failure\\" + appendTimestamp(f.getName());
 
-                    //move to failure folder TODO  !!CURRENTLY COPYING!!! 
-                    try {
-                        FileIO.copyFiles(f.getPath(), destination); //this will throw io exception :(
-                    } catch (IOException ex) {
-                        Controller.LOGGER4J.error("Failed to move " + f.getName() + "to the failure folder for Job #" + runThisJob.getId() + ": " + ex.getMessage());
-                        Controller.mainMenu.errorBar.increaseErrorCount("Failed to move " + f.getName() + "to the failure folder for Job #" + runThisJob.getId() + ".", runThisJob.getId());
-
+                    //copy or move to failure folder
+                    if (f.exists()) {
+                        try {
+                            if(pc.getKeepfile() != null && pc.getKeepfile().equals("true")) {
+                                FileIO.copyFiles(f.getPath(), destination);
+                            } else {                        
+                                FileIO.moveFiles(f.getPath(), destination);
+                            }
+                        } catch (IOException ex) {
+                            Controller.LOGGER4J.error("Failed to copy or move " + f.getName() + "to the failure folder for" 
+                                + " Job #" + runThisJob.getId() + ", " + runThisJob.getClient() 
+                                + ", " + pc.getName() + ": " + ex.getMessage());
+                            Controller.mainMenu.errorBar.increaseErrorCount("Failed to copy or move " + f.getName() + "to the failure folder for Job #" + runThisJob.getId() + ".", runThisJob.getId());
+                        }
                     }
                 
                 } //note that there might be other exceptions such as the XML file not reading properly. 
@@ -257,6 +283,25 @@ public class JobRunner {
         return successful;
 
     } //end import from file
+
+    public static File[] getWildcardFiles(String folder, String filename) throws JAXBException { 
+        File[] files = null; 
+
+        if (filename.contains("*")) {
+            //handle "*" in the filename
+            File dir = new File(folder);
+            FileFilter fileFilter = new WildcardFileFilter(filename);
+            files = dir.listFiles(fileFilter);
+        } else {
+            //only a one file specified
+            File oneFile = new File(folder + filename);
+            if (oneFile.exists()) {
+                files = new File[] {oneFile};
+            }
+        }
+
+        return files;
+    }
 
     public DataPorterConfig getConfigFromXML() throws JAXBException {
         
@@ -273,7 +318,7 @@ public class JobRunner {
             return fileName + '-' + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime());
 
         } else {
-            return fileName.substring(0, fileName.lastIndexOf('.')) + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime()) + fileName.substring(fileName.lastIndexOf('.'));
+            return fileName.substring(0, fileName.lastIndexOf('.')) + '-' + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime()) + fileName.substring(fileName.lastIndexOf('.'));
         }
 
     }

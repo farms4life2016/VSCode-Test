@@ -16,7 +16,7 @@ public class Job {
     private boolean active;
     
     public static final SimpleDateFormat LONG_DATE_FORMATER = new SimpleDateFormat("MMM d, yyyy '('hh:mm:ss z')'");
-    public static final SimpleDateFormat SHORT_DATE_FORMATER = new SimpleDateFormat("yyyymmddhhmmss");
+    public static final SimpleDateFormat SHORT_DATE_FORMATER = new SimpleDateFormat("yyyy-MMM-dd-hh-mm-ss");
 
     
     //sorting constants

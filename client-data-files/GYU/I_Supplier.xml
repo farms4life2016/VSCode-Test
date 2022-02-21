@@ -5,7 +5,8 @@
 		<delimiter>	</delimiter>		
 		<filename>Supplier_data.xlsx</filename>		
 		<dbTable>Upload_ClientSupplier</dbTable>		
-		<remotePath>Import\</remotePath>		
+		<remotePath>Import\</remotePath>						
+		<keepfile>true</keepfile>		
 		<columns>		
 			<name>SupplierCode</name>		
 			<length>0</length>

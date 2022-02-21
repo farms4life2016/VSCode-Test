@@ -3,9 +3,10 @@
 	<porterConfigs>		
 		<name>ImportBOM</name>		
 		<delimiter>	</delimiter>		
-		<filename>T_usmca_bom.txt</filename>		
+		<filename>T_*_bom.txt</filename>		
 		<dbTable>Upload_RawBom</dbTable>		
-		<remotePath>Import\</remotePath>		
+		<remotePath>Import\</remotePath>					
+		<keepfile>true</keepfile>	
 		<columns>		
 			<name>PlantCode</name>		
 			<length>0</length>
