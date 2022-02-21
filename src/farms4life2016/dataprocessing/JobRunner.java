@@ -36,7 +36,7 @@ public class JobRunner {
             }
 
         //the entire job fails if the config file cannot be read in
-        } catch (JAXBException e) { //TODO more errors
+        } catch (JAXBException e) { 
             successful = false;
             Controller.LOGGER4J.error("The XML file for Job #" + runThisJob.getId() + " is missing or written using the incorrect format: " + e.getMessage());
             Controller.mainMenu.errorBar.increaseErrorCount("The XML file for Job #" + runThisJob.getId() + " is missing or written using the incorrect format.", runThisJob.getId());
@@ -67,24 +67,40 @@ public class JobRunner {
 
             try {
                 
-                //read data from db and convert to 2D str array
+                //read data from db
                 List<String[]> dbData = DatabaseIO.readData(pc.getDbSproc(), runThisJob.getClient());
+
+                //for excel files, also add the headers to the start of this list
+                if (FileIO.getFileExt(pc.getFilename()).equals("xlsx")) {
+                    String[] headers = new String[pc.getColumns().size()];
+                    for (int k = 0; k < headers.length; k++) {
+                        headers[k] = pc.getColumns().get(k).getName();
+                    }
+                    dbData.add(0, headers);
+                }
+
+                // convert to 2D str array
                 String[][] data = new String[dbData.size()][pc.getColumns().size()];
                 for (int i = 0; i < data.length; i++) {
                     data[i] = dbData.get(i);
-                }
-
+                    
+                } 
+                
                 //delete the file if it already exists to prevent overriding issues
                 if (target.exists()) {
                     Files.delete(target.toPath());
                 } //do we even need this if the fileio methods default to overwriting existing files????
 
-                //write txt
-                if (FileIO.getFileExt(pc.getFilename()).equals("txt")) {
-                    FileIO.writeTableToTxt(target, data, pc.getDelimiter());
+
                 //write excel
-                } else if (FileIO.getFileExt(pc.getFilename()).equals("xlsx")) {
+                if (FileIO.getFileExt(pc.getFilename()).equals("xlsx")) {
+
+                    //my client also wants me to write in the headers
                     FileIO.writeGrid(exportPath, data);
+
+                //any other extension means txt
+                } else {
+                    FileIO.writeTableToTxt(target, data, pc.getDelimiter());
                 }
 
                 //no need for timestamp or renaming of files if successful
@@ -107,9 +123,7 @@ public class JobRunner {
 
                 //move the partially constructed file to the failure folder.
                 if (target.exists()) {
-                    String destination = target.getParent() + "\\Failure\\" + //insert date before the dot in the extension
-                    target.getName().substring(0, target.getName().lastIndexOf('.')) + '-'//assume file has extension
-                    + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime()) + target.getName().substring(target.getName().lastIndexOf('.'));
+                    String destination = target.getParent() + "\\Failure\\" + appendTimestamp(target.getName());
 
                     try {
                         FileIO.moveFiles(target.getPath(), destination); //this will throw io exception :(
@@ -166,49 +180,45 @@ public class JobRunner {
                 try {
 
                     int loadingID = DatabaseIO.generateLoadingId(); //same for all data in a file
-                    String[][] data = null;
+                    String[][] data = null, temp = null;
                     
-                    //read txt files
-                    if (FileIO.getFileExt(f).equals("txt")) {
+                    //read excel files
+                    if (FileIO.getFileExt(f).equals("xlsx")) {
+
+                        temp = FileIO.readGrid(f.getPath(), pc.getColumns().size(), -1);
+                        
+                    //any other ext means read txt
+                    } else {
 
                         List<String> input = FileIO.readAllTxt(f.getPath());
 
-                        //append loading id and other ids to the start of the string in the list 
-                        for (int i = 0; i < input.size(); i++) { //then I don't have to swap columns lol
-                            String appendToStart = Integer.toString(loadingID) + pc.getDelimiter() + (i+1) + pc.getDelimiter();
-                            input.set(i, appendToStart + input.get(i));                             //db starts from 1 not 0
-                        }
-
                         //convert to string array
-                        data = new String[input.size()][];
-                        for (int j = 0; j < data.length; j++) { //data gets split based on delimiter
-                            data[j] = input.get(j).split(pc.getDelimiter());
+                        temp = new String[input.size()][];
+                        for (int j = 0; j < temp.length; j++) { //data gets split based on delimiter
+                            temp[j] = input.get(j).split(pc.getDelimiter());
+                        } 
+
+                    }
+
+                    //add loading id and row num; requires the 2D array to expand
+                    data = new String[temp.length][temp[0].length+2];
+                    for (int i = 0; i < data.length; i++) {
+
+                        //add loading id and row num to each array
+                        data[i][0] = Integer.toString(loadingID);
+                        data[i][1] = Integer.toString(i+1); //db starts from 1 not 0
+
+                        //copy the rest
+                        for (int j = 2; j < data[0].length; j++) {
+                            data[i][j] = temp[i][j-2];
                         }
-
-                    //reading excel files
-                    } else if (FileIO.getFileExt(f).equals("xlsx")) {
-
-                        String[][] temp = FileIO.readGrid(f.getPath(), pc.getColumns().size(), -1);
-                        data = new String[temp.length][temp[0].length+2];
-
-                        //add loading id and row num; requires the 2D array to expand
-                        for (int i = 0; i < data.length; i++) {
-                            for (int j = 0; j < data[0].length; j++) {
-                                if (j == 0) data[i][j] = Integer.toString(loadingID);
-                                else if (j == 1) data[i][j] = Integer.toString(j+1); //db starts from 1 not 0
-                                else data[i][j] = temp[i][j-2];
-                            }
-                        }
-                        
                     }
 
                     //write to database
                     DatabaseIO.WriteData(pc.getDbTable(), data);
 
                     //move to sucess folder TODO  !!CURRENTLY COPYING!!! 
-                    String destination = f.getParent() + "\\Success\\" +  //insert date before the dot in the extension
-                        f.getName().substring(0, f.getName().lastIndexOf('.')) + '-'//assume file has extension
-                        + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime()) + f.getName().substring(f.getName().lastIndexOf('.'));
+                    String destination = f.getParent() + "\\Success\\" + appendTimestamp(f.getName());
 
                     FileIO.copyFiles(f.getPath(), destination);
 
@@ -226,9 +236,7 @@ public class JobRunner {
 
                     }
 
-                    String destination = f.getParent() + "\\Failure\\" + //insert date before the dot in the extension
-                        f.getName().substring(0, f.getName().lastIndexOf('.')) + '-' //assume file has extension
-                        + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime()) + f.getName().substring(f.getName().lastIndexOf('.'));
+                    String destination = f.getParent() + "\\Failure\\" + appendTimestamp(f.getName());
 
                     //move to failure folder TODO  !!CURRENTLY COPYING!!! 
                     try {
@@ -256,6 +264,18 @@ public class JobRunner {
         DataPorterConfig dpc = FileIO.readXML(".\\client-data-files\\" + runThisJob.getClient() + "\\" + runThisJob.getFile());
 
         return dpc;
+    }
+
+    public String appendTimestamp(String fileName) {
+
+        //file has no extension
+        if (fileName.lastIndexOf('.') == -1) {
+            return fileName + '-' + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime());
+
+        } else {
+            return fileName.substring(0, fileName.lastIndexOf('.')) + Job.SHORT_DATE_FORMATER.format(Calendar.getInstance().getTime()) + fileName.substring(fileName.lastIndexOf('.'));
+        }
+
     }
 
 }

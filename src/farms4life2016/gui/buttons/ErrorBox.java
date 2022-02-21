@@ -14,7 +14,7 @@ public class ErrorBox extends NPButton {
         super(false, 0);
         setDimensions(new Rectangle(50, 200+12*30+60, 960, 30));
 		setFontSize(16);
-		setText("Errors will be displayed here.");
+		setText("Errors will be displayed here. The first job likely run will take longer.");
 
         errorCount = 0;
     }

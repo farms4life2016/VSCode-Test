@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 
 import farms4life2016.gui.Colours;
 import farms4life2016.gui.StringDrawer;
-import java.awt.Container;
 
 public abstract class Button {
 

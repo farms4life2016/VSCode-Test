@@ -1,25 +1,18 @@
 package farms4life2016.fileio;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Calendar;
+import java.util.List;
 
-import java.util.List; 
-
-import javax.xml.bind.JAXBContext;  
-import javax.xml.bind.JAXBException;  
-import javax.xml.bind.Unmarshaller; 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -411,12 +404,14 @@ public class FileIO {
 
         //loop through data to extract the content in all cells
         for (int i = 0; i < data.length; i++) {
+
+            row = ""; //reset variables
             
             for (int j = 0; j < data[i].length; j++) {
                 row += data[i][j]; //append to row
 
                 //add a delimitor/separator afterwards, but append newline after last data point
-                if (j != data[i].length) row += separator;
+                if (j != data[i].length-1) row += separator;
                 else row += "\n";
             }
 
