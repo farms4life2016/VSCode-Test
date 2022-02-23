@@ -8,7 +8,6 @@ import java.awt.Point;
 
 /**
  * Draws an image from a file onto a specified rectangluar selection
- * @author farms4life2016
  */
 public abstract class IconButton extends Button {
 

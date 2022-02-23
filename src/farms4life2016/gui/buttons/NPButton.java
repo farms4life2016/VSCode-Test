@@ -13,9 +13,13 @@ public class NPButton extends Button {
 
     private boolean drawOutline;
     protected int outlineWidth;
-
     
-
+    /**
+     * Creates a new non-pressable button
+     * @param hasOutline should the button have its outline drawn?
+     * @param outlineWidth if yes to outline, how thick should the ouline be? 
+     * Please input an int larger than 0 if yes.
+     */
     public NPButton(boolean hasOutline, int outlineWidth) {
         super();
         drawOutline = hasOutline;

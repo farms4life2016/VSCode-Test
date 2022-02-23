@@ -7,8 +7,11 @@ import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.Colours;
 import farms4life2016.gui.buttons.InfoBox;
 
+/**
+ * A table cell at the top of the table that can sort 
+ * the rest of the table if you click on the cell
+ */
 public class TableHeaderCell extends TableCell {
-
     
     public TableHeaderCell(TableRow r) {
         super(r);
@@ -31,7 +34,7 @@ public class TableHeaderCell extends TableCell {
             parent.resetColours();
             if (!text.equals("Actions")) setSelected(true);
 
-            //sorting by fields TODO this should only sort the tablerows, not the entire joblist
+            //sorting by fields 
             if (text.equals("ID") || text.equals("Actions")) {
                 Job.mergesort(Controller.jobList, Job.SORT_BY_ID);
             } else if (text.equals("Name")) {

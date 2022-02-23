@@ -18,6 +18,9 @@ import farms4life2016.fileio.DataPorterConfig;
 import farms4life2016.fileio.FileIO;
 import farms4life2016.fileio.PorterConfig;
 
+/**
+ * When you hit "run," this class will run the job
+ */
 public class JobRunner {
 
     private Job runThisJob;
@@ -54,8 +57,9 @@ public class JobRunner {
     }
 
     /**
-     * 
+     * Runs an export-type job
      * @return true means that the job was run successfully without any file IO problems
+     * @throws JAXBException 
      */
     private boolean exportToFile() throws JAXBException { 
 
@@ -155,6 +159,11 @@ public class JobRunner {
 
     } //end export
 
+    /**
+     * Runs import-type jobs
+     * @return true if job was run without errors
+     * @throws JAXBException
+     */
     private boolean importFromFile() throws JAXBException { 
 
         DataPorterConfig dpc = getConfigFromXML(); //read XML
@@ -292,7 +301,14 @@ public class JobRunner {
 
     } //end import from file
 
-    public static File[] getWildcardFiles(String folder, String filename) throws JAXBException { 
+    /**
+     * A method that helps with identifying and selecting * files
+     * @param folder
+     * @param filename
+     * @return a static array of files that satisfy the *
+     * 
+     */
+    public static File[] getWildcardFiles(String folder, String filename)  { 
         File[] files = null; 
 
         if (filename.contains("*")) {
@@ -311,6 +327,11 @@ public class JobRunner {
         return files;
     }
 
+    /**
+     * A shorthand for {@code FileIO.readXML(...)}
+     * @return
+     * @throws JAXBException
+     */
     public DataPorterConfig getConfigFromXML() throws JAXBException {
         
         //shorthand for reading xml file
@@ -319,6 +340,11 @@ public class JobRunner {
         return dpc;
     }
 
+    /**
+     * Appends the current time to the end of a file's name
+     * @param fileName
+     * @return
+     */
     public String appendTimestamp(String fileName) {
 
         //file has no extension

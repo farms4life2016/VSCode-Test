@@ -43,10 +43,24 @@ public abstract class Button {
 
     }
 
+    /**
+     * how the button interacts when you click it
+     * @param e
+     */
     public abstract void onClick(MouseEvent e);
 
+    /**
+     * How the button should display itself on the gui
+     * @param g
+     */
     public abstract void drawSelf(Graphics2D g);
 
+    /**
+     * Draw borders around this button
+     * @param g
+     * @param width
+     * @param colour
+     */
     protected void drawBorders(Graphics2D g, int width, Color colour) {
 
         //draw in the borders
@@ -58,6 +72,10 @@ public abstract class Button {
 
     }
 
+    /**
+     * Draw the background colour for this button
+     * @param g
+     */
     protected void fillBgRect(Graphics2D g) {
 
         //draw in background colour
@@ -66,6 +84,10 @@ public abstract class Button {
 
     }
 
+    /**
+     * Draw text on this button
+     * @param g
+     */
     protected void drawText(Graphics2D g) {
 
         //draw the text
@@ -153,6 +175,9 @@ public abstract class Button {
     public void setFontSize(float fontSize) {
         this.fontSize = fontSize;
     }
+
+    //the following 4 methods get some part of the button's
+    //dimensions
 
     public int getX() {
         return dimensions.x;

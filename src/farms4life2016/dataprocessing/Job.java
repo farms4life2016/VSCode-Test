@@ -12,7 +12,7 @@ public class Job {
     private String name;
     private String client;
     private char type;
-    private String file; //should I change this to java.util.File?
+    private String file; 
     private Calendar date;
     private boolean active;
     
@@ -54,25 +54,30 @@ public class Job {
 
     }
 
-    public static void mergesort(DLinkedList tableRows, int field) {
+    /**
+     * Sorts the doubly linked list of jobs using the mergesort algorithm
+     * @param jobList
+     * @param field
+     */
+    public static void mergesort(DLinkedList jobList, int field) {
 
-        if (tableRows.length() == 0) return; //can't sort empty list
+        if (jobList.length() == 0) return; //can't sort empty list
         
-        split(tableRows, 0, tableRows.length()-1, field);
+        split(jobList, 0, jobList.length()-1, field);
     }
 
-    private static void split(DLinkedList tableRows, int left, int right, int field) {
+    private static void split(DLinkedList jobList, int left, int right, int field) {
 
         if (left < right) { //mergesort algorithm 
             int mid = (left + right)/2; //find mid
-            split(tableRows, left, mid, field); //split list into two halves
-            split(tableRows, mid+1, right, field);
-            merge(tableRows, left, mid, right, field); //then merge the two sorted halves
+            split(jobList, left, mid, field); //split list into two halves
+            split(jobList, mid+1, right, field);
+            merge(jobList, left, mid, right, field); //then merge the two sorted halves
         }
 
     }
 
-    private static void merge(DLinkedList tableRows, int left, int mid, int right, int field) {
+    private static void merge(DLinkedList jobList, int left, int mid, int right, int field) {
 
         int leftPointer = left, rightPointer = mid + 1;
 
@@ -82,15 +87,15 @@ public class Job {
 		
             //if either half has finished traversing, copy the remaining elements in the other half
 			if (leftPointer > mid) {
-				temp[i] = (Job) tableRows.get(rightPointer);
+				temp[i] = (Job) jobList.get(rightPointer);
 				rightPointer++;
 			} else if (rightPointer > right) {
-				temp[i] = (Job) tableRows.get(leftPointer);
+				temp[i] = (Job) jobList.get(leftPointer);
 				leftPointer++;
 			} else {
 
                 //for the ease of typing
-                Job lJob = (Job) tableRows.get(leftPointer), rJob = (Job) tableRows.get(rightPointer);
+                Job lJob = (Job) jobList.get(leftPointer), rJob = (Job) jobList.get(rightPointer);
 
                 //consider what we are sorting by
                 int comparison = 0;
@@ -129,7 +134,7 @@ public class Job {
 		}
 
         //copy from sorted array to unsorted list
-        DNode n = tableRows.getNode(left);
+        DNode n = jobList.getNode(left);
 		for (int i = 0; i < temp.length; i++) {
             n.setItem(temp[i]);
 			n = n.getNext();
@@ -139,7 +144,7 @@ public class Job {
 
     public static String[][] convertListIntoArray(DLinkedList list) {
 
-        if (list.length() == 0) {//TODO this is wrong lol
+        if (list.length() == 0) {
             String[][] empty = {{"", "", "", "", "", ""}};
             return empty;
         }
@@ -165,6 +170,40 @@ public class Job {
         return output;
     }
 
+    public static DLinkedList linearSearch(DLinkedList jobList, String key) {
+
+        DNode n = jobList.getNode(0);
+        DLinkedList results = new DLinkedList();
+
+        //we will perform the search ignoring capitalization
+        mergesort(jobList, SORT_BY_ID);
+        key = key.toLowerCase();
+
+        //perform linear search
+        for (int i = 0; i < jobList.length(); i++) {
+
+            Job j = (Job)n.getData(); 
+
+            //check every single field for the key
+            if (Integer.toString(j.id).contains(key) ||
+            (j.name.toLowerCase().contains(key)) ||
+            (j.client.toLowerCase().contains(key)) ||
+            (Character.toString(j.type).toLowerCase().contains(key)) ||
+            (j.file.toLowerCase().contains(key)) ||
+            (LONG_DATE_FORMATER.format(j.date.getTime()).toLowerCase().contains(key)) ) {
+
+                //if the key is a substring of any
+                //field, then put it in the search results
+                results.add(j);
+
+            }
+
+            n = n.getNext();
+        }
+        
+        return results;
+    }
+
     
     @Override
     public String toString() {
@@ -176,7 +215,7 @@ public class Job {
 
 
     /*
-     * Setters and getters (thank you vscode for auto-genning this)
+     * Setters and getters (thank you vscode for auto-genning most of this)
      */
 
     public String getFile() {
@@ -263,38 +302,6 @@ public class Job {
         }
     }
 
-    public static DLinkedList linearSearch(DLinkedList jobList, String key) {
-
-        DNode n = jobList.getNode(0);
-        DLinkedList results = new DLinkedList();
-
-        //we will perform the search ignoring capitalization
-        mergesort(jobList, SORT_BY_ID);
-        key = key.toLowerCase();
-
-        //perform linear search
-        for (int i = 0; i < jobList.length(); i++) {
-
-            Job j = (Job)n.getData(); 
-
-            //check every single field for the key
-            if (Integer.toString(j.id).contains(key) ||
-            (j.name.toLowerCase().contains(key)) ||
-            (j.client.toLowerCase().contains(key)) ||
-            (Character.toString(j.type).toLowerCase().contains(key)) ||
-            (j.file.toLowerCase().contains(key)) ||
-            (LONG_DATE_FORMATER.format(j.date.getTime()).toLowerCase().contains(key)) ) {
-
-                //if the key is a substring of any
-                //field, then put it in the search results
-                results.add(j);
-
-            }
-
-            n = n.getNext();
-        }
-        
-        return results;
-    }
+    
 
 }

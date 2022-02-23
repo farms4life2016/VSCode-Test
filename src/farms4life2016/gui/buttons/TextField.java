@@ -7,16 +7,22 @@ import java.awt.Color;
 
 import farms4life2016.gui.Colours;
 
+/**
+ * Class that creates textboxes that the user can type in
+ */
 public class TextField extends Button {
 
     private int underscoreCounter;
     private boolean underscore;
     private String input;
-    private int maxLen;
+    //if we don't specify max len then text might be drawn outside of the box
+    private int maxLen; 
     private Color normalColour;
 
+    /**
+     * This is how we tell user that they have hit max char limit
+     */
     private static final Color OVERFLOW_COLOR = Colours.RED;
-    
 
     public TextField() {
         super();
@@ -48,6 +54,9 @@ public class TextField extends Button {
         
     }
 
+    /**
+     * How the textbox should behave when the screen is refreshed
+     */
     public void onRefresh() {
         
         //trying to recreate the funny flashy | or _ that appears at the end of a textbox
@@ -66,7 +75,7 @@ public class TextField extends Button {
     
             }
             
-        } else {
+        } else { //not selected means no | effect
             underscoreCounter = 0;
             underscore = false;
             text = input;
@@ -82,6 +91,10 @@ public class TextField extends Button {
         
     }
 
+    /**
+     * Handles how the textbox should react to keyboard input
+     * @param e
+     */
     public void onType(KeyEvent e) {
 
         //only allow text input if textbox is selected
@@ -132,6 +145,8 @@ public class TextField extends Button {
     public void setTextColour(Color textColour) {
         normalColour = textColour;
     }
+
+    //setters and getters
 
     public int getMaxLen() {
         return maxLen;

@@ -56,6 +56,7 @@ public class ErrorBox extends NPButton {
 
     @Override
     public void setText(String text) {
+        //add date to error message
         super.setText("[" + Job.LONG_DATE_FORMATER.format(Calendar.getInstance().getTime()) + "]  " + text);
     }
 

@@ -10,6 +10,9 @@ import farms4life2016.dataprocessing.DNode;
 import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.buttons.Button;
 
+/**
+ * I hate the built-in JTable so I made one myself
+ */
 public class Table extends Button {
 
     //list for storing all the table rows
@@ -22,6 +25,10 @@ public class Table extends Button {
 
     public static final int UNIVERSAL_ROW_HEIGHT = 30;
 
+    /**
+     * make a new table using a job list
+     * @param jobList
+     */
     public Table(DLinkedList jobList) {
 
         //initialize variables
@@ -80,7 +87,8 @@ public class Table extends Button {
             jobIndex = -1;
         }
         
-        
+        //used to change all the table header cell colours
+        //back to their default
         if (resetHeaders) {
             ((TableRow)(rows.get(0))).resetColours();
         }
@@ -120,6 +128,9 @@ public class Table extends Button {
         
     }
 
+    /**
+     * Display the next row and hide the first row
+     */
     public void nextRow() {
 
         //user can see jobs after the displayed 10
@@ -131,6 +142,9 @@ public class Table extends Button {
         
     }
 
+    /**
+     * Display the previous row and hide the last row
+     */
     public void prevRow() {
 
         //user can see jobs before the displayed 10
@@ -142,6 +156,10 @@ public class Table extends Button {
 
     }
 
+    /**
+     * Handles mousewheel input.
+     * @param e
+     */
     public void onScroll(MouseWheelEvent e) {
 
         //scroll up

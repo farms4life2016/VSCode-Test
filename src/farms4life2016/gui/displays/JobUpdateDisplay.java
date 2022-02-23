@@ -20,14 +20,17 @@ import farms4life2016.gui.buttons.MultipleChoice;
 import farms4life2016.gui.buttons.NPButton;
 import farms4life2016.gui.buttons.TextField;
 
+/**
+ * Display for updating or adding jobs
+ */
 public class JobUpdateDisplay extends GenericDisplay {
     
-    NPButton title, errorMessage, textboxes[];
-    TextField inputBoxes[];
-    Button updateJob, cancelUpdate;
-    MultipleChoice chooseIO;
-    int mode;
-    Job currentJob;
+    private NPButton title, errorMessage, textboxes[];
+    private TextField inputBoxes[];
+    private Button updateJob, cancelUpdate;
+    private MultipleChoice chooseIO;
+    private int mode;
+    private Job currentJob;
     
     public static final int ADD = 0, UPDATE = 1;
 
@@ -114,29 +117,36 @@ public class JobUpdateDisplay extends GenericDisplay {
                     
                     try {
                         if (mode == ADD) {
+                            //map the input on the gui to a job instance
                             Job toAdd = new Job();
                             toAdd.setId(FileIO.nextId);
                             toAdd.setName(inputBoxes[0].getText().trim());
                             toAdd.setClient(inputBoxes[1].getText().trim());
                             toAdd.setType(chooseIO.getChoice().charAt(3));
                             toAdd.setFile(inputBoxes[2].getText().trim());
-                            toAdd.setDate(Calendar.getInstance());
+                            toAdd.setDate(Calendar.getInstance()); //use current time
                             toAdd.setActive(true);
-                            Controller.jobList.add(toAdd);
-                            FileIO.add(toAdd);
+                            Controller.jobList.add(toAdd); //add the job to lists
+                            FileIO.add(toAdd); //and update init file
 
                         } else if (mode == UPDATE) {
+
+                            //similar to add
                             currentJob.setName(inputBoxes[0].getText().trim());
                             currentJob.setClient(inputBoxes[1].getText().trim());
                             currentJob.setType(chooseIO.getChoice().charAt(3));
                             currentJob.setFile(inputBoxes[2].getText().trim());
-                            currentJob.setDate(Calendar.getInstance());
-                            FileIO.edit(currentJob);
+                            currentJob.setDate(Calendar.getInstance()); //change the last mod date
+                            FileIO.edit(currentJob); //update init file
                         }
                     } catch (IOException ioe) {
-                        System.out.println("Could not access init file"); //TODO error bar
-                        ioe.printStackTrace();
+                        Controller.LOGGER4J.error("Could not access initialization file to save your changes: " + ioe.getMessage());
+                        errorMessage.setText("Could not access initialization file to save your changes."); 
+                        errorMessage.setTextColour(Colours.AQUA);
+                        return;
                     }
+
+                    //display on main menu's table
                     Job.mergesort(Controller.jobList, Job.SORT_BY_ID);
                     Controller.mainMenu.jobTable.fillJobs(Controller.jobList, true);
                     parent.setVisible(false);
@@ -158,6 +168,14 @@ public class JobUpdateDisplay extends GenericDisplay {
         updateJob.setSelected(false);
         updateJob.setDimensions(new Rectangle(50, 400, 100, 30));
 
+        //no empty jobs are allowed to be added/updated
+        errorMessage = new NPButton(false, 0);
+        errorMessage.setText("Note: Jobs cannot have empty fields.");
+        errorMessage.setDimensions(new Rectangle(50, 440, 100, 30));
+        errorMessage.setFontSize(12);
+        errorMessage.setUnselectedColour(Colours.GRAY60);
+        errorMessage.setSelected(false);
+
         addMode();
         
         fps.start();
@@ -171,6 +189,7 @@ public class JobUpdateDisplay extends GenericDisplay {
         title.drawSelf(g);
         cancelUpdate.drawSelf(g);
         updateJob.drawSelf(g);
+        errorMessage.drawSelf(g);
 
         for (int i = 0; i < textboxes.length; i++) {
             textboxes[i].drawSelf(g);
@@ -214,13 +233,23 @@ public class JobUpdateDisplay extends GenericDisplay {
         }
     }
 
+    /**
+     * Sets the display to adding mode or updating mode.
+     * This mainly changes some text on the display.
+     * @param newMode
+     * @param j
+     */
     public void setMode(int newMode, Job j) {
         mode = newMode;
         currentJob = j;
+        errorMessage.setTextColour(Colours.WHITE);
         if (mode == ADD) addMode();
         else if (mode == UPDATE) updateMode();
     }
 
+    /**
+     * Prepare to add a new job
+     */
     private void addMode() {
         for (int i = 0; i < inputBoxes.length; i++) {
             inputBoxes[i].setText("");
@@ -230,6 +259,9 @@ public class JobUpdateDisplay extends GenericDisplay {
         updateJob.setText("Add");
     }
 
+    /**
+     * Prepare to update an existing job
+     */
     private void updateMode() {
         inputBoxes[0].setText(currentJob.getName());
         inputBoxes[1].setText(currentJob.getClient());
@@ -240,15 +272,22 @@ public class JobUpdateDisplay extends GenericDisplay {
         updateJob.setText("Update");
     }
 
+    /**
+     * A check to see if any of the input textboxes are empty
+     * or full of space characters only.
+     * @return true means that the current job is valid to be updated or added. 
+     * false otherwise
+     */
     private boolean noEmptyFields() {
         //loop through textboxes to check their lengths
         for (int i = 0; i < inputBoxes.length; i++) {
-            if (inputBoxes[i].getText().equals("")) {
-                System.out.println("you have empty fields!");
+            if (inputBoxes[i].getText().trim().equals("")) {
+                errorMessage.setTextColour(Colours.AQUA);
                 return false;
             }
         }
+        errorMessage.setTextColour(Colours.WHITE);
         return true;
-    } //TODO show error message on gui
+    } 
 
 }

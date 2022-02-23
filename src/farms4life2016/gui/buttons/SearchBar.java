@@ -9,12 +9,17 @@ import farms4life2016.dataprocessing.Controller;
 import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.Colours;
 
+/**
+ * This is the searchbar that you see in the main menu
+ */
 public class SearchBar extends Button { 
 
     private IconButton glass; //will be made of an magnifying glass icon and a text field
     private TextField text;
 
     public SearchBar() {
+
+        //consists of an icon and a text input box
         glass = new IconButton(".\\icons\\Search.png") {
 
             @Override
@@ -61,14 +66,24 @@ public class SearchBar extends Button {
         
     }
 
+    /**
+     * For typing into the textfield
+     * @param e
+     */
     public void onType(KeyEvent e) {
         text.onType(e);
     }
 
+    /**
+     * For the funny | flashing effect in the textfield
+     */
     public void onRefresh() {
         text.onRefresh();
     }
 
+    /**
+     * Linear searches the job list and updates the table with search results
+     */
     public void search() {
         text.setSelected(false);
 

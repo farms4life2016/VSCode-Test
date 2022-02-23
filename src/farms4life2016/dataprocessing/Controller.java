@@ -30,7 +30,7 @@ public class Controller {
     public static JobUpdateDialogue jobUpdater;
     public static MenuDisplay mainMenu;
     public static CardLayout cdLayout;
-    public static StartDisplay startMenu;
+    private static StartDisplay startMenu;
 
     //window size
     public static final int WINDOW_W = 1200, WINDOW_H = 720; //50 px for the top bar thingy
@@ -59,15 +59,15 @@ public class Controller {
      * Exit the program
      */
     public static void terminate() {
-
-        //TODO ensure that all file IO tasks are done and closed safely before exiting
         System.exit(0);
     }
 
     private static void initFromFile() {
         try {
             FileIO.init();
-        } catch (IOException e) { //I guess we make a new init file?
+        } catch (IOException e) { 
+            System.out.println("The initialization file cannot be accessed by the program.");
+            System.out.println("Please create a new and empty \"init.txt\" or find an existing one.");
             e.printStackTrace();
         }
         
@@ -76,9 +76,7 @@ public class Controller {
     /**
      * Creates the GUI. Most of this method is copied from the GUI programs that I wrote in grade 10.
      */
-    public static void initGUI() {
-
-        
+    public static void initGUI() {        
         
         //variables
         new StringDrawer();
@@ -111,6 +109,10 @@ public class Controller {
 
     }
 
+    /**
+     * changes the title of the window
+     * @param newName
+     */
     public static void setTitle (String newName) {
         window.setTitle(newName);
     }

@@ -9,6 +9,9 @@ import farms4life2016.dataprocessing.Job;
 import farms4life2016.gui.buttons.ActionButtons;
 import farms4life2016.gui.buttons.Button;
 
+/**
+ * Represents a single row in a Table instance
+ */
 public class TableRow extends Button {
     
     private Job rowJob;
@@ -17,6 +20,11 @@ public class TableRow extends Button {
     private Table parent;
     private int index;
 
+    /**
+     * Used to create a table row from a Job
+     * @param job
+     * @param t
+     */
     public TableRow(Job job, Table t) {
 
         //init values
@@ -62,6 +70,11 @@ public class TableRow extends Button {
 
     }
 
+    /**
+     * Used to create a table row for dem headers
+     * @param headerNames
+     * @param t
+     */
     public TableRow(String[] headerNames, Table t) {
 
         position = new Point( t.getX(), t.getY()); 
@@ -77,6 +90,10 @@ public class TableRow extends Button {
 
     }
 
+    /**
+     * changes the colour of all the cells in the row
+     * to their default colour
+     */
     public void resetColours() {
         for (int i = 0; i < cells.length; i++) {
             cells[i].setSelected(false);

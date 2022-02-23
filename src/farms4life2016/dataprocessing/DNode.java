@@ -1,5 +1,8 @@
 package farms4life2016.dataprocessing;
 
+/**
+ * Used by the {@code DLinkedList} class
+ */
 public class DNode { 
 
 	private DNode next, prev;

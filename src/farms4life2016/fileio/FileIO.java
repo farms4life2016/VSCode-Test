@@ -36,38 +36,6 @@ public class FileIO {
     private FileIO() {} //this class is strictly static
 
     /**
-     * Read init file. This method is also proof of concept of an excel file reader.
-     * 
-     * @param list
-     */
-    public static void init(DLinkedList list) throws IOException {
-
-        String[][] input = readGrid(".\\init\\hardcode these jobs.xlsx", 7, -1);
-
-        for (int i = 1; i < input.length; i++) {
-            
-            try {
-                Job j = new Job();
-                j.setId((int) Double.parseDouble(input[i][0]));
-                j.setClient(input[i][2]);
-                j.setType(input[i][3].charAt(0));
-                j.setName(input[i][1]);
-                j.setFile(input[i][4]);
-                j.setDate(input[i][5]);
-                if (input[i][6].equals("Active")) j.setActive(true);
-                else j.setActive(false);
-                list.add(j);
-    
-            } catch (NullPointerException | NumberFormatException e) {
-                System.out.println("We are not going to add an empty job");
-                e.printStackTrace();
-            }
-            
-        }
-
-    }
-
-    /**
      * Read the init file
      * @throws IOException
      */
@@ -99,6 +67,13 @@ public class FileIO {
 
     }
 
+    /**
+     * Edit a job that is already stored on the init file.
+     * This method basically copies down the changes made through
+     * the GUI into a file
+     * @param j
+     * @throws IOException
+     */
     public static void edit(Job j) throws IOException {
 
         //use randomaccessfile
@@ -128,6 +103,12 @@ public class FileIO {
 
     }
 
+    /**
+     * Similar to edit, but a new ID is assigned to the
+     * job because we are adding a job
+     * @param j
+     * @throws IOException
+     */
     public static void add(Job j) throws IOException {
         nextId++;
         edit(j);
@@ -193,8 +174,6 @@ public class FileIO {
         // yeah we have to swap w and h when creating 
         // the array due to how java stores information
 
-        // assume input is valid TODO
-
         // loop through each row and column
         for (int i = 0; i < height; i++) {
 
@@ -225,7 +204,7 @@ public class FileIO {
     }
 
     /**
-     * 
+     * Read a rectangular selection on an excel workbook. Only the first sheet will be read.
      * @param fileName
      * @param width
      * @param height
@@ -236,7 +215,7 @@ public class FileIO {
     }
 
     /**
-     * 
+     * Writes a rectangular selection onto an Excel workbook
      * @param fileName
      * @param data
      * @return
@@ -371,6 +350,13 @@ public class FileIO {
 
     }
 
+    /**
+     * Moves a file to another destination, renaming the moved file if
+     * the filename specified by {@code destination} is different from {@code originalFile}
+     * @param originalFile
+     * @param destinationFile
+     * @throws IOException
+     */
     public static void moveFiles(String originalFile, String destinationFile) throws IOException {
         File original = new File(originalFile);
         File destination = new File(destinationFile);
@@ -378,11 +364,23 @@ public class FileIO {
         Files.move(original.toPath(), destination.toPath());
     }
 
+    /**
+     * Deletes a file as Minecraft would call it, "for a very very long time!"
+     * @param target
+     * @throws IOException
+     */
     public static void deleteFile(String target) throws IOException {
         File toDelete = new File(target);
         Files.delete(toDelete.toPath()); //say bye bye! THERE IS NO UNDO!!!
     }
 
+    /**
+     * Reads all the lines in a txt file. I think it also works for
+     * non-txt files, but you may end up with complied gibberish 
+     * @param filePath
+     * @return
+     * @throws IOException
+     */
     public static List<String> readAllTxt(String filePath) throws IOException {
 
         File f = new File(filePath);
@@ -390,10 +388,24 @@ public class FileIO {
 
     }
 
+    /**
+     * Writes the contents of a 2D string array to a file using a specified delimiter
+     * @param filepath
+     * @param data
+     * @param separator
+     * @throws IOException
+     */
     public static void writeTableToTxt(String filePath, String[][] data, String separator) throws IOException {
         writeTableToTxt(new File(filePath), data, separator);
     }
 
+    /**
+     * Writes the contents of a 2D string array to a file using a specified delimiter
+     * @param file
+     * @param data
+     * @param separator
+     * @throws IOException
+     */
     public static void writeTableToTxt(File file, String[][] data, String separator) throws IOException {
 
         //make a new writer
@@ -444,6 +456,11 @@ public class FileIO {
 
     }
 
+    /**
+     * An alternative to {@code getFileExt(String fileName)}
+     * @param f
+     * @return
+     */
     public static String getFileExt(File f) {
 
        return getFileExt(f.getName());

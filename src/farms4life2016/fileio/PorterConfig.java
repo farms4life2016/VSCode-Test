@@ -2,6 +2,9 @@ package farms4life2016.fileio;
 
 import java.util.List;
 
+/**
+ * Used to parse the XML config files
+ */
 public class PorterConfig {
         
     private String name;
@@ -27,6 +30,8 @@ public class PorterConfig {
         this.keepfile = keepfile;  
         this.columns = columns;  
     }  
+
+    //setters and getters
 
     public String getName() {
         return name;

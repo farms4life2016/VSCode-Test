@@ -1,11 +1,18 @@
 package farms4life2016.dataprocessing;
 
+/**
+ * Doubly linked list: a linked list that allows faster
+ * backwards travel at the cost of extra memory
+ */
 public class DLinkedList {
 
 	private DNode dummyHead;
 	private DNode dummyTail;
 	private int size;
 	
+	/**
+	 * Creates a new Doubly linked list
+	 */
 	public DLinkedList() {
 		dummyHead = new DNode(null, null, null);
 		dummyTail = new DNode(null, null, null);
@@ -185,7 +192,6 @@ public class DLinkedList {
 			if (i != this.size - 1) output += "\n";
 		}
 		return "";
-		//return output + "]";
 	}
 	
 }

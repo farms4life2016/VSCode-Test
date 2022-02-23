@@ -13,13 +13,21 @@ import farms4life2016.gui.buttons.Button;
 import farms4life2016.gui.buttons.IconButton;
 import farms4life2016.gui.buttons.NPButton;
 
+/**
+ * Dumb display that I only made so my program looked more professional XD
+ */
 public class StartDisplay extends GenericDisplay {
 
     private Button toMenu;
     private NPButton welcome, title;
     private IconButton icon;
     
-
+    /**
+     * All this does is display a title, the logo,
+     * some more text, and a single button that let's you
+     * proceed to the main menu
+     * @param p
+     */
     public StartDisplay(Container p) {
         super(p);
 

@@ -9,18 +9,28 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * Responsible for drawing a string on the display
+ */
 public class StringDrawer {
 	
 	private static Font inconsolata;
 	
+	/**
+	 * Only init this once. Ideally we init the font
+	 * and set it to final but nooooooooo java has dumb exceptions
+	 */
 	public StringDrawer() {
 		
 		try {
+			//we use a custom font. ttf is in the java project
+			//so there should be no excuses for not finding the font
 			FileInputStream in = new FileInputStream( new File(".\\fonts\\Inconsolata-Regular.ttf"));
 			inconsolata = Font.createFont(Font.TRUETYPE_FONT, in);
 		} catch (IOException | FontFormatException e) {
 			e.printStackTrace();
-			System.exit(-1);
+			//use a built-in font
+			inconsolata = new Font("Courier New", Font.PLAIN, 16);
 		}
 		
 	}
@@ -29,6 +39,14 @@ public class StringDrawer {
 		return inconsolata;
 	}
 	
+	/**
+	 * draws a string in the center of a rectangle (centered in terms of X and Y)
+	 * @param g
+	 * @param text
+	 * @param textbox
+	 * @param style
+	 * @param size
+	 */
 	public static void drawStringSuperCentered(Graphics2D g, String text, Rectangle textbox, int style, float size) {
 		
 		// Get the FontMetrics
@@ -44,7 +62,14 @@ public class StringDrawer {
 		
 	} //https://stackoverflow.com/questions/27706197/how-can-i-center-graphics-drawstring-in-java
 	
-	
+	/**
+	 * draws a string left-aligned X-wise and centered Y-wise
+	 * @param g
+	 * @param text
+	 * @param textbox
+	 * @param style
+	 * @param size
+	 */
 	public static void drawStringCenteredYLeftAligned(Graphics2D g, String text, Rectangle textbox, int style, float size) {
 		
 	    FontMetrics metrics = g.getFontMetrics(inconsolata.deriveFont(style, size));
@@ -55,6 +80,4 @@ public class StringDrawer {
 		
 	}
 	
-	
-
 }

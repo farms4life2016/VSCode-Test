@@ -5,8 +5,6 @@ import java.awt.Color;
 /**
  * An interface that holds a bunch of <code>java.awt.Color</code> constants.
  * Please do not implement this interface.
- * @author farms4life2016
- * 
  */
 public interface Colours {
 
@@ -29,10 +27,9 @@ public interface Colours {
         YELLOW = new Color(200, 200, 0),
         AQUA = new Color(140, 250, 250),
         BLUE = new Color(0, 170, 240),
-        OCEAN = new Color(0, 50, 100),
+        OCEAN = new Color(0, 50, 100);
 
-
-        LAST_COLOUR = null
-        ;
+        //I highly doubt that all of these colours are used 
+        //in the code lol
     
 }

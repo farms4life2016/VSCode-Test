@@ -19,7 +19,9 @@ import farms4life2016.gui.buttons.NPButton;
 import farms4life2016.gui.buttons.SearchBar;
 import farms4life2016.gui.tables.Table;
 
-
+/**
+ * The main menu displayer
+ */
 public class MenuDisplay extends GenericDisplay {
     
 	//these two are public since a lot of other classes
@@ -31,10 +33,6 @@ public class MenuDisplay extends GenericDisplay {
 	private SearchBar searchBar;
 	private NPButton scrollBarReplacement, title;
 	
-
-	/**
-	 * 
-	 */
 	public MenuDisplay(Container p) {
 
 		super(p); //init timers and add listeners
@@ -70,6 +68,9 @@ public class MenuDisplay extends GenericDisplay {
 		searchBar.setDimensions(new Rectangle(760, 140, 250, 40));
 		searchBar.setFontSize(20);
 
+		//this buttons brings the user back to the start page
+		//useful is you're wiping down the keyboard and don't want
+		//to delete a job by mistake
 		toStart = new Button() {
 
 			@Override
@@ -103,7 +104,7 @@ public class MenuDisplay extends GenericDisplay {
 		//we don't have a scrollbar, so this is how we tell
 		//the user how many jobs are left
 		scrollBarReplacement = new NPButton(false, 0);
-		scrollBarReplacement.setDimensions(new Rectangle(Controller.WINDOW_W - 280, Controller.WINDOW_H-65, 500, 20));
+		scrollBarReplacement.setDimensions(new Rectangle(Controller.WINDOW_W - 400, Controller.WINDOW_H-65, 300, 20));
 		scrollBarReplacement.setUnselectedColour(Colours.GRAY40);
 		scrollBarReplacement.setFontSize(12);
 		scrollBarReplacement.setSelected(false);
@@ -161,7 +162,7 @@ public class MenuDisplay extends GenericDisplay {
 			createNewJob.onClick(e);
 			toStart.onClick(e);
 
-			//java is dumb. when dialogue goes visible, all keyboard input
+			//java is dumb. when a dialogue goes visible, all keyboard input
 			//goes to dialogue, even when dialogue closes; so we have to manually redirect
 			//key input back to main menu
 			if (searchBar.getDimensions().contains(e.getPoint())) {
@@ -201,14 +202,20 @@ public class MenuDisplay extends GenericDisplay {
 		
 	}
 
+	/**
+	 * This method allows other classes to change the info box's text
+	 * @param newText
+	 */
 	public void setInfoText(String newText) {
 		extraInfo.setText(newText);
 	}
 
+	/**
+	 * tell user what is the first job in the list and the last one;
+	 * then they know when they have hit the bottom or top of the job list
+	 */
 	private void updateScrollBarReplacement() {
 
-		//tell user what is the first job in the list and the last one
-		//then they know when they have hit the bottom or top of the job list
 		if (Controller.jobList.length() > 0) {
 			scrollBarReplacement.setText( "First Job's ID: " + ((Job)(Controller.jobList.get(0))).getId() + 
 			"  --  Last Job's ID: " + ((Job)(Controller.jobList.get(Controller.jobList.length()-1))).getId() );

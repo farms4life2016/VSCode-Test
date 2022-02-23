@@ -6,6 +6,11 @@ import java.awt.event.MouseEvent;
 
 import farms4life2016.gui.Colours;
 
+/**
+ * Creates two buttons next to each other. Only one
+ * button can be selected at once, just like
+ * IB multiple choice physics paper 1
+ */
 public class MultipleChoice extends Button {
 
     private Button left, right;
@@ -85,7 +90,12 @@ public class MultipleChoice extends Button {
         right.setDimensions(new Rectangle(getX() + getWidth()/2 + 1, getY(), getWidth()/2, getHeight()));
     }
 
+    /**
+     * returns the text of the selected button
+     * @return
+     */
     public String getChoice() {
+        
         if (left.isSelected()) {
             return left.getText();
 
@@ -94,7 +104,13 @@ public class MultipleChoice extends Button {
         }
     }
 
+    /**
+     * Changes which button is currently selected.
+     * @param isLeft input true to select the left button. false to 
+     * select the right
+     */
     public void setChoice(boolean isLeft) {
+
         if (isLeft) {
             left.setSelected(true);
             right.setSelected(false);

@@ -22,6 +22,11 @@ import javax.swing.Timer;
 
 import farms4life2016.dataprocessing.Controller;
 
+/**
+ * A class inherited by all the other displays. Reduces clutter of 
+ * pointless listener methods and writing the same code for each
+ * display.
+ */
 public abstract class GenericDisplay extends JPanel implements ActionListener, 
     MouseMotionListener, MouseListener, KeyListener, MouseWheelListener, WindowListener { //too many listeners
 
@@ -80,7 +85,9 @@ public abstract class GenericDisplay extends JPanel implements ActionListener,
     }
 
     /**
-     * 
+     * Essentially the same thing as {@code paintComponent(Graphics g)}
+     * but with {@code Graphics2D} instead. This allows you to draw
+     * more complex things without needing to cast at the start.
      * @param g
      */
     protected abstract void paintComponent(Graphics2D g);

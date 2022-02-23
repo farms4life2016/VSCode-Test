@@ -1,5 +1,8 @@
 package farms4life2016.fileio;
 
+/**
+ * Used to parse the XML configs
+ */
 public class Column {
         
     private String name;
@@ -12,7 +15,11 @@ public class Column {
         super();  
         this.name = name;  
         this.length = length;  
-    }  
+    } 
+    
+    /*
+     * setters and getters
+     */
 
     public String getName() {
         return name;

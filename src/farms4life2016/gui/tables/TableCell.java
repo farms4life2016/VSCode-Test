@@ -8,15 +8,21 @@ import farms4life2016.gui.Colours;
 import farms4life2016.gui.buttons.Button;
 import farms4life2016.gui.buttons.InfoBox;
 
+/**
+ * A single cell in a Table instance
+ */
 public class TableCell extends Button {
 
     protected TableRow parent;
-    private int maxLen;
+    private int maxLen; //how many chars before cutoff
     private String fullText;
 
     public static final int OUTLINE_WIDTH = 3;
 
-
+    /**
+     * Creates a single cell in a table row
+     * @param r
+     */
     public TableCell(TableRow r) {
         super();
         parent = r;
@@ -42,10 +48,9 @@ public class TableCell extends Button {
     public void onClick(MouseEvent e) {
         
         if (dimensions.contains(e.getPoint())) {
-
             setSelected( !isSelected() );
 
-            //update info text box
+            //update info text box if selected currently
             if (isSelected()) {
                 Controller.mainMenu.setInfoText(this.fullText);
             } else {

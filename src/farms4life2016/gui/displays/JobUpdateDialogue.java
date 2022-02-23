@@ -5,10 +5,21 @@ import javax.swing.JFrame;
 
 import farms4life2016.dataprocessing.Job;
 
+/**
+ * I wasn't happy with JDialog and wanted to add some
+ * stuff of my own to the Job adding/updating dialogue.
+ */
 public class JobUpdateDialogue extends JDialog {
 
     private JobUpdateDisplay display;
 
+    /**
+     * Basically the same as the superclass' constructor, but with
+     * more initializtion of variables such as size
+     * @param frame
+     * @param title
+     * @param modial
+     */
     public JobUpdateDialogue(JFrame frame, String title, boolean modial) {
         super(frame, title, modial);
 
@@ -19,6 +30,13 @@ public class JobUpdateDialogue extends JDialog {
 
     }
 
+    /**
+     * Basically the same thing as {@code super.setVisible(...)}
+     * but I added some stuff to load the job's pre-existing information
+     * into the updater when it becomes visible
+     * @param isVisible
+     * @param j
+     */
     public void setVisible(boolean isVisible, Job j) {
         
         if (isVisible) {

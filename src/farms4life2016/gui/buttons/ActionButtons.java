@@ -13,6 +13,9 @@ import farms4life2016.fileio.FileIO;
 import farms4life2016.gui.Colours;
 import farms4life2016.gui.tables.TableRow;
 
+/**
+ * The trio of buttons next to each job on the main menu table
+ */
 public class ActionButtons extends Button {
 
     IconButton run, edit, delete;
@@ -56,30 +59,33 @@ public class ActionButtons extends Button {
                 if (dimensions.contains(e.getPoint())) {
 
                     try {
-                    //delete job
-                    parent.getJob().setActive(false);
-                    int removeId = parent.getJob().getId(); //all ids are unique
+                        //delete job
+                        parent.getJob().setActive(false);
+                        int removeId = parent.getJob().getId(); //all ids are unique
 
-                    DNode n = Controller.jobList.getNode(0);
+                        DNode n = Controller.jobList.getNode(0);
 
-                    //find the tablerow in the table with the matching id
-                    for (int i = 0; i < Controller.jobList.length(); i++) {
-                        if (((Job)(n.getData())).getId() == removeId) {
-                            //remove from joblist in controller
-                            Controller.jobList.remove(i);
-                            break;
+                        //find the tablerow in the table with the matching id
+                        for (int i = 0; i < Controller.jobList.length(); i++) {
+                            if (((Job)(n.getData())).getId() == removeId) {
+                                //remove from joblist in controller
+                                Controller.jobList.remove(i);
+                                break;
+                            }
+                            n = n.getNext();
                         }
-                        n = n.getNext();
-                    }
 
-                    //edit the init file
-                    FileIO.edit(parent.getJob());
+                        //edit the init file
+                        FileIO.edit(parent.getJob());
 
-                    //update table in menu
-                    Controller.mainMenu.setInfoText(InfoBox.DEFAULT_INFO_STRING);
-                    parent.getParent().fillJobs(Controller.jobList, true);
+                        //update table in menu
+                        Controller.mainMenu.setInfoText(InfoBox.DEFAULT_INFO_STRING);
+                        parent.getParent().fillJobs(Controller.jobList, true);
 
                     } catch (IOException ex) {
+                        Controller.LOGGER4J.error("Could not delete a job because the init file could not be accessed: " + ex.getMessage());
+                        Controller.mainMenu.errorBar.increaseErrorCount("Could not delete a job because the init file could not be accessed", parent.getJob().getId());
+                        Controller.mainMenu.errorBar.resetErrorCount(); //we don't want it to count errors
                         ex.printStackTrace(); //if init file cannot be edited
                     }
 
