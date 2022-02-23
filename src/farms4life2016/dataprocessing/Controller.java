@@ -36,7 +36,7 @@ public class Controller {
     public static final int WINDOW_W = 1200, WINDOW_H = 720; //50 px for the top bar thingy
 
     //logger
-    public static final Logger LOGGER4J = LogManager.getLogger();
+    public static final Logger LOGGER4J = LogManager.getLogger(Controller.class);
 
     /**
      * I'm not sure we need a fancy constructor.
