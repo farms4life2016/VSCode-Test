@@ -55,13 +55,6 @@ public class Controller {
         
     }
 
-    /**
-     * Exit the program
-     */
-    public static void terminate() {
-        System.exit(0);
-    }
-
     private static void initFromFile() {
         try {
             FileIO.init();

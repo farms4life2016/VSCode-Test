@@ -196,8 +196,7 @@ public class MenuDisplay extends GenericDisplay {
  	 */
 	@Override
 	public void windowClosing(WindowEvent e) {
-		System.out.println("you tried to close the program!"); //more debugging stuff
-		Controller.terminate();
+		//exit  the program
 		System.exit(0);
 		
 	}
