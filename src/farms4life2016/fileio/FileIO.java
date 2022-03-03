@@ -77,7 +77,7 @@ public class FileIO {
     public static void edit(Job j) throws IOException {
 
         //use randomaccessfile
-        RandomAccessFile initFile = new RandomAccessFile(".\\init\\menuout.txt", "rw");
+        RandomAccessFile initFile = new RandomAccessFile(".\\init\\init.txt", "rw");
         
         String output = "";
         output += j.getId();
